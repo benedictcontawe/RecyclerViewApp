@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    compileSdkVersion 27
+    buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.recyclerviewapp"
         minSdkVersion 14
@@ -30,7 +30,15 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
     //Android Unit Test and U.I. Test Library
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
+
+    //Android Unit Test and U.I. Test Library
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Rx Java External Library
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 }
