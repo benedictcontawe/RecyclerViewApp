@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements CustomListeners{
     }
 
     @Override
-    public void onClick() {
-
+    public void onClick(CustomViewModel item, int position) {
+        Toast.makeText(this,"onClick " + item.names + " " + position,Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onLongClick() {
-
+    public void onLongClick(CustomViewModel item, int position) {
+        Toast.makeText(this,"onLongClick " + item.names + " " + position,Toast.LENGTH_SHORT).show();
     }
 }

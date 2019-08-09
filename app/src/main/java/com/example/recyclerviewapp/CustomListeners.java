@@ -2,7 +2,7 @@ package com.example.recyclerviewapp;
 
 interface CustomListeners {
 
-    void onClick();
+    void onClick(CustomViewModel item, int position);
 
-    void  onLongClick();
+    void  onLongClick(CustomViewModel item, int position);
 }
