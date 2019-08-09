@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/constraint_layout_Main" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_Main">
 
     <Space
         android:layout_width="0dp"
@@ -13,7 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
+    <!--region Guide lines-->
+    <!--region Vertical Guide lines-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_marginStart"
         android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.90"/>
-
+    <!--endregion-->
+    <!--region Horizontal Guidlines-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_marginTop"
         android:layout_width="wrap_content"
@@ -41,10 +43,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90"/>
-
+    <!--endregion-->
+    <!--endregion-->
     <androidx.cardview.widget.CardView
-        android:visibility="visible"
-        android:id="@+id/card_view_front"
+        android:id="@+id/card_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
@@ -56,6 +58,42 @@
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="@dimen/card_elevation_minimum"
         app:cardMaxElevation="@dimen/card_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    tools:srcCompat="@drawable/ic_launcher_foreground"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center" >
+
+                <TextView
+                    android:id="@+id/text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="[Name]"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
