@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements CustomListeners{
+public class MainActivity extends AppCompatActivity implements CustomListeners {
 
     private RecyclerView recyclerView;
     private CustomAdapter adapter;

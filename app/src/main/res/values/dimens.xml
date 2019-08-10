@@ -26,6 +26,7 @@
     <dimen name="text_size_sub_atom">4dp</dimen>
     <dimen name="size_X">18dp</dimen>
 
+    <!--Margins-->
     <dimen name="margin_start_end_quarter">4.25dp</dimen>
     <dimen name="margin_start_end_half">8.5dp</dimen>
     <dimen name="margin_start_end">17dp</dimen>
