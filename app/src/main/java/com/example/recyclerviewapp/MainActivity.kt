@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)
+
+        adapter.setActivity(this)
     }
 
     private fun setItems() {
@@ -52,13 +54,5 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     override fun onStart() {
         super.onStart()
         adapter.setItems(itemList)
-    }
-
-    override fun onClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onLongClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
     }
 }

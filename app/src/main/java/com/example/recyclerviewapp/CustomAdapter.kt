@@ -1,5 +1,6 @@
 package com.example.recyclerviewapp
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
     /**Main */
     private lateinit var context : Context
+    private lateinit var activity : Activity
     private lateinit var customListeners : CustomListeners
 
     private lateinit var list : MutableList<CustomViewModel>
@@ -35,11 +37,15 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bindDataToViewHolder(list[position], position)
+        holder.bindDataToViewHolder(list[position], position, activity)
     }
 
     override fun getItemCount() : Int {
         return list.size
+    }
+
+    public fun setActivity(activity : Activity) {
+        this.activity = activity
     }
 
     public fun setItems(items : MutableList<CustomViewModel>) {

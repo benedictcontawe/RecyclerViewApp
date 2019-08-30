@@ -1,6 +1,12 @@
 package com.example.recyclerviewapp
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.graphics.Point
+import android.util.Log
+import android.view.Display
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +24,7 @@ class CustomViewHolder : RecyclerView.ViewHolder {
     /**With Events and Others */
     private lateinit var cardView: CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
+    constructor(context : Context, itemView : View, customListeners : CustomListeners) : super(itemView){
         this.context = context
         this.customListeners = customListeners
     }
@@ -29,25 +35,84 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.card_view)
     }
 
-    public fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
+    private fun swipeEdgeDetect(currentwidth : Float, fullWidth : Float) : Float {
+        Log.e("swipeEdgeDetect","${currentwidth}")
+        //fullWidth * 0.05f
+        //fullWidth * 0.95f
+
+        /**For Swipe Right Only */
+        /*
+        return if(currentwidth <= (fullWidth * 0.05f)){
+            fullWidth * 0.05f
+        }
+        else{
+            currentwidth
+        }
+        */
+
+        /**For Swipe Left Only */
+        return if(currentwidth <= (fullWidth * 0.05f)){
+            currentwidth
+        }
+        else{
+            fullWidth * 0.05f
+        }
+    }
+
+    public fun bindDataToViewHolder(item : CustomViewModel, position : Int, activity : Activity? = null) {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)
         textView.setText(item.name)
         //endregion
         //region Set Listener
-        /* On Click */
-        cardView.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(view: View) {
-                customListeners.onClick(item, position)
+        cardView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+
             }
         })
-        /* On Long Click */
-        cardView.setOnLongClickListener(object : View.OnLongClickListener{
-            override fun onLongClick(view: View): Boolean {
-                customListeners.onLongClick(item, position)
-                return false
-            }
-        })
+        /* On Swipe */
+        if(activity != null) {
+            val size: Point = Point()
+            val display: Display = activity.getWindowManager().getDefaultDisplay()
+            display.getSize(size)
+            var getHitView : Float = 0.toFloat()
+            var getExtraPercentage : Float = 0f
+            val cardViewStart = size.x.toFloat() * 0.10f
+            val cardViewEnd = size.x.toFloat() * 0.90f
+            cardView.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(view: View, event: MotionEvent): Boolean {
+                    when (event.getAction()) {
+                        MotionEvent.ACTION_DOWN -> {
+                            //getHitView = (event.getRawX() / size.x.toFloat())
+                            //getHitView = (event.getRawX() / size.x * 0.95f)
+                            getHitView = (event.getRawX())
+                            //getExtraPercentage = 1 - getHitView
+                            Log.e("ACTION_DOWN", "${getHitView}")
+                            return false
+                        }
+                        MotionEvent.ACTION_MOVE -> {
+                            view.getParent().requestDisallowInterceptTouchEvent(true)
+                            cardView.animate()
+                                    //.x(getHitView)
+                                    .x(event.getRawX())
+                                    .setDuration(0)
+                                    .start()
+                            Log.e("ACTION_MOVE", "${event.getRawX()}")
+                            return false
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            cardView.animate()
+                                    .x(cardViewStart)
+                                    .setDuration(250)
+                                    .start()
+                            Log.e("ACTION_UP", "${(size.x.toFloat() * 0.05f)} ${(size.x.toFloat() * 0.95f)}")
+                            return false
+                        }
+                    }
+                    return true
+                }
+            })
+        }
         //endregion
     }
 }
