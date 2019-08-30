@@ -28,7 +28,7 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         textView = itemView.findViewById(R.id.text_view)
         cardView = itemView.findViewById(R.id.card_view)
     }
-
+    //TODO: Create bind data for IconView, and NameView
     public fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)

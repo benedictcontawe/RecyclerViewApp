@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         itemList = mutableListOf<CustomViewModel>()
         itemList.clear()
         itemList.add(CustomViewModel(R.drawable.ic_person_white, "A"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "B"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "C"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "D"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "E"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "F"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "G"))
+        itemList.add(CustomViewModel(R.drawable.ic_launcher_foreground, "B"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "C",CustomViewModel.IconViewType))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "D",CustomViewModel.IconViewType))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "E",CustomViewModel.NameViewType))
+        itemList.add(CustomViewModel(R.drawable.ic_launcher_foreground, "F",CustomViewModel.NameViewType))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "G",CustomViewModel.NameViewType))
     }
 
     override fun onStart() {

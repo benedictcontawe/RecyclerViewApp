@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import android.text.method.TextKeyListener.clear
-
 
 
 class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
+
+    companion object {
+        const val DefaultView = 0
+        const val IconView = 1
+        const val NameView = 2
+    }
 
     /**Main */
     private lateinit var context : Context
@@ -29,17 +33,52 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
+        //val layoutInflater : LayoutInflater = LayoutInflater.from(context)
+        //val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false)
+        //return CustomViewHolder(context, view, customListeners)
+
+        val layoutInflater = LayoutInflater.from(context)
+        var view : View
+        //TODO Create xml layout for IconViewType, NameViewType
+        when(viewType){
+            DefaultView -> {
+                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+            }
+            IconView -> {
+                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+            }
+            NameView -> {
+                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+            }
+            else -> {
+                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+            }
+        }
         return CustomViewHolder(context, view, customListeners)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bindDataToViewHolder(list[position], position)
+        //TODO Create bind data method for IconViewType, NameViewType
+        when(list[position].viewType) {
+            CustomViewModel.DefaultViewType -> { holder.bindDataToViewHolder(list[position], position) }
+            CustomViewModel.IconViewType -> { holder.bindDataToViewHolder(list[position], position) }
+            CustomViewModel.NameViewType -> { holder.bindDataToViewHolder(list[position], position) }
+            else -> { DefaultView }
+        }
     }
 
     override fun getItemCount() : Int {
         return list.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        //return super.getItemViewType(position)
+        return when(list[position].viewType) {
+            CustomViewModel.DefaultViewType -> { DefaultView }
+            CustomViewModel.IconViewType -> { IconView }
+            CustomViewModel.NameViewType -> { NameView }
+            else -> { DefaultView }
+        }
     }
 
     public fun setItems(items : MutableList<CustomViewModel>) {
