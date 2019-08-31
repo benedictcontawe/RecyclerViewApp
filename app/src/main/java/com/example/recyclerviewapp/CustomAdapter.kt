@@ -33,13 +33,8 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        //val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        //val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false)
-        //return CustomViewHolder(context, view, customListeners)
-
-        val layoutInflater = LayoutInflater.from(context)
-        var view : View
-        //TODO Create xml layout for IconViewType, NameViewType
+        val layoutInflater : LayoutInflater = LayoutInflater.from(context)
+        val view : View
         when(viewType){
             DefaultView -> {
                 view = layoutInflater.inflate(R.layout.item_sample, parent, false)
