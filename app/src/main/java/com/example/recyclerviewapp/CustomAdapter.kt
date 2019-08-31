@@ -45,10 +45,10 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
                 view = layoutInflater.inflate(R.layout.item_sample, parent, false)
             }
             IconView -> {
-                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+                view = layoutInflater.inflate(R.layout.item_icon_sample, parent, false)
             }
             NameView -> {
-                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+                view = layoutInflater.inflate(R.layout.item_name_sample, parent, false)
             }
             else -> {
                 view = layoutInflater.inflate(R.layout.item_sample, parent, false)
