@@ -2,18 +2,21 @@ package com.example.recyclerviewapp
 
 class CustomViewModel {
 
-    var icon: Int? = null
-    var name: String? = null
-    var viewType: Int? = null
+    var id : Int? = null
+    var icon : Int? = null
+    var name : String? = null
+    var viewType : Int? = null
 
 
-    constructor(icon: Int, name: String) {
+    constructor(id : Int, icon : Int, name : String) {
+        this.id = id
         this.icon = icon
         this.name = name
         this.viewType = DefaultViewType
     }
 
-    constructor(icon: Int, name: String, viewType: Int) {
+    constructor(id : Int, icon : Int, name : String, viewType : Int) {
+        this.id = id
         this.icon = icon
         this.name = name
         this.viewType = viewType

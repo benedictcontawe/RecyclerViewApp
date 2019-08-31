@@ -9,6 +9,8 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     /**Main */
     private lateinit var context : Context
     private lateinit var customListeners : CustomListeners
+    /**Data */
+    public var id : Int? = null
 
     constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
         this.context = context

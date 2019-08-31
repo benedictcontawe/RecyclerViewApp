@@ -20,9 +20,9 @@ class CustomIconViewHolder : BaseViewHolder {
         imageView = itemView.findViewById(R.id.image_view)
         cardView = itemView.findViewById(R.id.card_view)
     }
-    //TODO: Create bind data for IconView, and NameView
     public override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
+        id = item.id
         imageView.setBackgroundResource(item.icon?:0)
         //endregion
         //region Set Listener
