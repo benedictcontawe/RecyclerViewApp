@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 
-class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
+class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
 
     companion object {
         const val DefaultView = 0
@@ -32,27 +32,30 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
         //list = listOf()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
         val view : View
         when(viewType){
             DefaultView -> {
                 view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+                return CustomViewHolder(context, view, customListeners)
             }
             IconView -> {
                 view = layoutInflater.inflate(R.layout.item_icon_sample, parent, false)
+                return CustomIconViewHolder(context, view, customListeners)
             }
             NameView -> {
                 view = layoutInflater.inflate(R.layout.item_name_sample, parent, false)
+                return CustomNameViewHolder(context, view, customListeners)
             }
             else -> {
                 view = layoutInflater.inflate(R.layout.item_sample, parent, false)
+                return CustomViewHolder(context, view, customListeners)
             }
         }
-        return CustomViewHolder(context, view, customListeners)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         //TODO Create bind data method for IconViewType, NameViewType
         when(list[position].viewType) {
             CustomViewModel.DefaultViewType -> { holder.bindDataToViewHolder(list[position], position) }
