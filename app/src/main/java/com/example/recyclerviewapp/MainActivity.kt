@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                     MotionEvent.ACTION_UP -> {
                         Log.d("MainActivity","ACTION_UP")
                         adapter.resetViews()
+                        Toast.makeText(baseContext,"on Release Touch",Toast.LENGTH_SHORT).show()
                         return false
                     }
                 }
@@ -79,6 +80,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onClick(item: CustomViewModel, position: Int) {
+        Toast.makeText(this,"on Click",Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
                 adapter.changeView(CustomViewModel.IconViewType, position)
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onLongClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"on Long Click",Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
                 adapter.changeView(CustomViewModel.NameViewType, position)
