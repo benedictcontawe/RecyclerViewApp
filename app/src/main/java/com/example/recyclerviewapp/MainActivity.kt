@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,6 +38,27 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)
+
+        recycler_view.setOnTouchListener(object : View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent): Boolean {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        Log.d("MainActivity","ACTION_DOWN")
+                        return false
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        Log.d("MainActivity","ACTION_MOVE")
+                        return false
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        Log.d("MainActivity","ACTION_UP")
+                        adapter.resetViews()
+                        return false
+                    }
+                }
+                return false
+            }
+        })
     }
 
     private fun setItems() {
@@ -42,11 +66,11 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         itemList.clear()
         itemList.add(CustomViewModel(0,R.drawable.ic_person_white, "A"))
         itemList.add(CustomViewModel(1,R.drawable.ic_launcher_foreground, "B"))
-        itemList.add(CustomViewModel(2,R.drawable.ic_person_white, "C",CustomViewModel.IconViewType))
-        itemList.add(CustomViewModel(3,R.drawable.ic_person_white, "D",CustomViewModel.IconViewType))
-        itemList.add(CustomViewModel(4,R.drawable.ic_person_white, "E",CustomViewModel.NameViewType))
-        itemList.add(CustomViewModel(5,R.drawable.ic_launcher_foreground, "F",CustomViewModel.NameViewType))
-        itemList.add(CustomViewModel(6,R.drawable.ic_person_white, "G",CustomViewModel.NameViewType))
+        itemList.add(CustomViewModel(2,R.drawable.ic_person_white, "C",CustomViewModel.DefaultViewType))
+        itemList.add(CustomViewModel(3,R.drawable.ic_person_white, "D",CustomViewModel.DefaultViewType))
+        itemList.add(CustomViewModel(4,R.drawable.ic_person_white, "E",CustomViewModel.DefaultViewType))
+        itemList.add(CustomViewModel(5,R.drawable.ic_launcher_foreground, "F",CustomViewModel.DefaultViewType))
+        itemList.add(CustomViewModel(6,R.drawable.ic_person_white, "G",CustomViewModel.DefaultViewType))
     }
 
     override fun onStart() {
@@ -55,19 +79,18 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
-                //TODO: Change DefaultViewType to IconViewType
+                adapter.changeView(CustomViewModel.IconViewType, position)
             }
             CustomViewModel.IconViewType -> {
-                //TODO: Change IconViewType to DefaultViewType
+                adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             CustomViewModel.NameViewType -> {
-                //TODO: Change NameViewType to DefaultViewType
+                adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             else -> {
-                //TODO: Toast View Type Cannot be determined
+                Toast.makeText(this,"View Type Cannot be determined",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -76,17 +99,22 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
-                //TODO: Change DefaultViewType to NameViewType
+                adapter.changeView(CustomViewModel.NameViewType, position)
             }
             CustomViewModel.IconViewType -> {
-                //TODO: Change IconViewType to DefaultViewType
+                adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             CustomViewModel.NameViewType -> {
-                //TODO: Change NameViewType to DefaultViewType
+                adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             else -> {
-                //TODO: Toast View Type Cannot be determined
+                Toast.makeText(this,"View Type Cannot be determined",Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.deleteAllItems()
     }
 }

@@ -56,7 +56,6 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        //TODO Create bind data method for IconViewType, NameViewType
         when(list[position].viewType) {
             CustomViewModel.DefaultViewType -> { holder.bindDataToViewHolder(list[position], position) }
             CustomViewModel.IconViewType -> { holder.bindDataToViewHolder(list[position], position) }
@@ -79,33 +78,60 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
         }
     }
 
+    public fun changeView(viewType : Int, position: Int) {
+        list[position].viewType = viewType
+        notifyItemChanged(position)
+    }
+
+    public fun resetViews() {
+        /*
+        list.filter { it.viewType != CustomViewModel.DefaultViewType }
+            .map {
+                it.viewType = CustomViewModel.DefaultViewType
+                notifyDataSetChanged()
+            }
+        for (i in 0 .. list.size - 1 ) {
+            if (list[i].viewType != CustomViewModel.DefaultViewType) {
+                list[i].viewType = CustomViewModel.DefaultViewType
+                notifyItemChanged(i)
+            }
+        }
+        */
+        for (i in 0 until list.size) {
+            if (list[i].viewType != CustomViewModel.DefaultViewType) {
+                list[i].viewType = CustomViewModel.DefaultViewType
+                notifyItemChanged(i)
+            }
+        }
+    }
+
     public fun setItems(items : MutableList<CustomViewModel>) {
         list.clear()
         list.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun insertItem(item : CustomViewModel, position : Int) {
+    public fun insertItem(item : CustomViewModel, position : Int) {
         list.add(position, item)
         notifyItemInserted(position)
     }
 
-    fun insertItems(items : List<CustomViewModel>, position : Int) {
+    public fun insertItems(items : List<CustomViewModel>, position : Int) {
         list.addAll(items)
         notifyItemRangeChanged(position, itemCount)
     }
 
-    fun updateItem(item : CustomViewModel, position: Int) {
+    public fun updateItem(item : CustomViewModel, position: Int) {
         list[position] = item
         notifyItemChanged(position)
     }
 
-    fun deleteItem(position : Int) {
+    public fun deleteItem(position : Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    fun deleteAllItems() {
+    public fun deleteAllItems() {
         list.clear()
         notifyItemRangeRemoved(0, itemCount)
     }
