@@ -9,8 +9,6 @@ import android.util.DisplayMetrics
 import android.graphics.PointF
 import androidx.recyclerview.widget.LinearSmoothScroller
 
-
-
 class CustomLinearLayoutManager : LinearLayoutManager {
 
     constructor(context : Context) : super(context){
@@ -27,7 +25,7 @@ class CustomLinearLayoutManager : LinearLayoutManager {
 
     override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
         //super.smoothScrollToPosition(recyclerView, state, position)
-        Log.e(CustomLinearLayoutManager::class.java.getSimpleName(), "smoothScrollToPosition()")
+        Log.d(CustomLinearLayoutManager::class.java.getSimpleName(), "smoothScrollToPosition()")
         val linearSmoothScroller = object : LinearSmoothScroller(recyclerView.getContext()) {
             private val MILLISECONDS_PER_INCH = 500f
             private val DISTANCE_IN_PIXELS = 500f

@@ -3,9 +3,8 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.cardview.widget.CardView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 
 class CustomViewHolder : BaseViewHolder {
 
