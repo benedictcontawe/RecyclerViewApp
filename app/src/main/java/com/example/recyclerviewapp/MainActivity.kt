@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity(), CustomListeners {
 
     private lateinit var adapter : CustomAdapter
