@@ -72,29 +72,24 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         })
         /* On Swipe */
         if(activity != null) {
-            val size: Point = Point()
-            val display: Display = activity.getWindowManager().getDefaultDisplay()
+            val size : Point = Point()
+            val display : Display = activity.getWindowManager().getDefaultDisplay()
             display.getSize(size)
-            var getHitView : Float = 0.toFloat()
-            var getExtraPercentage : Float = 0f
+            var dX : Float = 0.toFloat()
             val cardViewStart = size.x.toFloat() * 0.10f
             val cardViewEnd = size.x.toFloat() * 0.90f
             cardView.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(view: View, event: MotionEvent): Boolean {
                     when (event.getAction()) {
                         MotionEvent.ACTION_DOWN -> {
-                            //getHitView = (event.getRawX() / size.x.toFloat())
-                            //getHitView = (event.getRawX() / size.x * 0.95f)
-                            getHitView = (event.getRawX())
-                            //getExtraPercentage = 1 - getHitView
-                            Log.e("ACTION_DOWN", "${getHitView}")
+                            dX = view.getX() - event.getRawX()
+                            Log.e("ACTION_DOWN", "${dX}")
                             return false
                         }
                         MotionEvent.ACTION_MOVE -> {
                             view.getParent().requestDisallowInterceptTouchEvent(true)
                             cardView.animate()
-                                    //.x(getHitView)
-                                    .x(event.getRawX())
+                                    .x(event.getRawX() + dX)
                                     .setDuration(0)
                                     .start()
                             Log.e("ACTION_MOVE", "${event.getRawX()}")
