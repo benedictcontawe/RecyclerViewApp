@@ -40,6 +40,11 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         textView.setText(item.name)
         //endregion
         //region Set Listener
+        cardView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                //Do not remove this need this click listener to swipe with on touch listener
+            }
+        })
         /* On Swipe */
         if(activity != null) {
             val size : Point = Point()
