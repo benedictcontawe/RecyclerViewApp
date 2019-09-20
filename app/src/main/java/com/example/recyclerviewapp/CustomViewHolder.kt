@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
@@ -9,9 +8,9 @@ import android.view.Display
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.cardview.widget.CardView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 
 class CustomViewHolder : RecyclerView.ViewHolder {
 
@@ -65,11 +64,6 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         textView.setText(item.name)
         //endregion
         //region Set Listener
-        cardView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-
-            }
-        })
         /* On Swipe */
         if(activity != null) {
             val size : Point = Point()
