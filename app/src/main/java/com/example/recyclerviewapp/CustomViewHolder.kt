@@ -34,30 +34,6 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.card_view)
     }
 
-    private fun swipeEdgeDetect(currentwidth : Float, fullWidth : Float) : Float {
-        Log.e("swipeEdgeDetect","${currentwidth}")
-        //fullWidth * 0.05f
-        //fullWidth * 0.95f
-
-        /**For Swipe Right Only */
-        /*
-        return if(currentwidth <= (fullWidth * 0.05f)){
-            fullWidth * 0.05f
-        }
-        else{
-            currentwidth
-        }
-        */
-
-        /**For Swipe Left Only */
-        return if(currentwidth <= (fullWidth * 0.05f)){
-            currentwidth
-        }
-        else{
-            fullWidth * 0.05f
-        }
-    }
-
     public fun bindDataToViewHolder(item : CustomViewModel, position : Int, activity : Activity? = null) {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)
