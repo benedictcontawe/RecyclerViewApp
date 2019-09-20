@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     private fun setRecylerView() {
-        adapter = CustomAdapter(this, this)
+        adapter = CustomAdapter(this, this, CustomViewModel.SWIPE_LEFT_RIGHT)
         recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)

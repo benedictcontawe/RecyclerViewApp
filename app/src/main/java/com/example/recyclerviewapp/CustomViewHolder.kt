@@ -34,31 +34,49 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.card_view)
     }
 
-    private fun swipeEdgeDetect(currentwidth : Float, fullWidth : Float) : Float {
-        Log.e("swipeEdgeDetect","${currentwidth}")
-        //fullWidth * 0.05f
-        //fullWidth * 0.95f
-
-        /**For Swipe Right Only */
-        /*
-        return if(currentwidth <= (fullWidth * 0.05f)){
-            fullWidth * 0.05f
-        }
-        else{
-            currentwidth
-        }
-        */
-
-        /**For Swipe Left Only */
-        return if(currentwidth <= (fullWidth * 0.05f)){
-            currentwidth
-        }
-        else{
-            fullWidth * 0.05f
+    private fun swipeEdgeDetect(currentwidth : Float, leftEdgeWidth : Float, rightEdgeWidth : Float, swipeState : Int) : Float {
+        return when(swipeState) {
+            CustomViewModel.SWIPE_NONE -> {
+                /**For Swipe None Only */
+                Log.e("SWIPE_NONE","${currentwidth}")
+                leftEdgeWidth
+            }
+            CustomViewModel.SWIPE_LEFT -> {
+                /**For Swipe Left Only */
+                Log.e("SWIPE_LEFT","${currentwidth}")
+                if(currentwidth <= leftEdgeWidth){
+                    currentwidth
+                }
+                else{
+                    leftEdgeWidth
+                }
+            }
+            CustomViewModel.SWIPE_RIGHT -> {
+                /**For Swipe Right Only */
+                Log.e("SWIPE_RIGHT","${currentwidth}")
+                if(currentwidth >= leftEdgeWidth){
+                    Log.e("swipeEdgeDetect","if")
+                    currentwidth
+                }
+                else{
+                    Log.e("swipeEdgeDetect","else")
+                    leftEdgeWidth
+                }
+            }
+            CustomViewModel.SWIPE_LEFT_RIGHT -> {
+                /**For Swipe Left And Right Only */
+                Log.e("SWIPE_LEFT_RIGHT","${currentwidth}")
+                currentwidth
+            }
+            else -> {
+                Log.e("UNKNOWN","${currentwidth}")
+                /**For Unknown Swipe Only */
+                leftEdgeWidth
+            }
         }
     }
 
-    public fun bindDataToViewHolder(item : CustomViewModel, position : Int, activity : Activity? = null) {
+    public fun bindDataToViewHolder(item : CustomViewModel, position : Int, activity : Activity? = null, swipeState : Int) {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)
         textView.setText(item.name)
@@ -89,7 +107,8 @@ class CustomViewHolder : RecyclerView.ViewHolder {
                         MotionEvent.ACTION_MOVE -> {
                             view.getParent().requestDisallowInterceptTouchEvent(true)
                             cardView.animate()
-                                    .x(event.getRawX() + dX)
+                                    //.x(event.getRawX() + dX)
+                                    .x(swipeEdgeDetect(event.getRawX() + dX, cardViewStart, cardViewEnd, swipeState))
                                     .setDuration(0)
                                     .start()
                             Log.e("ACTION_MOVE", "${event.getRawX()}")

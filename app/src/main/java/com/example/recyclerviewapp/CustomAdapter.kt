@@ -20,9 +20,12 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     private lateinit var list : MutableList<CustomViewModel>
     //private lateinit var list : List<CustomViewModel>
 
-    constructor(context : Context, customListeners : CustomListeners) : super(){
+    private val swipeState : Int
+
+    constructor(context : Context, customListeners : CustomListeners, swipeState : Int) : super() {
         this.context = context
         this.customListeners = customListeners
+        this.swipeState = swipeState
     }
 
     init {
@@ -32,12 +35,12 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
+        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false)
         return CustomViewHolder(context, view, customListeners)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bindDataToViewHolder(list[position], position, activity)
+        holder.bindDataToViewHolder(list[position], position, activity, swipeState)
     }
 
     override fun getItemCount() : Int {
