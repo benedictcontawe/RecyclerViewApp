@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import android.text.method.TextKeyListener.clear
-
-
 
 class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
