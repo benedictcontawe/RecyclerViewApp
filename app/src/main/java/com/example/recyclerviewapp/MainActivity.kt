@@ -73,9 +73,14 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         itemList.add(CustomViewModel(6,R.drawable.ic_person_white, "G",CustomViewModel.DefaultViewType))
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         adapter.setItems(itemList)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter.deleteAllItems()
     }
 
     override fun onClick(item: CustomViewModel, position: Int) {
