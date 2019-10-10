@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CustomLinearLayoutManager extends LinearLayoutManager {
+
+    private static final float SMOOTHNESS_DISTANCE_IN_PIXELS = 500f;
+    private static final float SMOOTHNESS_DURATION = 500f;
+
     public CustomLinearLayoutManager(Context context) {
         super(context);
     }
@@ -25,19 +29,8 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-        //super.smoothScrollToPosition(recyclerView, state, position);
-        Log.e(CustomLinearLayoutManager.class.getSimpleName(),"smoothScrollToPosition()");
-        final LinearSmoothScroller linearSmoothScroller =
+        LinearSmoothScroller linearSmoothScroller =
                 new LinearSmoothScroller(recyclerView.getContext()) {
-                    private static final float MILLISECONDS_PER_INCH = 500f;
-                    private static final float DISTANCE_IN_PIXELS = 500f;
-                    private static final float DURATION = 500f;
-
-                    @Override
-                    protected int getHorizontalSnapPreference() {
-                        return super.getHorizontalSnapPreference();
-                    }
-
                     @Override
                     public PointF computeScrollVectorForPosition(int targetPosition) {
                         return CustomLinearLayoutManager.this
@@ -46,16 +39,9 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
 
                     @Override
                     protected int calculateTimeForScrolling(int dx) {
-                        float proportion = (float) dx / DISTANCE_IN_PIXELS;
-                        return (int) (DURATION * proportion);
+                        float proportion = (float) dx / SMOOTHNESS_DISTANCE_IN_PIXELS;
+                        return (int) (SMOOTHNESS_DURATION * proportion);
                     }
-
-                    @Override
-                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                        //return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
-                        return super.calculateSpeedPerPixel(displayMetrics);
-                    }
-
                 };
         linearSmoothScroller.computeScrollVectorForPosition(position);
         linearSmoothScroller.setTargetPosition(position);
