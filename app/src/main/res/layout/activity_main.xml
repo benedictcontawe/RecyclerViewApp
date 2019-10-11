@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2F2F2F"
     android:gravity="center"
     tools:context=".MainActivity">
 
@@ -21,7 +22,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/spiner_left"
             android:scaleType="centerInside"
-            android:contentDescription="@null" />
+            android:contentDescription="Left Arrow" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expandedRecyclerView"
@@ -29,7 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            app:layoutManager=".CustomLinearLayoutManager" />
+            app:layoutManager=".CustomLinearLayoutManager"
+            tools:listitem="@layout/item_focused"
+            tools:itemCount="2"/>
 
         <ImageView
             android:id="@+id/expandedArrowRight"
@@ -38,7 +41,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/spiner_right"
             android:scaleType="centerInside"
-            android:contentDescription="@null" />
+            android:contentDescription="Right Arrow" />
     </LinearLayout>
 
 </RelativeLayout>
