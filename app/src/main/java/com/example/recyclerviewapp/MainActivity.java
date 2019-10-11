@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
     private List<CustomViewModel> itemList;
+    private int selectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +60,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         adapter.setItems(itemList);
+        selectedItem = 0;
     }
 
     @Override
     public void onClick(View view) {
-        //TODO: use smooth scroll for super smooth scroll
         switch (view.getId()) {
             case R.id.expandedArrowLeft:
                 Log.e("onClick","Left");
+                if (selectedItem >= 0) {
+                    recyclerView.smoothScrollToPosition(selectedItem--);
+                }
                 break;
             case R.id.expandedArrowRight:
                 Log.e("onClick","Right");
+                if (selectedItem <= adapter.getItemCount()) {
+                    recyclerView.smoothScrollToPosition(selectedItem++);
+                }
                 break;
             default:
                 Log.e("onClick","Default");
