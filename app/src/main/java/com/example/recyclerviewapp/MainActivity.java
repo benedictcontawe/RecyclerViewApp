@@ -5,15 +5,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,View.OnTouchListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,View.OnTouchListener, View.OnKeyListener {
 
     private ImageView leftArrow,rightArrow;
     private RecyclerView recyclerView;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         leftArrow.setOnClickListener(this);
         rightArrow.setOnClickListener(this);
         recyclerView.setOnTouchListener(this);
+        //recyclerView.setOnKeyListener(this);
 
         setRecylerView();
         setItems();
@@ -61,21 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         adapter.setItems(itemList);
         selectedItem = 0;
+        recyclerView.scrollToPosition(selectedItem);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.expandedArrowLeft:
-                Log.e("onClick","Left");
-                if (selectedItem >= 0) {
-                    recyclerView.smoothScrollToPosition(selectedItem--);
+                if (selectedItem > 0) {
+                    selectedItem--;
+                    Log.e("onClick","Left " + selectedItem);
+                    recyclerView.smoothScrollToPosition(selectedItem);
                 }
                 break;
             case R.id.expandedArrowRight:
-                Log.e("onClick","Right");
-                if (selectedItem <= adapter.getItemCount()) {
-                    recyclerView.smoothScrollToPosition(selectedItem++);
+                if (selectedItem < adapter.getItemCount()) {
+                    selectedItem++;
+                    Log.e("onClick","Right " + selectedItem);
+                    recyclerView.smoothScrollToPosition(selectedItem);
                 }
                 break;
             default:
@@ -86,6 +90,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        return true;
+        if (view.getId() == R.id.expandedRecyclerView) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+        if (view.getId() == R.id.expandedRecyclerView) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_UP:
+                    Log.e("onKey", "Up");
+                    break;
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    Log.e("onKey", "Left");
+                    break;
+                case KeyEvent.KEYCODE_DPAD_CENTER & KeyEvent.ACTION_UP:
+                    Log.e("onKey", "KEYCODE_DPAD_CENTER, ACTION_UP");
+                    break;
+                case KeyEvent.KEYCODE_DPAD_CENTER & KeyEvent.ACTION_DOWN:
+                    Log.e("onKey", "KEYCODE_DPAD_CENTER , ACTION_DOWN");
+                    break;
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    Log.e("onKey", "Right");
+                    break;
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    Log.e("onKey", "Down");
+                    break;
+            }
+            return true;
+        } else {
+            Log.e("onKey", "Default");
+            return false;
+        }
     }
 }

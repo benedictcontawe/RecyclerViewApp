@@ -22,7 +22,8 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/spiner_left"
             android:scaleType="centerInside"
-            android:contentDescription="Left Arrow" />
+            android:contentDescription="Left Arrow"
+            android:focusable="false"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expandedRecyclerView"
@@ -30,6 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
             app:layoutManager=".CustomLinearLayoutManager"
             tools:listitem="@layout/item_focused"
             tools:itemCount="2"/>
@@ -41,7 +44,8 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/spiner_right"
             android:scaleType="centerInside"
-            android:contentDescription="Right Arrow" />
+            android:contentDescription="Right Arrow"
+            android:focusable="false"/>
     </LinearLayout>
 
 </RelativeLayout>
