@@ -71,19 +71,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.expandedArrowLeft:
                 if (selectedItem > 0) {
                     selectedItem--;
-                    Log.e("onClick","Left " + selectedItem);
+                    Log.d("onClick","Left " + selectedItem);
                     recyclerView.smoothScrollToPosition(selectedItem);
                 }
                 break;
             case R.id.expandedArrowRight:
                 if (selectedItem < adapter.getItemCount()) {
                     selectedItem++;
-                    Log.e("onClick","Right " + selectedItem);
+                    Log.d("onClick","Right " + selectedItem);
                     recyclerView.smoothScrollToPosition(selectedItem);
                 }
                 break;
+            case R.id.expandedRecyclerView:
+                Log.d("onClick","Recycler View Clicked! " + selectedItem);
+                break;
             default:
-                Log.e("onClick","Default");
+                Log.d("onClick","Default");
                 break;
         }
     }
@@ -103,27 +106,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.expandedRecyclerView) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_UP:
-                    Log.e("onKey", "Up");
+                    Log.d("onKey", "Up");
                     break;
                 case KeyEvent.KEYCODE_DPAD_LEFT:
-                    Log.e("onKey", "Left");
+                    Log.d("onKey", "Left");
                     break;
                 case KeyEvent.KEYCODE_DPAD_CENTER & KeyEvent.ACTION_UP:
-                    Log.e("onKey", "KEYCODE_DPAD_CENTER, ACTION_UP");
+                    Log.d("onKey", "KEYCODE_DPAD_CENTER, ACTION_UP");
                     break;
                 case KeyEvent.KEYCODE_DPAD_CENTER & KeyEvent.ACTION_DOWN:
-                    Log.e("onKey", "KEYCODE_DPAD_CENTER , ACTION_DOWN");
+                    Log.d("onKey", "KEYCODE_DPAD_CENTER , ACTION_DOWN");
                     break;
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    Log.e("onKey", "Right");
+                    Log.d("onKey", "Right");
                     break;
                 case KeyEvent.KEYCODE_DPAD_DOWN:
-                    Log.e("onKey", "Down");
+                    Log.d("onKey", "Down");
                     break;
             }
             return true;
         } else {
-            Log.e("onKey", "Default");
+            Log.d("onKey", "Default");
             return false;
         }
     }
