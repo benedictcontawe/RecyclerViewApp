@@ -11,7 +11,6 @@ import com.example.recyclerviewapp.databinding.DetailsBinder
 
 class DetailsFragment : Fragment() {
     //TODO: Finish binding data to the respective UI components
-
     companion object {
         fun newInstance() = DetailsFragment()
     }
