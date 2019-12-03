@@ -10,6 +10,7 @@ import com.example.recyclerviewapp.R
 import com.example.recyclerviewapp.databinding.DetailsBinder
 
 class DetailsFragment : Fragment() {
+    //TODO: Finish binding data to the respective UI components
 
     companion object {
         fun newInstance() = DetailsFragment()
@@ -19,16 +20,7 @@ class DetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.details_fragment,container,false)
-        return binding.getRoot()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        //viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        //binding.setDetailsModel(null)
-
-        //viewModel.setItems()
+        return binding.root
     }
 
 }

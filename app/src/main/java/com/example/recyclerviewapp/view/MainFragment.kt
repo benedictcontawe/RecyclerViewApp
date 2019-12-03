@@ -29,28 +29,24 @@ class MainFragment : Fragment(), CustomListeners {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle? ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment,container,false)
-        return binding.getRoot()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(activity!!, CustomViewModelFactory(getContext()!!, this)).get(MainViewModel::class.java)
-        binding.setViewModel(viewModel)
+        viewModel = ViewModelProviders.of(activity!!, CustomViewModelFactory(context!!, this)).get(MainViewModel::class.java)
+        binding.viewModel = viewModel
 
         viewModel.setItems()
         setRecylerView()
     }
 
     private fun setRecylerView() {
-        binding.recyclerView.setLayoutManager(LinearLayoutManager(getContext()!!, RecyclerView.VERTICAL, false))
+        binding.recyclerView.layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
         viewModel.getAdapter().observe(this,object : Observer<CustomAdapter> {
             override fun onChanged(adapter : CustomAdapter) {
-                binding.recyclerView.setAdapter(adapter)
+                binding.recyclerView.adapter = adapter
             }
         })
         binding.recyclerView.setHasFixedSize(true)

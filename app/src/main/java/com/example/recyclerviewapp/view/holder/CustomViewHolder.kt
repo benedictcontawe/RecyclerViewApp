@@ -1,7 +1,8 @@
-package com.example.recyclerviewapp
+package com.example.recyclerviewapp.view.holder
 
 import android.content.Context
 import android.view.View
+import com.example.recyclerviewapp.CustomListeners
 import com.example.recyclerviewapp.databinding.MovieBinder
 import com.example.recyclerviewapp.model.CustomViewModel
 
@@ -12,19 +13,19 @@ class CustomViewHolder : BaseViewHolder {
     /**With Events and Others */
     //private lateinit var cardView: CardView
 
-    constructor(context: Context, customListeners: CustomListeners,movieBinder : MovieBinder) : super(context,customListeners,movieBinder.getRoot()){
+    constructor(context: Context, customListeners: CustomListeners, movieBinder : MovieBinder) : super(context,customListeners,movieBinder.root){
         this.movieBinder = movieBinder
     }
 
-    public override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
+    override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
         id = item.id
-        movieBinder.title.setText(item.title?:"null")
-        movieBinder.release.setText(item.release?:"null")
-        movieBinder.actor.setText(item.actor?:"null")
-        movieBinder.director.setText(item.director?:"null")
-        movieBinder.ratingBar.setRating(item.rating?:0.0f)
-        movieBinder.ratingText.setText(item.rating.toString()?:"null")
+        movieBinder.title.text = item.title?:"null"
+        movieBinder.release.text = item.release?:"null"
+        movieBinder.actor.text = item.actor?:"null"
+        movieBinder.director.text = item.director?:"null"
+        movieBinder.ratingBar.rating = item.rating?:0.0f
+        movieBinder.ratingText.text = item.rating.toString()
         //endregion
         //region Set Listener
         /* On Click */

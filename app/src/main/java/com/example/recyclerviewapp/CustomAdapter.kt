@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.databinding.MovieBinder
 import com.example.recyclerviewapp.model.CustomViewModel
+import com.example.recyclerviewapp.view.holder.CustomViewHolder
 
 
 class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
@@ -30,16 +31,16 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         movieBinder = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
+                LayoutInflater.from(parent.context),
                 R.layout.item_movie,
                 parent,
                 false
         )
-        return  CustomViewHolder(context,customListeners,movieBinder)
+        return CustomViewHolder(context, customListeners, movieBinder)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        movieBinder.setCustomModel(list.get(position))
+        movieBinder.customModel = list.get(position)
         holder.bindDataToViewHolder(list[position], position)
     }
 
@@ -47,11 +48,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
         return list.size
     }
 
-    override fun onFailedToRecycleView(holder: CustomViewHolder): Boolean {
-        return super.onFailedToRecycleView(holder)
-    }
-
-    public fun setItems(items : MutableList<CustomViewModel>) {
+    fun setItems(items : MutableList<CustomViewModel>) {
         list.clear()
         list.addAll(items)
         notifyDataSetChanged()

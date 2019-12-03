@@ -21,7 +21,7 @@ class MainViewModel : ViewModel {
         liveAdapter = MutableLiveData()
     }
 
-    public fun setItems() {
+    fun setItems() {
         itemList = mutableListOf<CustomViewModel>()
         itemList.clear()
         itemList.add(CustomViewModel("0", "Title 0", "Release 0", "actor 0", "Director 0", 0.5f, "Plot", MovieGenre.ACTION))
@@ -34,10 +34,10 @@ class MainViewModel : ViewModel {
         itemList.add(CustomViewModel("7", "Title 7", "Release 7", "actor 7", "Director 7", 5.0f, "Plot", MovieGenre.ACTION))
         adapter.setItems(itemList)
 
-        liveAdapter.setValue(adapter)
+        liveAdapter.value = adapter
     }
 
-    public fun getAdapter() : LiveData<CustomAdapter>{
+    fun getAdapter() : LiveData<CustomAdapter>{
         return liveAdapter
     }
 }

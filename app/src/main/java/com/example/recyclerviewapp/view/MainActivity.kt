@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun callFragment(fragmentType: Int) {
+    fun callFragment(fragmentType: Int) {
                 Log.e("MainActivity",supportFragmentManager.backStackEntryCount.toString())
                 when (fragmentType) {
                     FragmentType.MainFragment -> {
