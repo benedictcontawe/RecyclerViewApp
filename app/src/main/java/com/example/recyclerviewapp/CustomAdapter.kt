@@ -2,11 +2,11 @@ package com.example.recyclerviewapp
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import android.text.method.TextKeyListener.clear
-
+import com.example.recyclerviewapp.databinding.MovieBinder
+import com.example.recyclerviewapp.model.CustomViewModel
 
 
 class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
@@ -15,8 +15,9 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     private lateinit var context : Context
     private lateinit var customListeners : CustomListeners
 
+    private lateinit var movieBinder : MovieBinder
+
     private lateinit var list : MutableList<CustomViewModel>
-    //private lateinit var list : List<CustomViewModel>
 
     constructor(context : Context, customListeners : CustomListeners) : super(){
         this.context = context
@@ -25,21 +26,29 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
     init {
         list = mutableListOf()
-        //list = listOf()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
-        return CustomViewHolder(context, view, customListeners)
+        movieBinder = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.item_movie,
+                parent,
+                false
+        )
+        return  CustomViewHolder(context,customListeners,movieBinder)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        movieBinder.setCustomModel(list.get(position))
         holder.bindDataToViewHolder(list[position], position)
     }
 
     override fun getItemCount() : Int {
         return list.size
+    }
+
+    override fun onFailedToRecycleView(holder: CustomViewHolder): Boolean {
+        return super.onFailedToRecycleView(holder)
     }
 
     public fun setItems(items : MutableList<CustomViewModel>) {

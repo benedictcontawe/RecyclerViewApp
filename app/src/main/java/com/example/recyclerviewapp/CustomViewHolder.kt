@@ -2,52 +2,46 @@ package com.example.recyclerviewapp
 
 import android.content.Context
 import android.view.View
-import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.cardview.widget.CardView
-import android.widget.TextView
+import com.example.recyclerviewapp.databinding.MovieBinder
+import com.example.recyclerviewapp.model.CustomViewModel
 
-class CustomViewHolder : RecyclerView.ViewHolder {
+class CustomViewHolder : BaseViewHolder {
 
-    /**Main */
-    private lateinit var context: Context
-    private lateinit var customListeners: CustomListeners
     /**Data */
-    private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
+    private lateinit var movieBinder : MovieBinder
     /**With Events and Others */
-    private lateinit var cardView: CardView
+    //private lateinit var cardView: CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
-        this.context = context
-        this.customListeners = customListeners
+    constructor(context: Context, customListeners: CustomListeners,movieBinder : MovieBinder) : super(context,customListeners,movieBinder.getRoot()){
+        this.movieBinder = movieBinder
     }
 
-    init {
-        imageView = itemView.findViewById(R.id.image_view)
-        textView = itemView.findViewById(R.id.text_view)
-        cardView = itemView.findViewById(R.id.card_view)
-    }
-
-    public fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
+    public override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
-        imageView.setBackgroundResource(item.icon?:0)
-        textView.setText(item.name)
+        id = item.id
+        movieBinder.title.setText(item.title?:"null")
+        movieBinder.release.setText(item.release?:"null")
+        movieBinder.actor.setText(item.actor?:"null")
+        movieBinder.director.setText(item.director?:"null")
+        movieBinder.ratingBar.setRating(item.rating?:0.0f)
+        movieBinder.ratingText.setText(item.rating.toString()?:"null")
         //endregion
         //region Set Listener
         /* On Click */
-        cardView.setOnClickListener(object : View.OnClickListener{
+        movieBinder.constraintLayout.setOnClickListener(object : View.OnClickListener{
             override fun onClick(view: View) {
-                customListeners.onClick(item, position)
+                getListener().onClick(item, position)
             }
         })
         /* On Long Click */
-        cardView.setOnLongClickListener(object : View.OnLongClickListener{
+        /*
+        movieBinder.constraintLayout.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(view: View): Boolean {
-                customListeners.onLongClick(item, position)
+                getListener().onLongClick(item, position)
                 return false
             }
         })
+        */
         //endregion
     }
 }
