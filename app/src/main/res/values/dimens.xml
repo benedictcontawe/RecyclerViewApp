@@ -11,4 +11,7 @@
     <dimen name="card_elevation_minimum">2dp</dimen>
     <dimen name="card_elevation_none">0dp</dimen>
 
+    <!-- Padding -->
+    <dimen name="pad_top">15dp</dimen>
+
 </resources>

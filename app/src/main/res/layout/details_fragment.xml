@@ -7,7 +7,7 @@
     <data class="DetailsBinder">
         <variable
             name="detailsModel"
-            type="com.example.recyclerviewapp.model.DetailsViewModel" />
+            type="com.example.recyclerviewapp.model.CustomModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,14 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.10" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/constraint_guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.90" />
+            app:layout_constraintGuide_percent="0.95" />
         <!--endregion-->
         <!--endregion-->
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -57,15 +57,20 @@
             app:layout_constraintEnd_toEndOf="@id/constraint_guideline_end">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@={detailsModel.title}"
                 tools:text="Title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/pad_top"
                 android:weightSum="1">
 
                 <TextView
@@ -76,10 +81,14 @@
                     android:text="Director" />
 
                 <TextView
+                    android:id="@+id/director"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
                     android:gravity="start|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@={detailsModel.director}"
                     tools:text="[Director Name]" />
 
             </LinearLayout>
@@ -88,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/pad_top"
                 android:weightSum="1">
 
                 <TextView
@@ -98,10 +108,14 @@
                     android:text="Actors" />
 
                 <TextView
+                    android:id="@+id/actors"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
                     android:gravity="start|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{detailsModel.actors.get(0).toString()}"
                     tools:text="[Actors Names]" />
 
             </LinearLayout>
@@ -110,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/pad_top"
                 android:weightSum="1">
 
                 <TextView
@@ -120,17 +135,22 @@
                     android:text="Genre" />
 
                 <TextView
+                    android:id="@+id/genre"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
                     android:gravity="start|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@={detailsModel.genre}"
                     tools:text="[Genre type]" />
 
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pad_top">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:text="@{detailsModel.rating.toString()}"
                         tools:text="2.5" />
 
                 </LinearLayout>
@@ -174,6 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/pad_top"
                 android:weightSum="1">
 
                 <TextView
@@ -184,10 +206,14 @@
                     android:text="Release" />
 
                 <TextView
+                    android:id="@+id/release"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
                     android:gravity="start|center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@={detailsModel.release}"
                     tools:text="[Release]" />
 
             </LinearLayout>
@@ -196,17 +222,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="start|center"
+                android:paddingTop="@dimen/pad_top"
                 android:text="Plot" />
 
             <TextView
+                android:id="@+id/plot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="start|center"
+                android:paddingTop="@dimen/pad_top"
+                android:text="@={detailsModel.plot}"
                 tools:text="[Plot Description]" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pad_top"
                 android:text="Rate Movie" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

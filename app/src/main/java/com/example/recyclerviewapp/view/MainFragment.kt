@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -14,14 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.*
 import com.example.recyclerviewapp.databinding.MainBinder
-import com.example.recyclerviewapp.model.CustomViewModel
-import com.example.recyclerviewapp.model.FragmentType
+import com.example.recyclerviewapp.model.CustomModel
 
 
 class MainFragment : Fragment(), CustomListeners {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() : MainFragment = MainFragment()
     }
 
     private lateinit var binding: MainBinder
@@ -52,7 +49,7 @@ class MainFragment : Fragment(), CustomListeners {
         binding.recyclerView.setHasFixedSize(true)
     }
 
-    override fun onClick(item: CustomViewModel, position: Int) {
-        (activity as MainActivity).callFragment(FragmentType.DetailsFragment)
+    override fun onClick(item: CustomModel, position: Int) {
+        (activity as MainActivity).callDetailsFragment(item)
     }
 }

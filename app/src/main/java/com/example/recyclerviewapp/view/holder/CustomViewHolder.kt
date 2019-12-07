@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.example.recyclerviewapp.CustomListeners
 import com.example.recyclerviewapp.databinding.MovieBinder
-import com.example.recyclerviewapp.model.CustomViewModel
+import com.example.recyclerviewapp.model.CustomModel
 
 class CustomViewHolder : BaseViewHolder {
 
@@ -17,13 +17,13 @@ class CustomViewHolder : BaseViewHolder {
         this.movieBinder = movieBinder
     }
 
-    override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
+    override fun bindDataToViewHolder(item : CustomModel, position : Int) {
         //region Input Data
         id = item.id
-        movieBinder.title.text = item.title?:"null"
-        movieBinder.release.text = item.release?:"null"
-        movieBinder.actor.text = item.actor?:"null"
-        movieBinder.director.text = item.director?:"null"
+        //movieBinder.title.text = item.title?:"null" //Data Binder Handled this
+        //movieBinder.release.text = item.release?:"null" //Data Binder Handled this
+        //movieBinder.actor.text = item.actors.get(0) //Data Binder Handled this
+        //movieBinder.director.text = item.director?:"null" //Data Binder Handled this
         movieBinder.ratingBar.rating = item.rating?:0.0f
         movieBinder.ratingText.text = item.rating.toString()
         //endregion

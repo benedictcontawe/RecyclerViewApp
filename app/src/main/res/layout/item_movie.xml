@@ -7,7 +7,7 @@
     <data class="MovieBinder">
         <variable
             name="customModel"
-            type="com.example.recyclerviewapp.model.CustomViewModel" />
+            type="com.example.recyclerviewapp.model.CustomModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingTop="@dimen/pad_top"
             app:layout_constraintEnd_toEndOf="@id/constraint_guideline_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/constraint_guideline_start"
@@ -97,7 +98,7 @@
                 android:id="@+id/actor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={customModel.actor}"
+                android:text="@{customModel.actors.get(0).toString()}"
                 tools:text="Actor" />
 
             <TextView

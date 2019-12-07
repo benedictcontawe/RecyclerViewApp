@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.CustomListeners
-import com.example.recyclerviewapp.model.CustomViewModel
+import com.example.recyclerviewapp.model.CustomModel
 
 abstract class BaseViewHolder : RecyclerView.ViewHolder {
 
@@ -12,7 +12,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     private lateinit var context : Context
     private lateinit var customListeners : CustomListeners
     /**Data */
-    var id : String? = null
+    var id : Int? = null
 
     constructor(context: Context, customListeners: CustomListeners, view : View) : super(view) {
         this.context = context
@@ -27,5 +27,5 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         return customListeners
     }
 
-    abstract fun bindDataToViewHolder(item : CustomViewModel, position : Int)
+    abstract fun bindDataToViewHolder(item : CustomModel, position : Int)
 }

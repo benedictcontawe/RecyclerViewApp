@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.databinding.MovieBinder
-import com.example.recyclerviewapp.model.CustomViewModel
+import com.example.recyclerviewapp.model.CustomModel
 import com.example.recyclerviewapp.view.holder.CustomViewHolder
 
 
@@ -18,7 +18,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
     private lateinit var movieBinder : MovieBinder
 
-    private lateinit var list : MutableList<CustomViewModel>
+    private lateinit var list : MutableList<CustomModel>
 
     constructor(context : Context, customListeners : CustomListeners) : super(){
         this.context = context
@@ -48,23 +48,23 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
         return list.size
     }
 
-    fun setItems(items : MutableList<CustomViewModel>) {
+    fun setItems(items : MutableList<CustomModel>) {
         list.clear()
         list.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun insertItem(item : CustomViewModel, position : Int) {
+    fun insertItem(item : CustomModel, position : Int) {
         list.add(position, item)
         notifyItemInserted(position)
     }
 
-    fun insertItems(items : List<CustomViewModel>, position : Int) {
+    fun insertItems(items : List<CustomModel>, position : Int) {
         list.addAll(items)
         notifyItemRangeChanged(position, itemCount)
     }
 
-    fun updateItem(item : CustomViewModel, position: Int) {
+    fun updateItem(item : CustomModel, position: Int) {
         list[position] = item
         notifyItemChanged(position)
     }
