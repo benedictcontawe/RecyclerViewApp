@@ -9,6 +9,7 @@ import com.example.recyclerviewapp.model.CustomModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var detailsFragment: DetailsFragment
+    private lateinit var reviewFragment: ReviewFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun callReviewFragment(item: CustomModel) {
-
+        reviewFragment = ReviewFragment.newInstance()
+        reviewFragment.setDetails(item = item)
+        supportFragmentManager.beginTransaction()
+                .add(R.id.container, reviewFragment)
+                .addToBackStack("").commit()
     }
 
     override fun onBackPressed() {

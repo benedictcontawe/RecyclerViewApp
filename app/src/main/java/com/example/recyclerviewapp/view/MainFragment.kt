@@ -16,7 +16,7 @@ import com.example.recyclerviewapp.model.CustomModel
 
 
 class MainFragment : Fragment(), CustomListeners {
-
+    //This Fragment Use Data Binding with ViewModel and use live data to observe adapter of recycler view
     companion object {
         fun newInstance() : MainFragment = MainFragment()
     }

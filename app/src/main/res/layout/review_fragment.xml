@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ReviewBinder">
+        <variable
+            name="reviewModel"
+            type="com.example.recyclerviewapp.model.CustomModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/constraintLayout">
+
+        <!--region Guide lines-->
+        <!--region Vertical Guide lines-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+        <!--endregion-->
+        <!--region Horizontal Guidlines-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+        <!--endregion-->
+        <!--endregion-->
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@={reviewModel.title}"
+            tools:text="Title"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_top"
+            app:layout_constraintStart_toStartOf="@id/constraint_guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_end"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pad_top"
+                android:numStars="5"
+                tools:rating="2.5"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/constraint_guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/constraint_guideline_end"/>
+
+            <EditText
+                android:id="@+id/review"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pad_top"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                app:layout_constraintStart_toStartOf="@id/ratingBar"
+                app:layout_constraintEnd_toEndOf="@id/ratingBar"/>
+
+            <Button
+                android:id="@+id/rateMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate This Move"
+                app:layout_constraintTop_toBottomOf="@id/review"
+                app:layout_constraintStart_toStartOf="@id/constraint_guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/constraint_guideline_end"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

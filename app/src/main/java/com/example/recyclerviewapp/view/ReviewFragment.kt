@@ -4,39 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.recyclerviewapp.R
-import com.example.recyclerviewapp.databinding.DetailsBinder
+import com.example.recyclerviewapp.databinding.ReviewBinder
 import com.example.recyclerviewapp.model.CustomModel
 
-class DetailsFragment : Fragment() , View.OnClickListener{
-    //This Fragment Use Data Binding with two way data binding
+class ReviewFragment : Fragment(), View.OnClickListener{
+
     companion object {
-        fun newInstance() : DetailsFragment {
-            return DetailsFragment()
+        fun newInstance() : ReviewFragment {
+            return ReviewFragment()
         }
     }
 
-    private lateinit var binding : DetailsBinder
+    private lateinit var binding : ReviewBinder
     private lateinit var item : CustomModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.details_fragment,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.review_fragment,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.detailsModel = item
+        binding.reviewModel = item
         //binding.title.setText(item.title) //Data Binder Handled this
-        //binding.director.setText(item.director) //Data Binder Handled this
-        binding.actors.setText(item.actors.forEach{ ", $it"}.toString())
-        //binding.genre.setText(item.genre) //Data Binder Handled this
-        //binding.ratingText.setText(item.rating.toString()) //Data Binder Handled this
-        //binding.release.setText(item.release) //Data Binder Handled this
-        //binding.plot.setText(item.plot) //Data Binder Handled this
+        binding.ratingBar.rating = 5f
+        binding.review.setText("")
         binding.rateMovie.setOnClickListener(this)
     }
 
@@ -45,7 +42,7 @@ class DetailsFragment : Fragment() , View.OnClickListener{
     }
 
     override fun onClick(view: View) {
-        (activity as MainActivity).callReviewFragment(item)
+        Toast.makeText(context,"Movie Rated!",Toast.LENGTH_SHORT).show()
     }
 
     fun closeFragment() {

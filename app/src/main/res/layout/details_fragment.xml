@@ -162,6 +162,7 @@
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:numStars="5"
                         tools:rating="2.5" />
 
                     <TextView
@@ -235,6 +236,7 @@
                 tools:text="[Plot Description]" />
 
             <Button
+                android:id="@+id/rateMovie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/pad_top"
