@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.recyclerviewapp.model.CustomModel
+import com.example.recyclerviewapp.view.adapter.CustomAdapter
 
 class MainViewModel : ViewModel {
 
@@ -31,7 +32,7 @@ class MainViewModel : ViewModel {
         itemList.add(CustomModel(4, "Midsommar", "Ari Aster", listOf("Florence Pugh","Jack Reynor"), "Horrorfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_4)))
         itemList.add(CustomModel(5, "Systemsprenger", "Nora Fingscheidt", listOf("Helena Zengel","Gabriela Maria Schmeide"), "Drama", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_5)))
         itemList.add(CustomModel(6, "Avengers 4: Endgame", "Anthony Russo", listOf("Robert Downey Jr.","Chris Evans"), "Science Fiction", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_6)))
-        itemList.add(CustomModel(7, "Wir", "Jordan Peele", listOf("Lupita Nyong´o","Winston Duke"), "Thriller", "context.resources.getString(R.string.year_2019)", context.resources.getString(R.string.plot_7)))
+        itemList.add(CustomModel(7, "Wir", "Jordan Peele", listOf("Lupita Nyong´o","Winston Duke"), "Thriller", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_7)))
         itemList.add(CustomModel(8, "The Irishman", "Martin Scorsese", listOf("Robert De Niro","Al Pacino"), "Gangsterfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_8)))
         itemList.add(CustomModel(9, "Ad Astra - zu den Sternen", "James Gray", listOf("Brad Pitt","Tommy Lee Jones"), "Science Fiction", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_9)))
         itemList.add(CustomModel(10, "John Wick: Kapitel 3", "Chad Stahelski", listOf("Keanu Reeves","Halle Berry"), "Actionfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_10)))

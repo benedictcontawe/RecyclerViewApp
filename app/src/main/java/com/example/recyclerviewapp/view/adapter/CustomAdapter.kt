@@ -1,10 +1,12 @@
-package com.example.recyclerviewapp
+package com.example.recyclerviewapp.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recyclerviewapp.CustomListeners
+import com.example.recyclerviewapp.R
 import com.example.recyclerviewapp.databinding.MovieBinder
 import com.example.recyclerviewapp.model.CustomModel
 import com.example.recyclerviewapp.view.holder.CustomViewHolder

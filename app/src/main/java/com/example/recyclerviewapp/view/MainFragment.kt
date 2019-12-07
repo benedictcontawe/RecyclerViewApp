@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.*
 import com.example.recyclerviewapp.databinding.MainBinder
 import com.example.recyclerviewapp.model.CustomModel
+import com.example.recyclerviewapp.view.adapter.CustomAdapter
 
 
 class MainFragment : Fragment(), CustomListeners {
