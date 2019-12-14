@@ -30,9 +30,9 @@ class ReviewFragment : Fragment(), View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.reviewModel = item
+        binding.setReviewModel(item)//binding.reviewModel = item
         //binding.title.setText(item.title) //Data Binder Handled this
-        binding.ratingBar.rating = 5f
+        binding.ratingBar.setRating(5f)
         binding.review.setText("")
         binding.rateMovie.setOnClickListener(this)
     }

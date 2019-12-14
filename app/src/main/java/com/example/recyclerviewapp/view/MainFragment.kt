@@ -33,7 +33,7 @@ class MainFragment : Fragment(), CustomListeners {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(activity!!, CustomViewModelFactory(context!!, this)).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(getActivity()!!, CustomViewModelFactory(context!!, this)).get(MainViewModel::class.java)
         binding.viewModel = viewModel
 
         viewModel.setItems()
@@ -42,7 +42,7 @@ class MainFragment : Fragment(), CustomListeners {
 
     private fun setRecylerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
-        viewModel.getAdapter().observe(this,object : Observer<CustomAdapter> {
+        viewModel.getAdapter().observe(getViewLifecycleOwner(),object : Observer<CustomAdapter> {
             override fun onChanged(adapter : CustomAdapter) {
                 binding.recyclerView.adapter = adapter
             }

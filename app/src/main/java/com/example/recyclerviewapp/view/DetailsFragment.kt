@@ -29,7 +29,7 @@ class DetailsFragment : Fragment() , View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.detailsModel = item
+        binding.setDetailsModel(item)//binding.detailsModel = item
         //binding.title.setText(item.title) //Data Binder Handled this
         //binding.director.setText(item.director) //Data Binder Handled this
         binding.actors.setText(item.actors.forEach{ ", $it"}.toString())
