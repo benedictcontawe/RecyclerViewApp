@@ -21,6 +21,7 @@ class CustomViewHolder : BaseViewHolder {
         textView = itemView.findViewById(R.id.text_view)
         cardView = itemView.findViewById(R.id.card_view)
     }
+
     public override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
         id = item.id

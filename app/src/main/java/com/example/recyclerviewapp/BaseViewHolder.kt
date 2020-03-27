@@ -12,7 +12,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     /**Data */
     public var id : Int? = null
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
+    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView) {
         this.context = context
         this.customListeners = customListeners
     }
