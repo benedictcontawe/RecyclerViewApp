@@ -68,12 +68,17 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                val canScrollUp : Boolean = recyclerView.canScrollVertically(-1)
+                val canScrollDown : Boolean = recyclerView.canScrollVertically(1)
                 when {
-                    recyclerView.canScrollVertically(-1) == false -> {
-                        Log.d(TAG,"Recycler View top reached")
+                    canScrollUp && canScrollDown -> {
+                        Log.e(TAG,"Recycler View at Middle")
                     }
-                    recyclerView.canScrollVertically(1) == false -> {
-                        Log.d(TAG,"Recycler View bottom reached")
+                    canScrollDown -> {
+                        Log.e(TAG,"Recycler View top reached")
+                    }
+                    canScrollUp -> {
+                        Log.e(TAG,"Recycler View bottom reached")
                     }
                 }
             }
