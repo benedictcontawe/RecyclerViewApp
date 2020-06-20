@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         itemList.add(CustomViewModel(R.drawable.ic_person_white, "P"))
     }
 
-    private fun setScrollListener() {
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun setScrollListener() : RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val canScrollUp : Boolean = recyclerView.canScrollVertically(-1)
@@ -91,7 +91,17 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                     }
                 }
             }
-        })
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recycler_view.addOnScrollListener(setScrollListener())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        recycler_view.removeOnScrollListener(setScrollListener())
     }
 
     override fun onStart() {
