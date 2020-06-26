@@ -80,7 +80,7 @@ class CustomViewHolder : RecyclerView.ViewHolder, View.OnTouchListener, GestureD
         return false
     }
 
-    override fun onScroll(event1 : MotionEvent, eventSecond : MotionEvent, distanceX : Float, distanceY : Float) : Boolean {
+    override fun onScroll(eventFirst : MotionEvent, eventSecond : MotionEvent, distanceX : Float, distanceY : Float) : Boolean {
         return false
     }
 }
