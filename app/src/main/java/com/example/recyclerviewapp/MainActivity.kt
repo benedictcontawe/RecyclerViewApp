@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), CustomListeners {
 
     private lateinit var adapter : CustomAdapter
-    private lateinit var itemTouchHelperCallback : ItemTouchHelper.Callback
+    private lateinit var itemTouchHelperCallback : CustomItemTouchHelperCallback
     private lateinit var itemTouchHelper : ItemTouchHelper
     private lateinit var itemList : MutableList<CustomViewModel>
 
@@ -28,18 +28,21 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setRecylerView()
         setItems()
+        adapter.setItems(itemList)
     }
 
     private fun setRecylerView() {
         adapter = CustomAdapter(this, this)
 
-        itemTouchHelperCallback = CustomItemTouchHelperCallback(adapter)
+        itemTouchHelperCallback = CustomItemTouchHelperCallback(adapter,true,true)
+        itemTouchHelperCallback.setFadeOutSwipe(false)
+        itemTouchHelperCallback.setTransparentDrag(false)
+
         itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 
         adapter.setTouchHelper(itemTouchHelper)
@@ -74,12 +77,15 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     override fun onStart() {
         super.onStart()
-        adapter.setItems(itemList)
+        //adapter.setItems(itemList)
     }
 
     override fun onResume() {
         super.onResume()
         recycler_view.addOnScrollListener(setScrollListener())
+        adapter.getItems().map {
+            Log.e(TAG,"${it.name}")
+        }
     }
 
     override fun onPause() {
@@ -93,6 +99,11 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     override fun onLongClick(item: CustomViewModel, position: Int) {
         Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
+    }
+
+    override fun onItemMoved(item  : CustomViewModel, fromPosition : Int, toPosition : Int) {
+        //Toast.makeText(this,"onItemMoved ${item.name} $fromPosition $toPosition",Toast.LENGTH_SHORT).show()
+        Log.d(TAG,"onItemMoved ${item.name} $fromPosition $toPosition")
     }
 
     private fun setScrollListener() : RecyclerView.OnScrollListener {

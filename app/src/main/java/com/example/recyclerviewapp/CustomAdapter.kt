@@ -1,6 +1,7 @@
 package com.example.recyclerviewapp
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,13 +31,13 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
         //list = listOf()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : CustomViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
         val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
         return CustomViewHolder(context, view, customListeners, itemTouchHelper)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder : CustomViewHolder, position : Int) {
         holder.bindDataToViewHolder(list[position], position)
     }
 
@@ -60,7 +61,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
         notifyItemRangeChanged(position, itemCount)
     }
 
-    fun updateItem(item : CustomViewModel, position: Int) {
+    fun updateItem(item : CustomViewModel, position : Int) {
         list[position] = item
         notifyItemChanged(position)
     }
@@ -68,6 +69,10 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
     fun deleteItem(position : Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun getItems() : List<CustomViewModel> {
+        return list
     }
 
     fun deleteAllItems() {
@@ -84,13 +89,14 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
         list.remove(x)
         list.add(toPosition, x)
         notifyItemMoved(fromPosition, toPosition)
+        customListeners.onItemMoved(list[toPosition], fromPosition, toPosition)
     }
 
     override fun onItemSwiped(position : Int) {
         deleteItem(position)
     }
 
-    override fun onItemDismiss(position : Int) {
-
+    override fun onItemClear(position : Int) {
+        Log.d(TAG,"onItemDismiss($position)")
     }
 }

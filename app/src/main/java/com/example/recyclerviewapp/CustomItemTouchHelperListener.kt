@@ -6,5 +6,5 @@ interface CustomItemTouchHelperListener {
 
     fun onItemSwiped(position : Int)
 
-    fun onItemDismiss(position : Int)
+    fun onItemClear(position : Int)
 }
