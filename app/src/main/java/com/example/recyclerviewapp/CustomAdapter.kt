@@ -5,20 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import android.text.method.TextKeyListener.clear
+import androidx.recyclerview.widget.ItemTouchHelper
 
+class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHelperListener {
 
-
-class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
-
+    companion object {
+        private var TAG : String = CustomAdapter::class.java.simpleName
+    }
     /**Main */
     private lateinit var context : Context
     private lateinit var customListeners : CustomListeners
+    private lateinit var itemTouchHelper : ItemTouchHelper
 
     private lateinit var list : MutableList<CustomViewModel>
     //private lateinit var list : List<CustomViewModel>
 
-    constructor(context : Context, customListeners : CustomListeners) : super(){
+    constructor(context : Context, customListeners : CustomListeners) : super() {
         this.context = context
         this.customListeners = customListeners
     }
@@ -31,7 +33,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
         val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
-        return CustomViewHolder(context, view, customListeners)
+        return CustomViewHolder(context, view, customListeners, itemTouchHelper)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -71,5 +73,24 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     fun deleteAllItems() {
         list.clear()
         notifyItemRangeRemoved(0, itemCount)
+    }
+
+    fun setTouchHelper(itemTouchHelper : ItemTouchHelper) {
+        this.itemTouchHelper = itemTouchHelper
+    }
+
+    override fun onItemMove(fromPosition : Int, toPosition : Int) {
+        val x = list.get(fromPosition)
+        list.remove(x)
+        list.add(toPosition, x)
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemSwiped(position : Int) {
+        deleteItem(position)
+    }
+
+    override fun onItemDismiss(position : Int) {
+
     }
 }
