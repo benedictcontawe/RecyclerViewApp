@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         adapter = CustomAdapter(this, this)
 
         itemTouchHelperCallback = CustomItemTouchHelperCallback(adapter,true,true)
-        itemTouchHelperCallback.setFadeOutSwipe(false)
-        itemTouchHelperCallback.setTransparentDrag(false)
+        itemTouchHelperCallback.setFadeOutSwipe(true)
+        itemTouchHelperCallback.setTransparentDrag(true)
 
         itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 

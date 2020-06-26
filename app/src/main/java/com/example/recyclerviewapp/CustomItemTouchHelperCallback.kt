@@ -13,8 +13,9 @@ class CustomItemTouchHelperCallback : ItemTouchHelper.Callback {
     companion object {
         private var TAG : String = CustomItemTouchHelperCallback::class.java.simpleName
         private const val ALPHA_FULL = 1.0f
-        private const val ALPHA_BIT = 0.9f
+        private const val ALPHA_BIT = 0.7f
         private const val ALPHA_HALF = 0.5f
+        private const val ALPHA_DURATION = 200L
         private const val LINEAR_DRAG_FLAGS : Int = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         private const val LINEAR_SWIPE_FLAGS : Int = ItemTouchHelper.START or ItemTouchHelper.END
         private const val GRID_SWIPE_FLAGS : Int = ItemTouchHelper.ACTION_STATE_IDLE
@@ -65,7 +66,8 @@ class CustomItemTouchHelperCallback : ItemTouchHelper.Callback {
             }
             actionState == ItemTouchHelper.ACTION_STATE_DRAG && withTransparentDrag -> {
                 Log.d(TAG,"ItemTouchHelper.ACTION_STATE_DRAG")
-                viewHolder?.itemView?.setAlpha(ALPHA_BIT)
+                //viewHolder?.itemView?.setAlpha(ALPHA_HALF)
+                viewHolder?.itemView?.animate()?.alpha(ALPHA_BIT)?.duration = ALPHA_DURATION
             }
             actionState == ItemTouchHelper.ACTION_STATE_DRAG && !withTransparentDrag -> {
                 Log.d(TAG,"ItemTouchHelper.ACTION_STATE_DRAG")
@@ -127,6 +129,7 @@ class CustomItemTouchHelperCallback : ItemTouchHelper.Callback {
     override fun clearView(recyclerView : RecyclerView, viewHolder : RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
         viewHolder.itemView.setAlpha(ALPHA_FULL)
+        //viewHolder.itemView.animate().alpha(ALPHA_FULL).duration = ALPHA_DURATION
         customItemTouchHelperListener.onItemClear(viewHolder.getAdapterPosition())
     }
 }
