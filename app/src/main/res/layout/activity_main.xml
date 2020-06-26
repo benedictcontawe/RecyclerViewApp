@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2F2F2F"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity" >
 
     <LinearLayout
         android:id="@+id/expandedRecyclerViewContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center" >
 
         <ImageView
             android:id="@+id/expandedArrowLeft"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/spiner_left"
             android:scaleType="centerInside"
             android:contentDescription="Left Arrow"
-            android:focusable="false"/>
+            android:focusable="false"
+            app:srcCompat="@drawable/ic_arrow_back_ios_white" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expandedRecyclerView"
@@ -35,17 +36,18 @@
             android:focusable="true"
             app:layoutManager=".CustomLinearLayoutManager"
             tools:listitem="@layout/item_focused"
-            tools:itemCount="2"/>
+            tools:itemCount="2" />
 
         <ImageView
             android:id="@+id/expandedArrowRight"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/spiner_right"
             android:scaleType="centerInside"
             android:contentDescription="Right Arrow"
-            android:focusable="false"/>
+            android:focusable="false"
+            app:srcCompat="@drawable/ic_arrow_forward_ios_white"/>
+
     </LinearLayout>
 
 </RelativeLayout>
