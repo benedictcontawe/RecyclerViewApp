@@ -13,7 +13,7 @@ class CustomViewHolder : BaseViewHolder {
     /**With Events and Others */
     //private lateinit var cardView: CardView
 
-    constructor(context: Context, customListeners: CustomListeners, movieBinder : MovieBinder) : super(context,customListeners,movieBinder.root){
+    constructor(context : Context, customListeners : CustomListeners, movieBinder : MovieBinder) : super(context, customListeners, movieBinder.root){
         this.movieBinder = movieBinder
     }
 
