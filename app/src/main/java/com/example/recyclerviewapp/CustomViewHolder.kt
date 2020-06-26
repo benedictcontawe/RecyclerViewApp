@@ -84,8 +84,3 @@ class CustomViewHolder : RecyclerView.ViewHolder, View.OnTouchListener, GestureD
         return false
     }
 }
-/*
-//https://www.youtube.com/watch?v=uvzP8KTz4Fg
-event.getAction() == MotionEvent.ACTION_DOWN
-MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN
- */
