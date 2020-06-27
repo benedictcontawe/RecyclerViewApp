@@ -30,7 +30,7 @@ class CustomViewHolder : RecyclerView.ViewHolder, View.OnTouchListener, GestureD
     private lateinit var item : CustomViewModel
     //private var positionViewHolder by Delegates.notNull<Int>()
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners, itemTouchHelper : ItemTouchHelper) : super(itemView) {
+    constructor(context : Context, itemView : View, customListeners : CustomListeners, itemTouchHelper : ItemTouchHelper) : super(itemView) {
         this.customListeners = customListeners
         this.itemTouchHelper = itemTouchHelper
     }
