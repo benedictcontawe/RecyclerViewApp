@@ -65,6 +65,13 @@ class CustomViewHolder : RecyclerView.ViewHolder, View.OnTouchListener, GestureD
     /* On Touch */
     override fun onTouch(view : View, event : MotionEvent) : Boolean {
         gestureDetector.onTouchEvent(event)
+        /*
+        when {
+            event.getActionMasked() == MotionEvent.ACTION_DOWN -> {
+                itemTouchHelper.startDrag(this@CustomViewHolder)
+            }
+        }
+        */
         return true
     }
 
