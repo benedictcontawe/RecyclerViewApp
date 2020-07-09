@@ -85,6 +85,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
     }
 
     override fun onItemMove(fromPosition : Int, toPosition : Int) {
+        Log.d(TAG,"onItemMove($fromPosition, $toPosition)")
         val x = list.get(fromPosition)
         list.remove(x)
         list.add(toPosition, x)
