@@ -3,33 +3,26 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import androidx.cardview.widget.CardView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 
-class CustomViewHolder : RecyclerView.ViewHolder {
+class VerticalViewHolder : BaseVerticalViewHolder {
 
-    /**Main */
-    private lateinit var context: Context
-    private lateinit var customListeners: CustomListeners
-    /**Data */
-    private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
-    /**With Events and Others */
-    private lateinit var cardView: CardView
-
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
-        this.context = context
-        this.customListeners = customListeners
+    companion object {
+        private val TAG = VerticalViewHolder::class.java.simpleName
     }
-
-    init {
+    //region cell_vertical_sample
+    val imageView : ImageView
+    val textView : TextView
+    val cardView : CardView
+    //endregion
+    constructor(context : Context, itemView : View)  : super(context, itemView) {
         imageView = itemView.findViewById(R.id.image_view)
         textView = itemView.findViewById(R.id.text_view)
         cardView = itemView.findViewById(R.id.card_view)
     }
 
-    public fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
+    override fun bindDataToViewHolder(item : CustomViewModel, position : Int) {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)
         textView.setText(item.name)
@@ -38,13 +31,13 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         /* On Click */
         cardView.setOnClickListener(object : View.OnClickListener{
             override fun onClick(view: View) {
-                customListeners.onClick(item, position)
+                //customListeners.onClick(item, position)
             }
         })
         /* On Long Click */
         cardView.setOnLongClickListener(object : View.OnLongClickListener{
             override fun onLongClick(view: View): Boolean {
-                customListeners.onLongClick(item, position)
+                //customListeners.onLongClick(item, position)
                 return false
             }
         })

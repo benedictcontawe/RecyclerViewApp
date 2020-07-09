@@ -9,9 +9,11 @@ import android.util.DisplayMetrics
 import android.graphics.PointF
 import androidx.recyclerview.widget.LinearSmoothScroller
 
-
-
 class CustomLinearLayoutManager : LinearLayoutManager {
+
+    companion object {
+        private var TAG: String = CustomLinearLayoutManager::class.java.simpleName
+    }
 
     constructor(context : Context) : super(context){
 
@@ -23,6 +25,14 @@ class CustomLinearLayoutManager : LinearLayoutManager {
 
     constructor(context : Context, attrs : AttributeSet, defStyleAttr : Int, defStyleRes : Int) : super(context, attrs, defStyleAttr, defStyleRes){
 
+    }
+
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+        try {
+            super.onLayoutChildren(recycler, state)
+        } catch (ex : IndexOutOfBoundsException) {
+            Log.e(TAG, "Catch ${ex.message}")
+        }
     }
 
     override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State, position: Int) {
