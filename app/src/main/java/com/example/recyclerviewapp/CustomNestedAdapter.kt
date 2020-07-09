@@ -63,6 +63,14 @@ class CustomNestedAdapter : RecyclerView.Adapter<BaseNestedViewHolder> {
         return 2
     }
 
+    public fun getHorizontalItemCount() : Int {
+        return horizontalList.size
+    }
+
+    public fun getVerticalItemCount() : Int {
+        return verticalList.size
+    }
+
     override fun getItemViewType(position : Int) : Int {
         return when(position) {
             0 -> HorizontalView
