@@ -56,7 +56,6 @@ class CustomNestedAdapter : RecyclerView.Adapter<BaseNestedViewHolder> {
                 holder.bindDataToViewHolder(verticalList)
             }
         }
-
     }
 
     override fun getItemCount() : Int {
