@@ -1,6 +1,6 @@
 package com.example.recyclerviewapp
 
-class CustomViewModel {
+class CustomModel {
 
     var icon : Int? = null
     var name : String? = null

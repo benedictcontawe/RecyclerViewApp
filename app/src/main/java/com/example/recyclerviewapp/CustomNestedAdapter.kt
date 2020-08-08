@@ -77,13 +77,13 @@ class CustomNestedAdapter : RecyclerView.Adapter<BaseNestedViewHolder> {
         }
     }
 
-    public fun setHorizontalItems(items : MutableList<CustomViewModel>) {
+    public fun setHorizontalItems(items : List<CustomViewModel>) {
         horizontalList.clear()
         horizontalList.addAll(items)
         notifyDataSetChanged()
     }
 
-    public fun setVerticalItems(items : MutableList<CustomViewModel>) {
+    public fun setVerticalItems(items : List<CustomViewModel>) {
         verticalList.clear()
         verticalList.addAll(items)
         notifyDataSetChanged()
