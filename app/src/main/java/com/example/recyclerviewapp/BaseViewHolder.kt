@@ -3,6 +3,8 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseViewHolder : RecyclerView.ViewHolder {
@@ -19,4 +21,11 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     }
 
     public fun getContext() : Context = context
+
+    public fun setPhoto(imageView : ImageView, image : String) {
+        Log.e(TAG, "setPhoto $image")
+        if (image.isNotBlank()) {
+            imageView.setImageURI(image.toUri())
+        }
+    }
 }
