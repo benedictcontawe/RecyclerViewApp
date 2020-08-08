@@ -64,6 +64,26 @@ class ContactsProvider {
         }
     }
 
+    private fun getPhones(context : Context, contentResolver : ContentResolver, cursor : Cursor, id : String) : MutableMap<String,String> {
+        val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
+        if (cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+            val numberCursor : Cursor? = contentResolver.query(PhoneContentUri, null, "$PhoneContactID = ?", arrayOf(id), SortName)
+            while (numberCursor?.moveToNext() == true) {
+                val mimeType : String = numberCursor.getString(numberCursor.getColumnIndex(MimeType))
+                val phoneNumber : String? = getPhoneNumber(numberCursor, mimeType)
+                val phoneType : Int = numberCursor.getInt(numberCursor.getColumnIndex(PhoneType))
+                val phoneLabel : String? = getPhoneLabel(context, numberCursor, mimeType, phoneType)
+                phoneNumber?.let { number ->
+                    numbers.set(number.getNumbersOnly(), phoneLabel?:"Nil")
+                }
+            }
+            if (numberCursor?.moveToNext() == false) {
+                numberCursor.close()
+            }
+        }
+        return numbers
+    }
+
     private fun getPhoneLabel(context : Context, cursor : Cursor, mimeType : String, phoneType : Int) : String? {
         val typeLabel = ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), phoneType, "")
         Log.d(TAG,"typeLabel $typeLabel")
@@ -89,6 +109,22 @@ class ContactsProvider {
         } else {
             null
         }
+    }
+
+    private fun getEmails(context : Context, contentResolver : ContentResolver, cursor : Cursor, id : String) : MutableMap<String,String> {
+        val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+        val emailCursor : Cursor? = contentResolver.query(EmailContentUri, null, "$EmailContactID = ?", arrayOf(id.toString()), null)
+        while (emailCursor?.moveToNext() == true) {
+            val mimeType : String = emailCursor.getString(emailCursor.getColumnIndex(MimeType))
+            val emailValue : String = emailCursor.getString(emailCursor.getColumnIndex(EmailData))
+            val emailType : Int = emailCursor.getInt(emailCursor.getColumnIndex(EmailType))
+            val emailLabel : String? = getEmailLabel(context, emailCursor, mimeType, emailType)
+            emails.set(emailValue.remove_(), emailLabel?:"Nil")
+        }
+        if (emailCursor?.moveToNext() == false) {
+            emailCursor.close()
+        }
+        return emails
     }
 
     private fun getEmailLabel(context : Context, cursor : Cursor, mimeType : String, emailType : Int) : String? {
@@ -128,37 +164,20 @@ class ContactsProvider {
         return deleted
     }
 
-    public fun getContactsList(context : Context) : List<ContactModel> {
-        val contactsList : MutableList<ContactModel> = mutableListOf()
+    public fun getContact(context : Context, contactId : String) : ContactModel? {
+        var contact : ContactModel? = null
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
         try {
             contentResolver = context.getContentResolver()
-            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            cursor = contentResolver.query(PhoneContentUri, null, PhoneContactID + " = ?", arrayOf(contactId), null)
             while (cursor?.moveToNext() == true) {
                 val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
                 val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
                 val photo : String = getPhoto(cursor)?:""
-                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
-                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+                val numbers : MutableMap<String,String> = getPhones(context, contentResolver, cursor, id.toString())
+                val emails : MutableMap<String,String> = getEmails(context, contentResolver, cursor, id.toString())
                 Log.d(TAG, "ID $id Name $name Photo $photo")
-
-                if (cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    val numberCursor : Cursor? = contentResolver.query(PhoneContentUri, null, "$PhoneContactID = ?", arrayOf(id.toString()), SortName)
-                    while (numberCursor?.moveToNext() == true) {
-                        val mimeType : String = numberCursor.getString(numberCursor.getColumnIndex(MimeType))
-                        val phoneNumber : String? = getPhoneNumber(numberCursor, mimeType)
-                        val phoneType : Int = numberCursor.getInt(numberCursor.getColumnIndex(PhoneType))
-                        val phoneLabel : String? = getPhoneLabel(context, numberCursor, mimeType, phoneType)
-                        Log.d(TAG, "ID $id Name $name Phone $phoneType $phoneLabel: $phoneNumber")
-                        phoneNumber?.let { number ->
-                            numbers.set(number.getNumbersOnly(), phoneLabel?:"Nil")
-                        }
-                    }
-                    if (numberCursor?.moveToNext() == false) {
-                        numberCursor.close()
-                    }
-                }
 
                 val emailCursor : Cursor? = contentResolver.query(EmailContentUri, null, "$EmailContactID = ?", arrayOf(id.toString()), null)
                 while (emailCursor?.moveToNext() == true) {
@@ -173,6 +192,32 @@ class ContactsProvider {
                     emailCursor.close()
                 }
 
+                contact = ContactModel(id, name, photo, numbers, emails)
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        return contact
+    }
+
+    public fun getContacts(context : Context) : List<ContactModel> {
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
+                val photo : String = getPhoto(cursor)?:""
+                val numbers : MutableMap<String,String> = getPhones(context, contentResolver, cursor, id.toString())
+                val emails : MutableMap<String,String> = getEmails(context, contentResolver, cursor, id.toString())
+                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()

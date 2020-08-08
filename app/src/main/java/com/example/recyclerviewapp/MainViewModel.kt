@@ -148,7 +148,7 @@ class MainViewModel : AndroidViewModel {
         AsyncTask.execute {
             liveStandBy.postValue(true)
             itemContactList.addAll(
-                contactsProvider.getContactsList(getApplication())
+                contactsProvider.getContacts(getApplication())
             )
             liveContactList.postValue(itemContactList)
             liveStandBy.postValue(false)
