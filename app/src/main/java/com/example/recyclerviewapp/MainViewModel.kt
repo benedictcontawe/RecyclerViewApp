@@ -154,8 +154,8 @@ class MainViewModel : AndroidViewModel {
             var oldSize : Int = itemContactList.size
             val newSize : Int = contactsProvider.getContactCount(getApplication())
             val newContacts : List<ContactModel>
-            Log.e(TAG, "Old ${oldSize}")
-            Log.e(TAG, "New ${newSize}")
+            Log.d(TAG, "Old ${oldSize}")
+            Log.d(TAG, "New ${newSize}")
             when {
                 itemContactList.isEmpty() -> { Log.d(TAG, "Get All Contacts")
                     liveStandBy.postValue(true)
@@ -209,8 +209,14 @@ class MainViewModel : AndroidViewModel {
                     liveStandBy.postValue(false)
                 }
                 itemContactList.isNotEmpty() && oldSize == newSize -> { Log.e(TAG, "Same Size Contacts")
-                    /*
                     newContacts = contactsProvider.getContactsID(getApplication())
+                    /*
+                    newContacts.map { newContact ->
+                        val x = contactsProvider.getContact(getApplication(),newContact.id.toString())
+                        Log.e(TAG, "${newContact.id} newContact ${x?.id} name ${x?.name} photo ${x?.photo} numbers ${x?.numbers} emails ${x?.emails}")
+                    }
+                    */
+                    /*
                     newContacts.map { newContact ->
                         contactsProvider.getContact(getApplication(),newContact.id.toString())?.let { letContact ->
                             itemContactList.filter { filteredContact -> filteredContact.id == letContact.id

@@ -165,6 +165,7 @@ class ContactsProvider {
     }
 
     public fun getContactCount(context : Context) : Int {
+        Log.d(TAG, "getContact()")
         var contactsSize : Int = 0
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -189,6 +190,7 @@ class ContactsProvider {
     }
 
     public fun getContact(context : Context, contactId : String) : ContactModel? {
+        Log.d(TAG, "getContact()")
         var contact : ContactModel? = null
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -202,20 +204,6 @@ class ContactsProvider {
                 val numbers : MutableMap<String,String> = getPhones(context, contentResolver, cursor, id.toString())
                 val emails : MutableMap<String,String> = getEmails(context, contentResolver, cursor, id.toString())
                 Log.d(TAG, "ID $id Name $name Photo $photo")
-
-                val emailCursor : Cursor? = contentResolver.query(EmailContentUri, null, "$EmailContactID = ?", arrayOf(id.toString()), null)
-                while (emailCursor?.moveToNext() == true) {
-                    val mimeType : String = emailCursor.getString(emailCursor.getColumnIndex(MimeType))
-                    val emailValue : String = emailCursor.getString(emailCursor.getColumnIndex(EmailData))
-                    val emailType : Int = emailCursor.getInt(emailCursor.getColumnIndex(EmailType))
-                    val emailLabel : String? = getEmailLabel(context, emailCursor, mimeType, emailType)
-                    Log.d(TAG, "ID $id Name $name E-mail $emailType $emailLabel: $emailValue")
-                    emails.set(emailValue.remove_(), emailLabel?:"Nil")
-                }
-                if (emailCursor?.moveToNext() == false) {
-                    emailCursor.close()
-                }
-
                 contact = ContactModel(id, name, photo, numbers, emails)
             }
         } catch (ex : Exception) { ex.printStackTrace()
@@ -229,6 +217,7 @@ class ContactsProvider {
     }
 
     public fun getContactsID(context : Context) : List<ContactModel> {
+        Log.d(TAG, "getContactsID()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -269,6 +258,7 @@ class ContactsProvider {
     }
 
     public fun getContacts(context : Context) : List<ContactModel> {
+        Log.d(TAG, "getContacts()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
