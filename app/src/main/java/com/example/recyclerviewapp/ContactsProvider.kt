@@ -164,6 +164,30 @@ class ContactsProvider {
         return deleted
     }
 
+    public fun getContactCount(context : Context) : Int {
+        var contactsSize : Int = 0
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                //val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                //val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
+                //Log.d(TAG, "ID $id Name $name")
+                contactsSize++
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        Log.i(TAG,"$contactsSize")
+        return contactsSize
+    }
+
     public fun getContact(context : Context, contactId : String) : ContactModel? {
         var contact : ContactModel? = null
         val contentResolver : ContentResolver
@@ -202,6 +226,46 @@ class ContactsProvider {
             cursor?.close()
         }
         return contact
+    }
+
+    public fun getContactsID(context : Context) : List<ContactModel> {
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = ""
+                val photo : String = ""
+                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
+                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
+                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsList.map {
+            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
+        }
+        return when {
+            contactsList.isEmpty() -> {
+                emptyList()
+            }
+            contactsList.isNotEmpty() -> {
+                contactsList.distinct()
+                contactsList
+            }
+            else -> {
+                emptyList()
+            }
+        }
     }
 
     public fun getContacts(context : Context) : List<ContactModel> {

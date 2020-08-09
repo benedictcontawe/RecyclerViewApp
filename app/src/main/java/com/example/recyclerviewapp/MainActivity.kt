@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         recycler_view.addOnScrollListener(setScrollListener())
         ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
             isGranted = {
-                viewModel.getContacts()
+                viewModel.checkContacts()
             }
         )
     }
@@ -91,7 +91,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
     override fun onClick(view : View) {
         when(view) {
             floating_action_button_add -> {
-                startActivity(viewModel.addContact())
+                if (progress_bar.getVisibility() == View.GONE) {
+                    startActivity(viewModel.addContact())
+                }
             }
         }
     }
@@ -144,11 +146,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
     }
 
     override fun onClickItemEdit(item : ContactViewHolderModel, position : Int) {
-        startActivity(viewModel.updateContact(item))
+        if (progress_bar.getVisibility() == View.GONE) {
+            startActivity(viewModel.updateContact(item))
+        }
     }
 
     override fun onClickItemDelete(item : ContactViewHolderModel, position : Int) {
-        viewModel.deleteContact(item, position)
+        if (progress_bar.getVisibility() == View.GONE) {
+            viewModel.deleteContact(item, position)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode : Int, permissions : Array<String>, grantResults : IntArray) {
