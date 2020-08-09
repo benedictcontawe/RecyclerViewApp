@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         })
         viewModel.observeLiveContact().observe(this, object : Observer<List<ContactViewHolderModel>>{
             override fun onChanged(list : List<ContactViewHolderModel>) {
+                //recycler_view.invalidate()
+                //recycler_view.removeAllViews()
                 contactAdapter.setItems(list)
             }
         })
@@ -61,9 +63,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
 
     private fun checkManifestPermission() {
         ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
-                isGranted = {
-                    viewModel.getContacts()
-                },
                 isDenied = {
                     ManifestPermission.requestPermissions(this@MainActivity,
                             ManifestPermission.contactPermission,
@@ -75,7 +74,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
 
     override fun onResume() {
         super.onResume()
+        Log.e(TAG,"onResume()")
         recycler_view.addOnScrollListener(setScrollListener())
+        ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
+            isGranted = {
+                viewModel.getContacts()
+            }
+        )
     }
 
     override fun onPause() {
@@ -154,10 +159,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
                     ManifestPermission.showRationalDialog(this@MainActivity)
                 }
             }, isDenied = {
-                if (requestCode == ManifestPermission.CONTACT_PERMISSION_CODE) {
-                    checkManifestPermission()
-                }
-            }, isGranted = {
                 if (requestCode == ManifestPermission.CONTACT_PERMISSION_CODE) {
                     checkManifestPermission()
                 }

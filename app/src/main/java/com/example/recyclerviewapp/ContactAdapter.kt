@@ -46,12 +46,12 @@ class ContactAdapter : RecyclerView.Adapter<BaseContactViewHolder> {
 
     override fun onBindViewHolder(holder : BaseContactViewHolder, position : Int) {
         Log.d(TAG, "onBindViewHolder($holder, $position)")
-        if (list[position].id > RecyclerView.NO_ID) {
+        if (list[position].photo.isNotBlank()) {
             holder.setIsRecyclable(false)
-            holder.bindDataToViewHolder(list[position], position)
         } else {
             holder.setIsRecyclable(true)
         }
+        holder.bindDataToViewHolder(list[position], position)
     }
 
     override fun getItemId(position : Int) : Long {
@@ -75,7 +75,6 @@ class ContactAdapter : RecyclerView.Adapter<BaseContactViewHolder> {
     public fun setItems(contacts : List<ContactViewHolderModel>) {
         list.clear()
         list.addAll(contacts)
-        list.distinctBy { it.id }
         notifyDataSetChanged()
     }
 }

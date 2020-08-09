@@ -51,7 +51,7 @@ object ManifestPermission {
         ActivityCompat.requestPermissions(activity, permissions,requestCode)
     }
 
-    fun checkPermissionsResult(activity : Activity, permissions : Array<String>, grantResults : IntArray, isGranted : () -> Unit, isNeverAskAgain : () -> Unit = {}, isDenied : () -> Unit) {
+    fun checkPermissionsResult(activity : Activity, permissions : Array<String>, grantResults : IntArray, isGranted : () -> Unit = {}, isNeverAskAgain : () -> Unit = {}, isDenied : () -> Unit) {
         when {
             grantResults.all { results -> results ==  PackageManager.PERMISSION_GRANTED} -> {
                 Log.d(TAG,"isGranted()")

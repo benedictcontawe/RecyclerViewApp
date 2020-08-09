@@ -23,7 +23,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     public fun getContext() : Context = context
 
     public fun setPhoto(imageView : ImageView, image : String) {
-        Log.e(TAG, "setPhoto $image")
+        Log.d(TAG, "setPhoto $image")
         if (image.isNotBlank()) {
             imageView.setImageURI(image.toUri())
         }

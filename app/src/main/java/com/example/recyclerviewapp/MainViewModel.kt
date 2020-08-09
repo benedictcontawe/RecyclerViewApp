@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.text.isDigitsOnly
@@ -40,6 +41,7 @@ class MainViewModel : AndroidViewModel {
         addContactAmpersandHeader(value)
         addContactNumericalHeaders(value)
         addContactLettersHeaders(value)
+        value.distinctBy { it.id }
         value.map {
             Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} viewType ${it.viewType}")
         }
@@ -55,7 +57,7 @@ class MainViewModel : AndroidViewModel {
                 item.filter { BooleanUtils.hasSpecialCharacter(it.name.substring(0,1)) && it.viewType.equals(ContactAdapter.HeaderView) }.none()
             Log.d(TAG,"& check")
             when {
-                condition -> { Log.e(TAG,"& index $index item ${item[index].name}")
+                condition -> { Log.d(TAG,"& index $index item ${item[index].name}")
                     item.add(index,ContactViewHolderModel("&", item.maxBy { it.id }?.id?.plus(1)?: RecyclerView.NO_ID))
                     break@loop
                 }
@@ -72,8 +74,8 @@ class MainViewModel : AndroidViewModel {
         Log.d(TAG,"Adding # Header")
         loop@ for (index in 0 until item.size) {
             val condition : Boolean =
-                    item[index].name.substring(0,1).isDigitsOnly() &&
-                    item.filter { it.name.substring(0,1).isDigitsOnly() && it.viewType.equals(ContactAdapter.HeaderView) }.none()
+                item[index].name.substring(0,1).isDigitsOnly() &&
+                item.filter { it.name.substring(0,1).isDigitsOnly() && it.viewType.equals(ContactAdapter.HeaderView) }.none()
             Log.d(TAG,"# check")
             when {
                 condition -> {
@@ -91,25 +93,27 @@ class MainViewModel : AndroidViewModel {
 
     private fun addContactLettersHeaders(item : MutableList<ContactViewHolderModel>) {
         //region check if it has A-Z Characters Before Adding A-Z Header
-        Log.d(TAG,"addContactHeaders()")
+        Log.e(TAG,"addContactHeaders()")
+        var currentIndex : Int = 0
         StringUtils.getLetters().map { alphabetHeader ->
-            loop@ for (index in 0 until item.size) {
-                val condition : Boolean =
+            loop@ for (index in currentIndex until item.size) {
+                val condition : Boolean = currentIndex < index &&
                     item[index].name.startsWith(alphabetHeader,ignoreCase = true) &&
                     item.filter { it.name.contentEquals(alphabetHeader) && it.viewType.equals(ContactAdapter.HeaderView) }.none()
-                Log.d(TAG,"$alphabetHeader check")
+                Log.e(TAG,"$alphabetHeader check")
                 when {
                     condition -> {
-                        Log.d(TAG,"$alphabetHeader index $index item ${item[index].name}")
+                        Log.e(TAG,"$alphabetHeader index $index item ${item[index].name}")
+                        currentIndex = index
                         item.add(index,ContactViewHolderModel(alphabetHeader, item.maxBy { it.id }?.id?.plus(1)?:RecyclerView.NO_ID))
                         break@loop
                     }
-                    else -> { Log.d(TAG,"$alphabetHeader index $index none") }
+                    else -> { Log.e(TAG,"$alphabetHeader index $index none") }
                 }
-                Log.d(TAG,"$alphabetHeader end")
+                Log.e(TAG,"$alphabetHeader end")
             }
         }
-        Log.d(TAG,"Done Adding A to Z Header")
+        Log.e(TAG,"Done Adding A to Z Header")
         //endregion
     }
     //endregion
@@ -124,19 +128,24 @@ class MainViewModel : AndroidViewModel {
 
     public fun deleteContact(item : ContactViewHolderModel, position : Int) {
         AsyncTask.execute {
+            liveStandBy.postValue(true)
             when {
                 contactsProvider.deleteContact(getApplication(), item.id.toString()) > 0 -> {
-                    liveStandBy.postValue(true)
-                    itemContactList.remove(
-                            itemContactList.filter { it.id == item.id }.first()
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Log.d(TAG,"Build.VERSION.SDK_INT >= Build.VERSION_CODES.N")
+                        itemContactList.removeIf { it.id == item.id }
+                    } else {
+                        Log.d(TAG,"Build.VERSION.SDK_INT < Build.VERSION_CODES.N")
+                        itemContactList.removeAll(itemContactList.filter { it.id == item.id })
+                    }
                     liveContactList.postValue(itemContactList)
-                    liveStandBy.postValue(false)
+
                 }
                 else -> {
                     Log.e(TAG,"Error Deleting")
                 }
             }
+            liveStandBy.postValue(false)
         }
     }
 
