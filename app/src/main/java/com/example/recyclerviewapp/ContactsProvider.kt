@@ -215,8 +215,8 @@ class ContactsProvider {
         return contact
     }
 
-    public fun getContactsID(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsID()")
-        val contactsList : MutableList<ContactModel> = mutableListOf()
+    public fun getContactsID(context : Context) : List<Long> { Log.d(TAG, "getContactsID()")
+        val contactsIDList : MutableList<Long> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
         try {
@@ -224,12 +224,8 @@ class ContactsProvider {
             cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
             while (cursor?.moveToNext() == true) {
                 val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
-                val name : String = ""
-                val photo : String = ""
-                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
-                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
-                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
-                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+                Log.d(TAG, "ID $id")
+                contactsIDList.add(id)
             }
         } catch (ex : Exception) { ex.printStackTrace()
             Log.e(TAG, "getContactsID() Exception : ${ex.message}")
@@ -238,16 +234,14 @@ class ContactsProvider {
         } finally {
             cursor?.close()
         }
-        contactsList.map {
-            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
-        }
+        contactsIDList.map { id -> Log.i(TAG, "ID ${id}") }
         return when {
-            contactsList.isEmpty() -> {
+            contactsIDList.isEmpty() -> {
                 emptyList()
             }
-            contactsList.isNotEmpty() -> {
-                contactsList.distinct()
-                contactsList
+            contactsIDList.isNotEmpty() -> {
+                contactsIDList.distinct()
+                contactsIDList
             }
             else -> {
                 emptyList()
@@ -266,6 +260,35 @@ class ContactsProvider {
                 val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
                 val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
                 val photo : String = ""
+                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
+                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
+                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsList.map {
+            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
+        }
+        return emptyList()
+    }
+
+    public fun getContactsPhoto(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = ""
+                val photo : String = getPhoto(cursor)?:""
                 val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
                 val emails : MutableMap<String,String> = mutableMapOf<String, String>()
                 Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
