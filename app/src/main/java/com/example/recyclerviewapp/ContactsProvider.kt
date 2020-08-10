@@ -86,7 +86,7 @@ class ContactsProvider {
 
     private fun getPhoneLabel(context : Context, cursor : Cursor, mimeType : String, phoneType : Int) : String? {
         val typeLabel = ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), phoneType, "")
-        Log.d(TAG,"typeLabel $typeLabel")
+        Log.d(TAG,"getPhoneLabel() typeLabel $typeLabel")
         return when {
             mimeType.equals(PhoneContentItemType) && typeLabel.isNotBlank() && phoneType == ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM -> {
                 cursor.getString(cursor.getColumnIndex(PhoneLabel))
@@ -129,7 +129,7 @@ class ContactsProvider {
 
     private fun getEmailLabel(context : Context, cursor : Cursor, mimeType : String, emailType : Int) : String? {
         val typeLabel = ContactsContract.CommonDataKinds.Email.getTypeLabel(context.getResources(), emailType, "")
-        Log.d(TAG,"typeLabel $typeLabel")
+        Log.d(TAG,"getEmailLabel() typeLabel $typeLabel")
         return when {
             mimeType.equals(EmailContentItemType) && typeLabel.isNotBlank() && emailType == ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM -> {
                 cursor.getString(cursor.getColumnIndex(EmailLabel))
@@ -142,7 +142,7 @@ class ContactsProvider {
         }
     }
 
-    public fun addContact() : Intent { //https://codedocu.com/Details?d=1714&a=12&f=217&l=0&v=d
+    public fun addContact() : Intent { Log.d(TAG, "addContact()")
         return Intent(InsertAction)
                 .setType(InsertContentType)
                 //.putExtra(InsertEmail, "xxx@xxx.com")
@@ -151,21 +151,20 @@ class ContactsProvider {
                 //.putExtra(InsertPhoneType, PhoneTypeWork)
     }
 
-    public fun updateContact(contactUri : Uri) : Intent { //https://developer.android.com/training/contacts-provider/modify-data
+    public fun updateContact(contactUri : Uri) : Intent { Log.d(TAG, "updateContact()")
         return Intent(Intent.ACTION_EDIT, contactUri)
                 .setData(contactUri)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("finishActivityOnSaveCompleted", true)
     }
 
-    public fun deleteContact(context : Context, contactId : String) : Int { //https://stackoverflow.com/questions/12710028/how-to-delete-a-particular-contact-using-contact-id
+    public fun deleteContact(context : Context, contactId : String) : Int { Log.d(TAG, "deleteContact()")
         val uri : Uri  = Uri.withAppendedPath(ContactsContentUri, contactId)
         val deleted : Int = context.getContentResolver().delete(uri,null,null)
         return deleted
     }
 
-    public fun getContactCount(context : Context) : Int {
-        Log.d(TAG, "getContact()")
+    public fun getContactCount(context : Context) : Int { Log.d(TAG, "getContactCount()")
         var contactsSize : Int = 0
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -179,9 +178,9 @@ class ContactsProvider {
                 contactsSize++
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+            Log.e(TAG, "getContactCount() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactCount() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -207,17 +206,16 @@ class ContactsProvider {
                 contact = ContactModel(id, name, photo, numbers, emails)
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+            Log.e(TAG, "getContact() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContact() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
         return contact
     }
 
-    public fun getContactsID(context : Context) : List<ContactModel> {
-        Log.d(TAG, "getContactsID()")
+    public fun getContactsID(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsID()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -234,9 +232,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+            Log.e(TAG, "getContactsID() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactsID() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -257,8 +255,36 @@ class ContactsProvider {
         }
     }
 
-    public fun getContacts(context : Context) : List<ContactModel> {
-        Log.d(TAG, "getContacts()")
+    public fun getContactsName(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
+                val photo : String = ""
+                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
+                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
+                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsList.map {
+            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
+        }
+        return emptyList()
+    }
+
+    public fun getContacts(context : Context) : List<ContactModel> { Log.d(TAG, "getContacts()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -275,9 +301,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() Exception : ${ex.message}")
+            Log.e(TAG, "getContacts() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsList() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContacts() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }

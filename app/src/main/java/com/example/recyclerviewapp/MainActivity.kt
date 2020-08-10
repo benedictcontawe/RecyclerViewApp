@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
 
     override fun onResume() {
         super.onResume()
-        Log.e(TAG,"onResume()")
+        Log.d(TAG,"onResume()")
         recycler_view.addOnScrollListener(setScrollListener())
         ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
             isGranted = {
