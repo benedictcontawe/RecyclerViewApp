@@ -75,10 +75,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
     override fun onResume() {
         super.onResume()
         Log.d(TAG,"onResume()")
+        Log.e("MainViewModel", "Available Processors ${Runtime.getRuntime().availableProcessors()}")
         recycler_view.addOnScrollListener(setScrollListener())
         ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
             isGranted = {
                 viewModel.checkContacts()
+                viewModel.syncNames()
+                viewModel.syncPhotos()
             }
         )
     }
