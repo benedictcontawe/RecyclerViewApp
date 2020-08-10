@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         viewModel.observeLiveContact().observe(this, object : Observer<List<ContactViewHolderModel>>{
             override fun onChanged(list : List<ContactViewHolderModel>) {
                 //recycler_view.invalidate()
-                //recycler_view.removeAllViews()
+                recycler_view.removeAllViews()
                 contactAdapter.setItems(list)
             }
         })

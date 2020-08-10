@@ -164,11 +164,11 @@ class MainViewModel : AndroidViewModel {
                     liveContactList.postValue(itemContactList)
                     liveStandBy.postValue(false)
                 }
-                itemContactList.isNotEmpty() && oldSize < newSize -> { Log.d(TAG, "New Added Contacts")
+                itemContactList.isNotEmpty() && oldSize < newSize -> { Log.d(TAG, "New ${newSize - oldSize} Added Contacts")
                     liveStandBy.postValue(true)
                     newContacts = contactsProvider.getContactsID(getApplication())
-                    loop@ for (index in 0 until newContacts.size) {
-                        Log.d(TAG,"Adding ${newContacts.get(index).id}")
+                    loop@ for (index in 0 until newContacts.size step 1) {
+                        Log.d(TAG,"$index Adding ${newContacts.get(index).id}")
                         val condition : Boolean = newContacts.get(index).id != itemContactList.get(index).id
                         if (condition) {
                             contactsProvider.getContact(getApplication(),newContacts.get(index).id.toString())?.let {
@@ -184,24 +184,21 @@ class MainViewModel : AndroidViewModel {
                     liveContactList.postValue(itemContactList)
                     liveStandBy.postValue(false)
                 }
-                itemContactList.isNotEmpty() && oldSize > newSize -> { Log.d(TAG, "New Deleted Contacts")
+                itemContactList.isNotEmpty() && oldSize > newSize -> { Log.d(TAG, "New ${oldSize - newSize} Deleted Contacts")
                     liveStandBy.postValue(true)
                     newContacts = contactsProvider.getContactsID(getApplication())
-                    loop@ for (index in 0 until itemContactList.size ) {
-                        Log.d(TAG,"Deleting ${itemContactList.get(index).name}")
-                        val condition : Boolean = newContacts.filter { itemContactList[index].id == it.id }.none()
-                        if (condition) {
-                            Log.d(TAG,"Deleted ${itemContactList.get(index).name}")
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                Log.d(TAG,"Build.VERSION.SDK_INT >= Build.VERSION_CODES.N")
+                    loop@ for (index in itemContactList.size - 1 downTo 0  step 1) {
+                        Log.d(TAG,"$index Deleting ${itemContactList.get(index).id} ${itemContactList.get(index).name}")
+                        val condition : Boolean = newContacts.filter { itemContactList.get(index).id == it.id }.none()
+                        if (condition) { Log.d(TAG,"Deleted ${itemContactList.get(index).id} ${itemContactList.get(index).name}")
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { Log.d(TAG,"Build.VERSION.SDK_INT >= Build.VERSION_CODES.N")
                                 itemContactList.removeIf { it.id == itemContactList.get(index).id }
-                            } else {
-                                Log.d(TAG,"Build.VERSION.SDK_INT < Build.VERSION_CODES.N")
+                            } else { Log.d(TAG,"Build.VERSION.SDK_INT < Build.VERSION_CODES.N")
                                 itemContactList.removeAll(itemContactList.filter { it.id == itemContactList.get(index).id })
                             }
                             oldSize = itemContactList.size
                         }
-                        if (oldSize == newSize || index + 1 == oldSize) {
+                        if (oldSize == newSize || index == 0) {
                             break@loop
                         }
                     }

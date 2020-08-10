@@ -196,7 +196,7 @@ class ContactsProvider {
         var cursor : Cursor? = null
         try {
             contentResolver = context.getContentResolver()
-            cursor = contentResolver.query(PhoneContentUri, null, PhoneContactID + " = ?", arrayOf(contactId), null)
+            cursor = contentResolver.query(ContactsContentUri, null, ContactID + " = ?", arrayOf(contactId), null)
             while (cursor?.moveToNext() == true) {
                 val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
                 val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
