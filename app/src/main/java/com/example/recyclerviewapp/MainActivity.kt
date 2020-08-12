@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
                 viewModel.checkContacts()
                 viewModel.syncNames()
                 viewModel.syncPhotos()
+                viewModel.syncNumbers()
             }
         )
     }

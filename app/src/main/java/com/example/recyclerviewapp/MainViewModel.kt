@@ -297,6 +297,7 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
+            // TODO: then Sort Again
             Log.d(TAG,"syncNames() Done")
         }
     }
@@ -326,7 +327,16 @@ class MainViewModel : AndroidViewModel {
     }
 
     public fun syncNumbers() { Log.d(TAG,"syncNumbers()")
-
+        AsyncTask.execute {
+            when {
+                itemContactList.isEmpty() -> { Log.d(TAG,"Numbers is Empty") }
+                itemContactList.isNotEmpty() && isSameNumber() -> { Log.d(TAG,"Same Numbers") }
+                else -> { Log.d(TAG,"Not Same Numbers Now Syncing. . .")
+                    //TODO: Sync Numbers
+                }
+            }
+            Log.d(TAG,"syncNumbers() Done")
+        }
     }
 
     private fun isSameId() : Boolean { Log.d(TAG,"isSameId() Processing")
@@ -367,6 +377,10 @@ class MainViewModel : AndroidViewModel {
                 return false
             }
         }
+        return true
+    }
+
+    private fun isSameNumber() : Boolean { Log.d(TAG,"isSameNumber() Processing")
         return true
     }
 
