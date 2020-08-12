@@ -277,6 +277,18 @@ class MainViewModel : AndroidViewModel {
         }
     }
 
+    public fun sortContact() { Log.d(TAG,"sortContact()")
+        AsyncTask.execute {
+            if (itemContactList.isNotEmpty()) {
+                contactsProvider.getContactsID(getApplication()).mapIndexed { index, id ->
+                    Log.e(TAG, "sortContact() $index $id ${itemContactList.get(index).id}")
+                    //itemContactList.filter { filteredContact -> filteredContact.id == updatedContactID }
+                    // TODO: Sort Contact
+                }
+            }
+        }
+    }
+
     public fun syncNames() { Log.d(TAG,"syncNames()")
         AsyncTask.execute {
             when {
@@ -297,7 +309,6 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
-            // TODO: then Sort Again
             Log.d(TAG,"syncNames() Done")
         }
     }
@@ -317,7 +328,7 @@ class MainViewModel : AndroidViewModel {
                             itemContactList.filter { oldContact -> oldContact.id == updatedContact.id }.map { it.photo = updatedContact.photo }
                             liveContactList.postValue(itemContactList)
                         } else {
-                            Log.d(TAG, "Name Synced ${updatedContact.id} ${updatedContact.name}")
+                            Log.d(TAG, "Photo Synced ${updatedContact.id} ${updatedContact.name}")
                         }
                     }
                 }
@@ -381,6 +392,7 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSameNumber() : Boolean { Log.d(TAG,"isSameNumber() Processing")
+        //TODO: isSameNumber() Fixing
         return true
     }
 
