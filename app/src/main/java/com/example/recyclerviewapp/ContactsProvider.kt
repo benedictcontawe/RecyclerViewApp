@@ -241,7 +241,6 @@ class ContactsProvider {
             }
             contactsIDList.isNotEmpty() -> {
                 contactsIDList.distinct()
-                contactsIDList
             }
             else -> {
                 emptyList()
@@ -275,7 +274,7 @@ class ContactsProvider {
         contactsList.map {
             Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
         }
-        return emptyList()
+        return contactsList.distinct()
     }
 
     public fun getContactsPhoto(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
@@ -304,7 +303,7 @@ class ContactsProvider {
         contactsList.map {
             Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
         }
-        return emptyList()
+        return contactsList.distinct()
     }
 
     public fun getContacts(context : Context) : List<ContactModel> { Log.d(TAG, "getContacts()")
@@ -339,7 +338,6 @@ class ContactsProvider {
             }
             contactsList.isNotEmpty() -> {
                 contactsList.distinct()
-                contactsList
             }
             else -> {
                 emptyList()

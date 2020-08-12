@@ -2,13 +2,13 @@ package com.example.recyclerviewapp
 
 class ContactViewHolderModel {
 
-    var id : Long
-    var name : String
-    var photo : String
-    var numbers : MutableMap<String, String>
+    val id : Long
+    val name : String
+    val photo : String
+    val numbers : MutableMap<String, String>
 
-    var isSelf : Boolean
-    var viewType : Int
+    val isSelf : Boolean
+    val viewType : Int
 
     constructor(header : String, id : Long) {
         this.id = id

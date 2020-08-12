@@ -149,7 +149,7 @@ class MainViewModel : AndroidViewModel {
         }
     }
 
-    public fun checkContacts() { Log.e(TAG, "checkContacts()")
+    public fun checkContacts() { Log.d(TAG, "checkContacts()")
         AsyncTask.execute {
             var oldSize : Int = itemContactList.size
             val newSize : Int = contactsProvider.getContactCount(getApplication())
@@ -157,7 +157,7 @@ class MainViewModel : AndroidViewModel {
             Log.d(TAG, "Old ${oldSize}")
             Log.d(TAG, "New ${newSize}")
             when {
-                itemContactList.isEmpty() -> { Log.e(TAG, "Get All Contacts")
+                itemContactList.isEmpty() -> { Log.d(TAG, "Get All Contacts")
                     //region Initialize Contacts
                     liveStandBy.postValue(true)
                     itemContactList.addAll(contactsProvider.getContacts(getApplication()))
@@ -210,28 +210,12 @@ class MainViewModel : AndroidViewModel {
                     liveStandBy.postValue(false)
                     //endregion
                 }
-                itemContactList.isNotEmpty() && oldSize == newSize && isSameId() -> { Log.e(TAG, "Same ${oldSize} Size Contacts")
+                itemContactList.isNotEmpty() && oldSize == newSize && isSameId() -> { Log.d(TAG, "Same ${oldSize} Size Contacts")
                     /*
                     newContacts.map { newContact ->
                         contactsProvider.getContact(getApplication(),newContact.id.toString())?.let { letContact ->
                             itemContactList.filter { filteredContact -> filteredContact.id == letContact.id
                             }.map { mapContact ->
-                                Log.e(TAG, "Id ${mapContact.id} - ${letContact.id}")
-
-                                Log.e(TAG, "Name ${mapContact.name} - ${letContact.name}")
-                                if (!mapContact.name.equals(letContact.name,false)) {
-                                    Log.e(TAG, "Name Not Synced")
-                                } else {
-                                    Log.e(TAG, "Name Synced")
-                                }
-
-                                Log.e(TAG, "Photo ${mapContact.photo} - ${letContact.photo}")
-                                if (!mapContact.photo.equals(letContact.photo,false)) {
-                                    Log.e(TAG, "Photo Not Synced")
-                                } else {
-                                    Log.e(TAG, "Photo Synced")
-                                }
-
                                 Log.e(TAG, "Numbers ${mapContact.numbers} - ${letContact.numbers}")
                                 if (!mapContact.numbers.equals(letContact.numbers)) {
                                     Log.e(TAG, "Numbers Not Synced")
@@ -250,7 +234,7 @@ class MainViewModel : AndroidViewModel {
                     }
                     */
                 }
-                itemContactList.isNotEmpty() && oldSize == newSize && !isSameId() -> { Log.e(TAG, "Same ${oldSize} Size Contacts Not Same Id")
+                itemContactList.isNotEmpty() && oldSize == newSize && !isSameId() -> { Log.d(TAG, "Same ${oldSize} Size Contacts Not Same Id")
                     liveStandBy.postValue(true)
                     contactsIDList = contactsProvider.getContactsID(getApplication())
                     //region Delete Old Contact
@@ -287,61 +271,70 @@ class MainViewModel : AndroidViewModel {
                     liveContactList.postValue(itemContactList)
                     liveStandBy.postValue(false)
                 }
-                else -> { Log.e(TAG, "else") }
+                else -> { Log.d(TAG, "else") }
             }
-            Log.e(TAG, "checkContacts() Done")
+            Log.d(TAG, "checkContacts() Done")
         }
     }
 
-    public fun syncNames() { Log.e(TAG,"syncNames()")
+    public fun syncNames() { Log.d(TAG,"syncNames()")
         AsyncTask.execute {
             when {
-                itemContactList.isEmpty() -> {
-                    Log.e(TAG,"Names is Empty")
-                }
-                itemContactList.isNotEmpty() && isSameName() -> {
-                    Log.e(TAG,"Same Names")
-                }
-                else -> {
-                    Log.e(TAG,"Not Same Names")
-                    /*
+                itemContactList.isEmpty() -> { Log.d(TAG,"Names is Empty") }
+                itemContactList.isNotEmpty() && isSameName() -> { Log.d(TAG,"Same Names") }
+                else -> { Log.d(TAG,"Not Same Names Now Syncing. . .")
                     contactsProvider.getContactsName(getApplication()).map { updatedContact ->
-                        Log.e(TAG,"Names ${updatedContact.id} ${updatedContact.name}")
+                        val condition : Boolean = itemContactList.filter { filteredContact ->
+                            filteredContact.id == updatedContact.id &&
+                            filteredContact.name.equals(updatedContact.name,false)
+                        }.none()
+                        if (condition) { Log.d(TAG, "Name Not Synced ${updatedContact.id} ${updatedContact.name} Now Syncing. . .")
+                            itemContactList.filter { oldContact -> oldContact.id == updatedContact.id }.map { it.name = updatedContact.name }
+                            liveContactList.postValue(itemContactList)
+                        } else {
+                            Log.d(TAG, "Name Synced ${updatedContact.id} ${updatedContact.name}")
+                        }
                     }
-                    */
                 }
             }
-            Log.e(TAG,"syncNames() Done")
+            Log.d(TAG,"syncNames() Done")
         }
     }
 
-    public fun syncPhotos() { Log.e(TAG,"syncPhotos()")
+    public fun syncPhotos() { Log.d(TAG,"syncPhotos()")
         AsyncTask.execute {
             when {
-                itemContactList.isEmpty() -> {
-                    Log.e(TAG,"Photos is Empty")
-                }
-                itemContactList.isNotEmpty() && isSamePhoto() -> {
-                    Log.e(TAG,"Same Photos")
-                }
-                else -> {
-                    Log.e(TAG,"Not Same Photos")
-                    /*
+                itemContactList.isEmpty() -> { Log.d(TAG,"Photos is Empty") }
+                itemContactList.isNotEmpty() && isSamePhoto() -> { Log.d(TAG,"Same Photos") }
+                else -> { Log.d(TAG,"Not Same Photos Now Syncing. . .")
                     contactsProvider.getContactsPhoto(getApplication()).map { updatedContact ->
-                        Log.e(TAG,"Photos ${updatedContact.id} ${updatedContact.photo}")
+                        val condition : Boolean = itemContactList.filter { filteredContact ->
+                            filteredContact.id == updatedContact.id &&
+                            filteredContact.photo.equals(updatedContact.photo,false)
+                        }.none()
+                        if (condition) { Log.d(TAG, "Name Not Synced ${updatedContact.id} ${updatedContact.name} Now Syncing. . .")
+                            itemContactList.filter { oldContact -> oldContact.id == updatedContact.id }.map { it.photo = updatedContact.photo }
+                            liveContactList.postValue(itemContactList)
+                        } else {
+                            Log.d(TAG, "Name Synced ${updatedContact.id} ${updatedContact.name}")
+                        }
                     }
-                    */
                 }
             }
-            Log.e(TAG,"syncPhotos() Done")
+            Log.d(TAG,"syncPhotos() Done")
         }
     }
 
-    private fun isSameId() : Boolean {
+    public fun syncNumbers() { Log.d(TAG,"syncNumbers()")
+
+    }
+
+    private fun isSameId() : Boolean { Log.d(TAG,"isSameId() Processing")
         contactsProvider.getContactsID(getApplication()).map { updatedContactID ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContactID
             }.none()
+            Log.i(TAG,"isSameName() ${updatedContactID} ${condition}")
             if (condition) {
                 return false
             }
@@ -349,29 +342,27 @@ class MainViewModel : AndroidViewModel {
         return true
     }
 
-    private fun isSameName() : Boolean {
-        Log.e(TAG,"isSameName Processing")
+    private fun isSameName() : Boolean { Log.d(TAG,"isSameName() Processing")
         contactsProvider.getContactsName(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.name.equals(updatedContact.name,false)
             }.none()
-            Log.e(TAG,"isSameName ${updatedContact.id} ${updatedContact.name}")
+            Log.i(TAG,"isSameName() ${updatedContact.id} ${updatedContact.name}")
             if (condition) {
-                Log.e(TAG,"isSameName false")
                 return false
             }
         }
-        Log.e(TAG,"isSameName true")
         return true
     }
 
-    private fun isSamePhoto() : Boolean {
+    private fun isSamePhoto() : Boolean { Log.d(TAG,"isSamePhoto() Processing")
         contactsProvider.getContactsPhoto(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.photo.equals(updatedContact.photo,false)
             }.none()
+            Log.i(TAG,"isSamePhoto() ${updatedContact.id} ${updatedContact.photo}")
             if (condition) {
                 return false
             }
