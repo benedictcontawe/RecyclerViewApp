@@ -13,11 +13,11 @@ class ContactViewHolder : BaseContactViewHolder {
         private val TAG = ContactViewHolder::class.java.simpleName
     }
     //region contact_cell_default
-    var contactCell : ConstraintLayout
-    var contactImage : ImageView
-    var contactName : TextView
-    var contactEdit : ImageView
-    var contactDelete : ImageView
+    private val contactCell : ConstraintLayout
+    private val contactImage : ImageView
+    private val contactName : TextView
+    private val contactEdit : ImageView
+    private val contactDelete : ImageView
     //endregion
     constructor (context : Context, contactListener : ContactListener, itemView : View) : super(context, contactListener, itemView) {
         Log.d(TAG, "constructor")
