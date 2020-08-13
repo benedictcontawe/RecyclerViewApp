@@ -341,6 +341,23 @@ class MainViewModel : AndroidViewModel {
         Log.d(TAG,"syncNumbers() Done")
     }
 
+    public fun syncEmails() { Log.d(TAG,"syncEmails()")
+        AsyncTask.execute {
+            when {
+                itemContactList.isEmpty() -> {
+
+                }
+                itemContactList.isNotEmpty() && isSameEmails() -> {
+
+                }
+                else -> {
+                    //TODO: Sync Emails
+                }
+            }
+        }
+        Log.d(TAG,"syncEmails() Done")
+    }
+
     private fun isSameSize() : Boolean {
         return itemContactList.size == contactsProvider.getContactCount(getApplication())
     }
@@ -388,6 +405,11 @@ class MainViewModel : AndroidViewModel {
 
     private fun isSameNumber() : Boolean { Log.d(TAG,"isSameNumber() Processing")
         //TODO: isSameNumber() Fixing
+        return true
+    }
+
+    private fun isSameEmails() : Boolean { Log.d(TAG,"isSameNumber() Processing")
+        //TODO: isSameEmails() Fixing
         return true
     }
 
