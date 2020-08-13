@@ -281,9 +281,16 @@ class MainViewModel : AndroidViewModel {
         AsyncTask.execute {
             if (itemContactList.isNotEmpty()) {
                 contactsProvider.getContactsID(getApplication()).mapIndexed { index, id ->
-                    Log.e(TAG, "sortContact() $index $id ${itemContactList.get(index).id}")
-                    //itemContactList.filter { filteredContact -> filteredContact.id == updatedContactID }
-                    // TODO: Sort Contact
+                    Log.e(TAG, "sortContact() $index $id ${contactsProvider.getContactsID(getApplication()).indexOf(id)}  ${itemContactList.get(index).id}")
+                    if (id == itemContactList.get(index).id) {
+                        Log.d(TAG, "sortContact() Same Index $index")
+                    } else {
+                        Log.e(TAG, "sortContact() Not Same Index $index")
+                        val movingItem = itemContactList.get(index)
+                        itemContactList.remove(movingItem)
+                        itemContactList.add(contactsProvider.getContactsID(getApplication()).indexOf(id), movingItem)
+                        liveContactList.postValue(itemContactList)
+                    }
                 }
             }
         }
