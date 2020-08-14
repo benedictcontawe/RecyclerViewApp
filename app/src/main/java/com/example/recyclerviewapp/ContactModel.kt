@@ -5,5 +5,5 @@ data class ContactModel (
         var name : String,
         var photo : String,
         var numbers : MutableMap<String,String>,
-        val emails : MutableMap<String,String>
+        var emails : MutableMap<String,String>
 )
