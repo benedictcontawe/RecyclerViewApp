@@ -216,7 +216,7 @@ class ContactsProvider {
         return contact
     }
 
-    public fun getContactsID(context : Context) : List<Long> { Log.d(TAG, "getContactsID()")
+    public fun getListID(context : Context) : List<Long> { Log.d(TAG, "getContactsID()")
         val contactsIDList : MutableList<Long> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -249,7 +249,7 @@ class ContactsProvider {
         }
     }
 
-    public fun getContactsName(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+    public fun getContactNames(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -278,7 +278,33 @@ class ContactsProvider {
         return contactsList.distinct()
     }
 
-    public fun getContactsPhoto(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+    public fun getMapNames(context : Context) : Map<Long,String> {
+        val contactsNameList : MutableMap<Long,String> = HashMap<Long,String>()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = cursor.getString(cursor.getColumnIndex(DisplayName))
+                Log.d(TAG, "ID $id Name $name")
+                contactsNameList.set(id,name)
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsNameList.map {
+            Log.i(TAG, "ID ${it.key} Name ${it.value}")
+        }
+        return contactsNameList
+    }
+
+    public fun getContactPhotos(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -307,7 +333,7 @@ class ContactsProvider {
         return contactsList.distinct()
     }
 
-    public fun getContactsNumbers(context : Context) : List<ContactModel> {
+    public fun getContactNumbers(context : Context) : List<ContactModel> {
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -336,7 +362,7 @@ class ContactsProvider {
         return contactsList.distinct()
     }
 
-    public fun getContactsEmails(context : Context) : List<ContactModel> {
+    public fun getContactEmails(context : Context) : List<ContactModel> {
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null

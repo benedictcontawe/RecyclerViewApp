@@ -184,6 +184,7 @@ class MainViewModel : AndroidViewModel {
 
     public fun checkContacts() { Log.d(TAG, "checkContacts()")
         AsyncTask.execute {
+            Log.d(TAG, "checkContacts() Processing")
             var oldSize : Int = itemContactList.size
             val newSize : Int = contactsProvider.getContactCount(getApplication())
             val contactsIDList : List<Long>
@@ -201,7 +202,7 @@ class MainViewModel : AndroidViewModel {
                 itemContactList.isNotEmpty() && oldSize < newSize -> { Log.d(TAG, "New ${newSize - oldSize} Added Contacts")
                     //region Add New Contacts
                     liveStandBy.postValue(true)
-                    contactsIDList = contactsProvider.getContactsID(getApplication())
+                    contactsIDList = contactsProvider.getListID(getApplication())
                     addContact(contactsIDList)
                     liveContactList.postValue(itemContactList)
                     liveStandBy.postValue(false)
@@ -210,7 +211,7 @@ class MainViewModel : AndroidViewModel {
                 itemContactList.isNotEmpty() && oldSize > newSize -> { Log.d(TAG, "New ${oldSize - newSize} Deleted Contacts")
                     //region Delete Old Contacts
                     liveStandBy.postValue(true)
-                    contactsIDList = contactsProvider.getContactsID(getApplication())
+                    contactsIDList = contactsProvider.getListID(getApplication())
                     deleteContact(contactsIDList)
                     liveContactList.postValue(itemContactList)
                     liveStandBy.postValue(false)
@@ -222,7 +223,7 @@ class MainViewModel : AndroidViewModel {
                 itemContactList.isNotEmpty() && oldSize == newSize && !isSameId() -> {
                     Log.d(TAG, "Same ${oldSize} Size Contacts Not Same Id")
                     liveStandBy.postValue(true)
-                    contactsIDList = contactsProvider.getContactsID(getApplication())
+                    contactsIDList = contactsProvider.getListID(getApplication())
                     //region Delete Old Contact
                     Log.d(TAG, "New ${1} Deleted Contacts")
                     deleteContact(contactsIDList)
@@ -236,37 +237,39 @@ class MainViewModel : AndroidViewModel {
                 }
                 else -> { Log.d(TAG, "else") }
             }
+            Log.d(TAG, "checkContacts() Done")
         }
-        Log.d(TAG, "checkContacts() Done")
     }
 
     public fun sortContacts() { Log.d(TAG,"sortContacts()")
         AsyncTask.execute {
+            Log.d(TAG,"sortContacts() Processing")
             if (itemContactList.isNotEmpty()) {
-                contactsProvider.getContactsID(getApplication()).mapIndexed { index, id ->
-                    Log.d(TAG, "sortContacts() $index $id ${contactsProvider.getContactsID(getApplication()).indexOf(id)}  ${itemContactList.get(index).id}")
+                contactsProvider.getListID(getApplication()).mapIndexed { index, id ->
+                    Log.d(TAG, "sortContacts() $index $id ${contactsProvider.getListID(getApplication()).indexOf(id)}  ${itemContactList.get(index).id}")
                     if (id == itemContactList.get(index).id) {
                         Log.d(TAG, "sortContacts() Same Index $index")
                     } else { Log.d(TAG, "sortContacts() Not Same Index $index")
                         val movingItem = itemContactList.get(index)
-                        Log.d(TAG, "movingItem ${movingItem.id} ${movingItem.name} ${contactsProvider.getContactsID(getApplication()).indexOf(movingItem.id)}")
+                        Log.d(TAG, "movingItem ${movingItem.id} ${movingItem.name} ${contactsProvider.getListID(getApplication()).indexOf(movingItem.id)}")
                         itemContactList.remove(movingItem)
-                        itemContactList.add(contactsProvider.getContactsID(getApplication()).indexOf(movingItem.id), movingItem)
+                        itemContactList.add(contactsProvider.getListID(getApplication()).indexOf(movingItem.id), movingItem)
                         liveContactList.postValue(itemContactList)
                     }
                 }
             }
+            Log.d(TAG,"sortContacts() Done")
         }
-        Log.d(TAG,"sortContacts() Done")
     }
 
     public fun syncNames() { Log.d(TAG,"syncNames()")
         AsyncTask.execute {
+            Log.d(TAG,"syncNames() Processing")
             when {
                 itemContactList.isEmpty() -> { Log.d(TAG,"Names is Empty") }
                 itemContactList.isNotEmpty() && isSameName() -> { Log.d(TAG,"Same Names") }
                 else -> { Log.d(TAG,"Not Same Names Now Syncing. . .")
-                    contactsProvider.getContactsName(getApplication()).map { updatedContact ->
+                    contactsProvider.getContactNames(getApplication()).map { updatedContact ->
                         val condition : Boolean = itemContactList.filter { filteredContact ->
                             filteredContact.id == updatedContact.id &&
                             filteredContact.name.equals(updatedContact.name,false)
@@ -280,17 +283,18 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
+            Log.d(TAG,"syncNames() Done")
         }
-        Log.d(TAG,"syncNames() Done")
     }
 
     public fun syncPhotos() { Log.d(TAG,"syncPhotos()")
         AsyncTask.execute {
+            Log.d(TAG,"syncPhotos() Processing")
             when {
                 itemContactList.isEmpty() -> { Log.d(TAG,"Photos is Empty") }
                 itemContactList.isNotEmpty() && isSamePhoto() -> { Log.d(TAG,"Same Photos") }
                 else -> { Log.d(TAG,"Not Same Photos Now Syncing. . .")
-                    contactsProvider.getContactsPhoto(getApplication()).map { updatedContact ->
+                    contactsProvider.getContactPhotos(getApplication()).map { updatedContact ->
                         val condition : Boolean = itemContactList.filter { filteredContact ->
                             filteredContact.id == updatedContact.id &&
                             filteredContact.photo.equals(updatedContact.photo,false)
@@ -304,17 +308,18 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
+            Log.d(TAG,"syncPhotos() Done")
         }
-        Log.d(TAG,"syncPhotos() Done")
     }
 
     public fun syncNumbers() { Log.d(TAG,"syncNumbers()")
         AsyncTask.execute {
+            Log.d(TAG,"syncNumbers() Processing")
             when {
                 itemContactList.isEmpty() -> { Log.d(TAG,"Numbers is Empty") }
                 itemContactList.isNotEmpty() && isSameNumber() -> { Log.d(TAG,"Same Numbers") }
                 else -> { Log.d(TAG,"Not Same Numbers Now Syncing. . .")
-                    contactsProvider.getContactsNumbers(getApplication()).map { updatedContact ->
+                    contactsProvider.getContactNumbers(getApplication()).map { updatedContact ->
                         val condition : Boolean = itemContactList.filter { filteredContact ->
                             filteredContact.id == updatedContact.id &&
                                     filteredContact.numbers.equals(updatedContact.numbers)
@@ -329,17 +334,18 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
+            Log.d(TAG,"syncNumbers() Done")
         }
-        Log.d(TAG,"syncNumbers() Done")
     }
 
     public fun syncEmails() { Log.d(TAG,"syncEmails()")
         AsyncTask.execute {
+            Log.d(TAG,"syncEmails() Processing")
             when {
                 itemContactList.isEmpty() -> { Log.d(TAG,"Emails is Empty") }
                 itemContactList.isNotEmpty() && isSameEmails() -> { Log.d(TAG,"Same Emails") }
                 else -> { Log.d(TAG,"Not Same Emails Now Syncing. . .")
-                    contactsProvider.getContactsEmails(getApplication()).map { updatedContact ->
+                    contactsProvider.getContactEmails(getApplication()).map { updatedContact ->
                         val condition : Boolean = itemContactList.filter { filteredContact ->
                             filteredContact.id == updatedContact.id &&
                                     filteredContact.emails.equals(updatedContact.emails)
@@ -354,8 +360,8 @@ class MainViewModel : AndroidViewModel {
                     }
                 }
             }
+            Log.d(TAG,"syncEmails() Done")
         }
-        Log.d(TAG,"syncEmails() Done")
     }
 
     private fun isSameSize() : Boolean {
@@ -363,7 +369,7 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSameId() : Boolean { Log.d(TAG,"isSameId() Processing")
-        contactsProvider.getContactsID(getApplication()).map { updatedContactID ->
+        contactsProvider.getListID(getApplication()).map { updatedContactID ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContactID
             }.none()
@@ -377,7 +383,19 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSameName() : Boolean { Log.d(TAG,"isSameName() Processing")
-        contactsProvider.getContactsName(getApplication()).map { updatedContact ->
+        /*
+        contactsProvider.getMapNames(getApplication()).map { updatedName ->
+            val condition : Boolean = itemContactList.filter { filteredContact ->
+                filteredContact.id == updatedName.key &&
+                filteredContact.name.equals(updatedName.value,false)
+            }.none()
+            Log.i(TAG,"isSameName() id ${updatedName.key} name ${updatedName.value}")
+            if (condition) { Log.d(TAG,"isSameName() false")
+                return false
+            }
+        }
+        */
+        contactsProvider.getContactNames(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.name.equals(updatedContact.name,false)
@@ -392,7 +410,7 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSamePhoto() : Boolean { Log.d(TAG,"isSamePhoto() Processing")
-        contactsProvider.getContactsPhoto(getApplication()).map { updatedContact ->
+        contactsProvider.getContactPhotos(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.photo.equals(updatedContact.photo,false)
@@ -407,7 +425,7 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSameNumber() : Boolean { Log.d(TAG,"isSameNumber() Processing")
-        contactsProvider.getContactsNumbers(getApplication()).map { updatedContact ->
+        contactsProvider.getContactNumbers(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.numbers.equals(updatedContact.numbers)
@@ -422,7 +440,7 @@ class MainViewModel : AndroidViewModel {
     }
 
     private fun isSameEmails() : Boolean { Log.d(TAG,"isSameEmails() Processing")
-        contactsProvider.getContactsEmails(getApplication()).map { updatedContact ->
+        contactsProvider.getContactEmails(getApplication()).map { updatedContact ->
             val condition : Boolean = itemContactList.filter { filteredContact ->
                 filteredContact.id == updatedContact.id &&
                 filteredContact.emails.equals(updatedContact.emails)
