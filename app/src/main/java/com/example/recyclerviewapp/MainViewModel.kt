@@ -43,7 +43,7 @@ class MainViewModel : AndroidViewModel {
         addContactLettersHeaders(value)
         value.distinctBy { it.id }
         value.map {
-            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} viewType ${it.viewType}")
+            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} viewType ${it.viewType}")
         }
         return value
     }
@@ -315,7 +315,7 @@ class MainViewModel : AndroidViewModel {
                             filteredContact.id == updatedContact.id &&
                             filteredContact.photo.equals(updatedContact.photo,false)
                         }.none()
-                        if (condition) { Log.d(TAG, "Name Not Synced ${updatedContact.id} ${updatedContact.name} Now Syncing. . .")
+                        if (condition) { Log.d(TAG, "Photo Not Synced ${updatedContact.id} ${updatedContact.photo} Now Syncing. . .")
                             itemContactList.filter { oldContact -> oldContact.id == updatedContact.id }.map { it.photo = updatedContact.photo }
                             liveContactList.postValue(itemContactList)
                         } else {
@@ -334,28 +334,36 @@ class MainViewModel : AndroidViewModel {
                 itemContactList.isEmpty() -> { Log.d(TAG,"Numbers is Empty") }
                 itemContactList.isNotEmpty() && isSameNumber() -> { Log.d(TAG,"Same Numbers") }
                 else -> { Log.d(TAG,"Not Same Numbers Now Syncing. . .")
-                    //TODO: Sync Numbers
+                    contactsProvider.getContactsNumbers(getApplication()).map { updatedContact ->
+                        val condition : Boolean = itemContactList.filter { filteredContact ->
+                            filteredContact.id == updatedContact.id &&
+                                    filteredContact.numbers.equals(updatedContact.numbers)
+                        }.none()
+                        if (condition) { Log.d(TAG, "Numbers Not Synced ${updatedContact.id} ${updatedContact.numbers} Now Syncing. . .")
+                            itemContactList.filter { oldContact -> oldContact.id == updatedContact.id }.map {
+                                it.numbers = updatedContact.numbers
+                            }
+                        } else {
+                            Log.d(TAG, "Numbers Synced ${updatedContact.id} ${updatedContact.numbers}")
+                        }
+                    }
                 }
             }
         }
         Log.d(TAG,"syncNumbers() Done")
     }
 
-    public fun syncEmails() { Log.d(TAG,"syncEmails()")
+    public fun syncEmails() { Log.e(TAG,"syncEmails()")
         AsyncTask.execute {
             when {
-                itemContactList.isEmpty() -> {
-
-                }
-                itemContactList.isNotEmpty() && isSameEmails() -> {
-
-                }
-                else -> {
+                itemContactList.isEmpty() -> { Log.e(TAG,"Emails is Empty") }
+                itemContactList.isNotEmpty() && isSameEmails() -> { Log.e(TAG,"Same Emails") }
+                else -> { Log.e(TAG,"Not Same Emails Now Syncing. . .")
                     //TODO: Sync Emails
                 }
             }
         }
-        Log.d(TAG,"syncEmails() Done")
+        Log.e(TAG,"syncEmails() Done")
     }
 
     private fun isSameSize() : Boolean {
@@ -368,10 +376,11 @@ class MainViewModel : AndroidViewModel {
                 filteredContact.id == updatedContactID
             }.none()
             Log.i(TAG,"isSameName() ${updatedContactID} ${condition}")
-            if (condition) {
+            if (condition) { Log.d(TAG,"isSameId() false")
                 return false
             }
         }
+        Log.d(TAG,"isSameId() true")
         return true
     }
 
@@ -382,10 +391,11 @@ class MainViewModel : AndroidViewModel {
                 filteredContact.name.equals(updatedContact.name,false)
             }.none()
             Log.i(TAG,"isSameName() ${updatedContact.id} ${updatedContact.name}")
-            if (condition) {
+            if (condition) { Log.d(TAG,"isSameName() false")
                 return false
             }
         }
+        Log.d(TAG,"isSameName() true")
         return true
     }
 
@@ -396,20 +406,41 @@ class MainViewModel : AndroidViewModel {
                 filteredContact.photo.equals(updatedContact.photo,false)
             }.none()
             Log.i(TAG,"isSamePhoto() ${updatedContact.id} ${updatedContact.photo}")
-            if (condition) {
+            if (condition) { Log.d(TAG,"isSamePhoto() false")
                 return false
             }
         }
+        Log.d(TAG,"isSamePhoto() true")
         return true
     }
 
     private fun isSameNumber() : Boolean { Log.d(TAG,"isSameNumber() Processing")
-        //TODO: isSameNumber() Fixing
+        contactsProvider.getContactsNumbers(getApplication()).map { updatedContact ->
+            val condition : Boolean = itemContactList.filter { filteredContact ->
+                filteredContact.id == updatedContact.id &&
+                filteredContact.numbers.equals(updatedContact.numbers)
+            }.none()
+            Log.i(TAG,"isSameNumber() ${updatedContact.id} ${updatedContact.numbers}")
+            if (condition) { Log.d(TAG,"isSameNumber() false")
+                return false
+            }
+        }
+        Log.d(TAG,"isSameNumber() true")
         return true
     }
 
     private fun isSameEmails() : Boolean { Log.d(TAG,"isSameNumber() Processing")
-        //TODO: isSameEmails() Fixing
+        contactsProvider.getContactsEmails(getApplication()).map { updatedContact ->
+            val condition : Boolean = itemContactList.filter { filteredContact ->
+                filteredContact.id == updatedContact.id &&
+                filteredContact.emails.equals(updatedContact.emails)
+            }.none()
+            Log.e(TAG,"isSameEmails() ${updatedContact.id} ${updatedContact.numbers}")
+            if (condition) {Log.d(TAG,"isSameEmails() true")
+                return false
+            }
+        }
+        Log.d(TAG,"isSameEmails() true")
         return true
     }
 

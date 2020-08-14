@@ -202,7 +202,7 @@ class ContactsProvider {
                 val photo : String = getPhoto(cursor)?:""
                 val numbers : MutableMap<String,String> = getPhones(context, contentResolver, cursor, id.toString())
                 val emails : MutableMap<String,String> = getEmails(context, contentResolver, cursor, id.toString())
-                Log.d(TAG, "ID $id Name $name Photo $photo")
+                Log.d(TAG, "ID $id Name $name Photo $photo Numbers ${numbers} Emails ${emails}")
                 contact = ContactModel(id, name, photo, numbers, emails)
             }
         } catch (ex : Exception) { ex.printStackTrace()
@@ -212,6 +212,7 @@ class ContactsProvider {
         } finally {
             cursor?.close()
         }
+        Log.i(TAG, "ID ${contact?.id} Name ${contact?.name} Photo ${contact?.photo} Numbers ${contact?.numbers} Emails ${contact?.emails}")
         return contact
     }
 
@@ -272,7 +273,7 @@ class ContactsProvider {
             cursor?.close()
         }
         contactsList.map {
-            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
+            Log.i(TAG, "ID ${it.id} Name ${it.name}")
         }
         return contactsList.distinct()
     }
@@ -301,7 +302,65 @@ class ContactsProvider {
             cursor?.close()
         }
         contactsList.map {
-            Log.i(TAG, "ID ${it.id} Name ${it.name} Photo ${it.photo} Numbers ${it.numbers} Emails ${it.emails}")
+            Log.i(TAG, "ID ${it.id} Photo ${it.photo}")
+        }
+        return contactsList.distinct()
+    }
+
+    public fun getContactsNumbers(context : Context) : List<ContactModel> {
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = ""
+                val photo : String = ""
+                val numbers : MutableMap<String,String> = getPhones(context, contentResolver, cursor, id.toString())
+                val emails : MutableMap<String,String> = mutableMapOf<String, String>()
+                Log.d(TAG, "ID $id Name $name Photo $photo numbers $numbers emails $emails")
+                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsList.map {
+            Log.i(TAG, "ID ${it.id} Numbers ${it.numbers}")
+        }
+        return contactsList.distinct()
+    }
+
+    public fun getContactsEmails(context : Context) : List<ContactModel> {
+        val contactsList : MutableList<ContactModel> = mutableListOf()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val name : String = ""
+                val photo : String = ""
+                val numbers : MutableMap<String,String> = mutableMapOf<String, String>()
+                val emails : MutableMap<String,String> = getEmails(context, contentResolver, cursor, id.toString())
+                Log.d(TAG, "ID $id emails $emails")
+                contactsList.add(ContactModel(id, name, photo, numbers, emails))
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsList.map {
+            Log.i(TAG, "ID ${it.id} Emails ${it.emails}")
         }
         return contactsList.distinct()
     }
