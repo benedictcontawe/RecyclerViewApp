@@ -19,3 +19,9 @@ A Sample Recycler View Contact App project.
 - [Difference between HashMap, LinkedHashMap and TreeMap](https://stackoverflow.com/questions/2889777/difference-between-hashmap-linkedhashmap-and-treemap#:~:text=LinkedHashMap%3A,an%20insertion%20order%20use%20this.)
 
 - [lateinit and lazy in Kotlin](https://www.youtube.com/watch?v=yEX9_PeNRy4)
+
+- [java.util.ConcurrentModificationException](https://www.journaldev.com/378/java-util-concurrentmodificationexception)
+
+- [How to handle ConcurrentModificationException in Android](https://stackoverflow.com/questions/6621991/how-to-handle-concurrentmodificationexception-in-android)
+
+- [AsyncTask is Deprecated, Now What?](https://www.techyourchance.com/asynctask-deprecated/)
