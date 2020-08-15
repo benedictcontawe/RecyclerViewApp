@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         floating_action_button_add.setOnClickListener(this@MainActivity)
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         recycler_view.addOnScrollListener(setScrollListener())
         ManifestPermission.checkSelfPermission(this@MainActivity, ManifestPermission.contactPermission,
             isGranted = {
-                viewModel.checkContacts()
+                viewModel.syncContacts()
                 viewModel.syncNames()
                 viewModel.syncPhotos()
                 viewModel.syncNumbers()
@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ContactListener 
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode : Int, resultCode : Int, data : Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG,"onActivityResult($requestCode,$resultCode,$data)")
         if (requestCode == ManifestPermission.SETTINGS_PERMISSION_CODE)
