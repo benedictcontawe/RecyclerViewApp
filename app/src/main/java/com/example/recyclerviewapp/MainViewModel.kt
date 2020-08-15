@@ -9,28 +9,31 @@ import android.os.Build
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 
 class MainViewModel : AndroidViewModel {
 
     companion object {
         private val TAG = MainViewModel::class.java.simpleName
+        private val contactsProvider : ContactsProvider by lazy(LazyThreadSafetyMode.NONE, initializer = {
+            ContactsProvider()
+        })
+        private val itemContactList : MutableList<ContactModel> by lazy(LazyThreadSafetyMode.NONE, initializer = {
+            mutableListOf<ContactModel>()
+        })
     }
 
-    private val contactsProvider : ContactsProvider
-    private val liveStandBy : MutableLiveData<Boolean>
-    private val itemContactList : MutableList<ContactModel>
-    private val liveContactList : MutableLiveData<List<ContactModel>>
+    private val liveStandBy : MutableLiveData<Boolean> by lazy(LazyThreadSafetyMode.NONE, initializer = {
+        MutableLiveData<Boolean>()
+    })
+
+    private val liveContactList : MutableLiveData<List<ContactModel>> by lazy(LazyThreadSafetyMode.NONE, initializer = {
+        MutableLiveData<List<ContactModel>>()
+    })
 
     constructor(application: Application) : super(application) {
-        contactsProvider = ContactsProvider()
-        liveStandBy = MutableLiveData<Boolean>()
-        itemContactList = mutableListOf<ContactModel>()
-        liveContactList = MutableLiveData<List<ContactModel>>()
+
     }
     //region Transformations Map
     private fun convertContacts(contacts : List<ContactModel>) : List<ContactViewHolderModel> {
