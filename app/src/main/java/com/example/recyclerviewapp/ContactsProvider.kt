@@ -216,7 +216,7 @@ class ContactsProvider {
         return contact
     }
 
-    public fun getListID(context : Context) : List<Long> { Log.d(TAG, "getContactsID()")
+    public fun getListID(context : Context) : List<Long> { Log.d(TAG, "getListID()")
         val contactsIDList : MutableList<Long> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -229,9 +229,9 @@ class ContactsProvider {
                 contactsIDList.add(id)
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsID() Exception : ${ex.message}")
+            Log.e(TAG, "getListID() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsID() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getListID() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -249,7 +249,7 @@ class ContactsProvider {
         }
     }
 
-    public fun getContactNames(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+    public fun getContactNames(context : Context) : List<ContactModel> { Log.d(TAG, "getContactNames()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -266,9 +266,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getContactNames() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactNames() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -292,9 +292,9 @@ class ContactsProvider {
                 contactsNameList.set(id,name)
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getMapNames() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getMapNames() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -304,7 +304,7 @@ class ContactsProvider {
         return contactsNameList
     }
 
-    public fun getContactPhotos(context : Context) : List<ContactModel> { Log.d(TAG, "getContactsName()")
+    public fun getContactPhotos(context : Context) : List<ContactModel> { Log.d(TAG, "getContactPhotos()")
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
         var cursor : Cursor? = null
@@ -321,9 +321,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getContactPhotos() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactPhotos() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -347,9 +347,9 @@ class ContactsProvider {
                 contactsPhotoList.set(id,photo)
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getMapPhotos() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getMapPhotos() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -376,9 +376,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getContactNumbers() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactNumbers() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
@@ -405,9 +405,9 @@ class ContactsProvider {
                 contactsList.add(ContactModel(id, name, photo, numbers, emails))
             }
         } catch (ex : Exception) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+            Log.e(TAG, "getContactEmails() Exception : ${ex.message}")
         } catch (ex : IllegalArgumentException) { ex.printStackTrace()
-            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+            Log.e(TAG, "getContactEmails() IllegalArgumentException : ${ex.message}")
         } finally {
             cursor?.close()
         }
