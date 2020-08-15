@@ -333,6 +333,32 @@ class ContactsProvider {
         return contactsList.distinct()
     }
 
+    public fun getMapPhotos(context : Context) : Map<Long,String> {
+        val contactsPhotoList : MutableMap<Long,String> = HashMap<Long,String>()
+        val contentResolver : ContentResolver
+        var cursor : Cursor? = null
+        try {
+            contentResolver = context.getContentResolver()
+            cursor = contentResolver.query(ContactsContentUri, null, null, null, SortName)
+            while (cursor?.moveToNext() == true) {
+                val id : Long = cursor.getLong(cursor.getColumnIndex(ContactID))
+                val photo : String = getPhoto(cursor)?:""
+                Log.d(TAG, "ID $id Name $photo")
+                contactsPhotoList.set(id,photo)
+            }
+        } catch (ex : Exception) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() Exception : ${ex.message}")
+        } catch (ex : IllegalArgumentException) { ex.printStackTrace()
+            Log.e(TAG, "getContactsName() IllegalArgumentException : ${ex.message}")
+        } finally {
+            cursor?.close()
+        }
+        contactsPhotoList.map {
+            Log.i(TAG, "ID ${it.key} Name ${it.value}")
+        }
+        return contactsPhotoList
+    }
+
     public fun getContactNumbers(context : Context) : List<ContactModel> {
         val contactsList : MutableList<ContactModel> = mutableListOf()
         val contentResolver : ContentResolver
