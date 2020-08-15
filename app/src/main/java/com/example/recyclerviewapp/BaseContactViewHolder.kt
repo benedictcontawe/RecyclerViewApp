@@ -13,7 +13,7 @@ abstract class BaseContactViewHolder : BaseViewHolder {
     private val contactListener : ContactListener
 
     constructor(context : Context, contactListener : ContactListener, itemView : View) : super(context, itemView) {
-        Log.d("BaseViewHolder", "constructor")
+        Log.d(TAG, "constructor")
         this.contactListener = contactListener
     }
 
