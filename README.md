@@ -1,6 +1,6 @@
 # RecyclerViewApp
 
-A Sampple Recycler View Contact App project.
+A Sample Recycler View Contact App project.
 
 ## Reference
 
