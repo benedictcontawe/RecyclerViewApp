@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 class MainViewModel : AndroidViewModel {
@@ -405,14 +406,12 @@ class MainViewModel : AndroidViewModel {
                         Log.d(TAG, "sortContacts() $index $id ${contactsProvider.getListID(getApplication()).indexOf(id)}  ${itemContactList.get(index).id}")
                         when {
                             id == itemContactList.get(index).id -> { Log.d(TAG, "sortContacts() Same Index $index") }
-                            contactsProvider.getListID(getApplication()).indexOf(itemContactList.get(index).id) > -1 -> { Log.d(TAG, "sortContacts() Not Same Index $index")
-                                val movingItem : ContactModel = itemContactList.get(index)
-                                Log.d(TAG, "movingItem ${movingItem.id} ${movingItem.name} ${contactsProvider.getListID(getApplication()).indexOf(movingItem.id)}")
-                                deleteContact(movingItem)
-                                itemContactList.add(contactsProvider.getListID(getApplication()).indexOf(movingItem.id), movingItem)
-                            }
-                            contactsProvider.getListID(getApplication()).indexOf(itemContactList.get(index).id) == -1 -> {
-                                deleteContact(itemContactList.get(index))
+                            id != itemContactList.get(index).id -> { Log.d(TAG, "sortContacts() Not Same Index $index")
+                                Collections.swap(
+                                        itemContactList,
+                                        index,
+                                        itemContactList.indexOf(itemContactList.filter { it.id == id }.first())
+                                )
                             }
                             else -> {  }
                         }
