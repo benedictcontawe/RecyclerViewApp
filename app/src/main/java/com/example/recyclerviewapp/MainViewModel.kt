@@ -188,14 +188,13 @@ class MainViewModel : AndroidViewModel {
         AsyncTask.THREAD_POOL_EXECUTOR.execute {
             postLiveStandBy(DeleteContact,false)
             when {
-                contactsProvider.deleteContact(getApplication(), item.id.toString()) > 0 -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Log.d(TAG,"Build.VERSION.SDK_INT >= Build.VERSION_CODES.N")
-                        itemContactList.removeIf { it.id == item.id }
-                    } else {
-                        Log.d(TAG,"Build.VERSION.SDK_INT < Build.VERSION_CODES.N")
-                        itemContactList.removeAll(itemContactList.filter { it.id == item.id })
-                    }
+                contactsProvider.deleteContact(getApplication(), item.id.toString()) > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
+                    Log.d(TAG,"Build.VERSION.SDK_INT >= Build.VERSION_CODES.N")
+                    itemContactList.removeIf { it.id == item.id }
+                }
+                contactsProvider.deleteContact(getApplication(), item.id.toString()) > 0 && Build.VERSION.SDK_INT < Build.VERSION_CODES.N -> {
+                    Log.d(TAG,"Build.VERSION.SDK_INT < Build.VERSION_CODES.N")
+                    itemContactList.removeAll(itemContactList.filter { it.id == item.id })
                 }
                 else -> {
                     Log.e(TAG,"Error Deleting")
