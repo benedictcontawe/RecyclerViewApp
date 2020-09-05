@@ -427,6 +427,11 @@ class MainViewModel : AndroidViewModel {
         }
     }
 
+    public fun sortContact() {
+        itemContactList.sortWith(compareByDescending(String.CASE_INSENSITIVE_ORDER) { it.name })
+        itemContactList.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
+    }
+
     public fun sortContacts() { Log.d(TAG,"sortContacts()")
         if(!isProcessing(SortContacts)) {
             AsyncTask.THREAD_POOL_EXECUTOR.execute { Log.d(TAG, "sortContacts() Processing")
