@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     private fun setRecylerView() {
-        adapter = CustomAdapter(this, this)
+        adapter = CustomAdapter(this@MainActivity, this@MainActivity)
 
         itemTouchHelperCallback = CustomItemTouchHelperCallback(adapter,true,true)
         itemTouchHelperCallback.setFadeOutSwipe(true)
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         adapter.setTouchHelper(itemTouchHelper)
         itemTouchHelper.attachToRecyclerView(recycler_view)
 
-        recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
+        recycler_view.setLayoutManager(CustomLinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)
     }
@@ -94,15 +93,15 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@MainActivity,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
     }
 
     override fun onLongClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this@MainActivity,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
     }
 
     override fun onItemMoved(item  : CustomViewModel, fromPosition : Int, toPosition : Int) {
-        //Toast.makeText(this,"onItemMoved ${item.name} $fromPosition $toPosition",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this@MainActivity,"onItemMoved ${item.name} $fromPosition $toPosition",Toast.LENGTH_SHORT).show()
         Log.d(TAG,"onItemMoved ${item.name} $fromPosition $toPosition")
     }
 
