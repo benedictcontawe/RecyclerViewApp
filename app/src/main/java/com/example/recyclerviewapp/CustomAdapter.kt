@@ -33,7 +33,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>, CustomItemTouchHel
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : CustomViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
+        val view : View = layoutInflater.inflate(R.layout.cell_holder, parent, false);
         return CustomViewHolder(context, view, customListeners, itemTouchHelper)
     }
 
