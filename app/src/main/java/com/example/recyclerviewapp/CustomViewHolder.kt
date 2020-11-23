@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.MotionEvent
@@ -20,7 +19,7 @@ class CustomViewHolder : BaseViewHolder {
     /**With Events and Others */
     private val cardView : CardView
 
-    constructor(context : Context, itemView : View, activity : Activity?,customListeners : CustomListeners) : super(context, itemView, activity, customListeners) {
+    constructor(context : Context, itemView : View,customListeners : CustomListeners) : super(context, itemView, customListeners) {
 
     }
 
@@ -68,7 +67,7 @@ class CustomViewHolder : BaseViewHolder {
                     }
                     MotionEvent.ACTION_UP -> {
                         cardView.animate()
-                                .x(cardViewStart)
+                                .x(cardViewLeading)
                                 .setDuration(250)
                                 .start()
                         Log.e("ACTION_UP", "${(size.x.toFloat() * 0.05f)} ${(size.x.toFloat() * 0.95f)}")

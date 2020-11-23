@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
         private val TAG : String = CustomAdapter::class.java.getSimpleName()
     }
     /**Main */
-    private lateinit var activity : Activity
     private lateinit var customListeners : CustomListeners
     private val swipeState : SwipeState
 
@@ -30,7 +28,7 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : BaseViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(parent.getContext())
         val view : View = layoutInflater.inflate(R.layout.item_cell, parent, false)
-        return CustomViewHolder(parent.getContext(), view, activity, customListeners)
+        return CustomViewHolder(parent.getContext(), view, customListeners)
     }
 
     override fun onBindViewHolder(holder : BaseViewHolder, position : Int) {
@@ -39,10 +37,6 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
 
     override fun getItemCount() : Int {
         return list.size
-    }
-
-    public fun setActivity(activity : Activity) {
-        this.activity = activity
     }
 
     public fun setItems(items : MutableList<CustomViewModel>) {

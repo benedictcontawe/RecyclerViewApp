@@ -16,14 +16,14 @@
     <!--region Guide lines-->
     <!--region Vertical Guide lines-->
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/constraint_guideline_marginStart"
+        android:id="@+id/constraint_guideline_vertical_leading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.10"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/constraint_guideline_marginEnd"
+        android:id="@+id/constraint_guideline_vertical_trailing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -31,14 +31,14 @@
     <!--endregion-->
     <!--region Horizontal Guidlines-->
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/constraint_guideline_marginTop"
+        android:id="@+id/constraint_guideline_horizontal_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10"/>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/constraint_guideline_marginBottom"
+        android:id="@+id/constraint_guideline_horizontal_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -54,10 +54,10 @@
         app:cardCornerRadius="@dimen/card_radius"
         app:cardElevation="@dimen/card_elevation_minimum"
         app:cardMaxElevation="@dimen/card_elevation"
-        app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
-        app:layout_constraintStart_toStartOf="@id/constraint_guideline_marginStart"
-        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_marginEnd"
-        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_marginBottom">
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
