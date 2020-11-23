@@ -3,7 +3,6 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.graphics.Point
 import android.util.Log
-import android.util.TypedValue
 import android.view.Display
 import android.view.View
 import android.view.WindowManager
@@ -54,54 +53,50 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     }
 
     public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {
-        LogDebug(TAG,"onSwipeMove($currentLead Lead $cardViewLeading $cardViewLeadEdge - $cardViewTrailEdge $cardViewTrailing Trail $currentTrail)")
+        LogDebug(TAG,"onSwipeMove($currentLead, $currentTrail, $swipeState)")
         return when {
-            swipeState == SwipeState.NONE -> { /**For Swipe None Only */
-                LogDebug(TAG,"SwipeState.NONE")
-                cardViewLeading
-            }
-            swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
-                LogDebug(TAG,"Swipe Left Edge")
+            swipeState == SwipeState.LEFT || swipeState == SwipeState.RIGHT || swipeState == SwipeState.LEFT_RIGHT -> {
                 currentLead
             }
-            swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Left")
-                currentLead
-            }
-            swipeState == SwipeState.RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Right Edge")
-                currentLead
-            }
-            swipeState == SwipeState.RIGHT && currentLead > cardViewLeading && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Right")
-                currentLead
-            }
-            swipeState == SwipeState.LEFT_RIGHT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
-                LogDebug(TAG,"Swipe Left Edge")
-                currentLead
-            }
-            swipeState == SwipeState.LEFT_RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Right Edge")
-                currentLead
-            }
-            swipeState == SwipeState.LEFT_RIGHT && currentLead < cardViewLeading && currentTrail < cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Left")
-                currentLead
-            }
-            swipeState == SwipeState.LEFT_RIGHT && currentLead > cardViewLeading && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"Swipe Right")
-                currentLead
-            }
-            else -> { /**For Unknown Swipe Only */
-                LogDebug(TAG,"Unknown Swipe ${swipeState}")
+            else -> { /**swipeState == SwipeState.NONE*/
+                LogDebug(TAG,"Else Swipe ${swipeState}")
                 cardViewLeading
             }
         }
     }
 
-    public fun onSwipeUp() : Float {
-        LogDebug(TAG,"onSwipeUp()")
-        return cardViewLeading
+    public fun getSwipeState(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : SwipeState {
+        LogDebug(TAG,"getSwipeState($currentLead Lead $currentTrail, $swipeState)")
+        return when {
+            swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
+                LogDebug(TAG,"SwipeState.LEFT")
+                SwipeState.LEFT
+            }
+            swipeState == SwipeState.RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
+                LogDebug(TAG,"SwipeState.RIGHT")
+                SwipeState.RIGHT
+            }
+            swipeState == SwipeState.LEFT_RIGHT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
+                LogDebug(TAG,"SwipeState.LEFT")
+                SwipeState.LEFT
+            }
+            swipeState == SwipeState.LEFT_RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
+                LogDebug(TAG,"SwipeState.RIGHT")
+                SwipeState.RIGHT
+            }
+            else -> {
+                LogDebug(TAG,"SwipeState.NONE")
+                SwipeState.NONE
+            }
+        }
+    }
+
+    public fun onSwipeUp(swipeState : SwipeState) : Float {
+        LogDebug(TAG,"onSwipeUp($swipeState)")
+        return if (swipeState == SwipeState.NONE) cardViewLeading
+        else if (swipeState == SwipeState.LEFT) cardViewLeading
+        else if (swipeState == SwipeState.RIGHT) cardViewLeadEdge //TODO("FInish Swipe Right Functionality")
+        else cardViewLeading
     }
 
     abstract fun bindDataToViewHolder(item : CustomViewModel, position : Int, swipeState : SwipeState)

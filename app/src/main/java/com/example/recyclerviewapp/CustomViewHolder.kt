@@ -62,16 +62,17 @@ class CustomViewHolder : BaseViewHolder {
                     }
                     MotionEvent.ACTION_MOVE -> {
                         view.getParent().requestDisallowInterceptTouchEvent(true)
-                        cardView.animate()
+                        view.animate()
                                 .x(onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail,swipeState))
                                 .setDuration(0)
                                 .start()
+                        item.state = getSwipeState(event.getRawX() + dXLead, event.getRawX() + dXTrail, swipeState)
                         LogDebug(TAG, "MotionEvent.ACTION_MOVE")
                         false
                     }
                     MotionEvent.ACTION_UP -> {
-                        cardView.animate()
-                                .x(onSwipeUp())
+                        view.animate()
+                                .x(onSwipeUp(item.state))
                                 .setDuration(250)
                                 .start()
                         LogDebug(TAG, "MotionEvent.ACTION_UP")
