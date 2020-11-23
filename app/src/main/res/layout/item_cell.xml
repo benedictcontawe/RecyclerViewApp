@@ -21,28 +21,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.10"/>
+        app:layout_constraintGuide_percent="@dimen/leading"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_vertical_leading_rubber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/leading_rubber"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_vertical_leading_edge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25"/>
+        app:layout_constraintGuide_percent="@dimen/leading_edge"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_vertical_trailing_edge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75"/>
+        app:layout_constraintGuide_percent="@dimen/trailing_edge"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_vertical_trailing_rubber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/trailing_rubber"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_vertical_trailing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.90"/>
+        app:layout_constraintGuide_percent="@dimen/trailing"/>
     <!--endregion-->
     <!--region Horizontal Guidlines-->
     <androidx.constraintlayout.widget.Guideline
@@ -80,7 +94,7 @@
         app:srcCompat="@drawable/ic_left_white"
         app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
         app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
-        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_leading_edge"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_leading_rubber"
         app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
 
     <ImageView
@@ -89,7 +103,7 @@
         android:elevation="@dimen/card_elevation"
         app:srcCompat="@drawable/ic_right_white"
         app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
-        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_trailing_edge"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_trailing_rubber"
         app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
         app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
 
