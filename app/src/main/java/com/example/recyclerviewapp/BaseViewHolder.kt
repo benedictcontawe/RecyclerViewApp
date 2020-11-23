@@ -3,7 +3,6 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.graphics.Point
 import android.util.Log
-import android.util.TypedValue
 import android.view.Display
 import android.view.View
 import android.view.WindowManager
