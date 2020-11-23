@@ -11,7 +11,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_sample"
+        tools:listitem="@layout/item_cell"
         tools:itemCount="13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

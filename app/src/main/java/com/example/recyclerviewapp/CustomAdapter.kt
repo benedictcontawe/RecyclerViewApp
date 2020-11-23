@@ -1,48 +1,42 @@
 package com.example.recyclerviewapp
 
-import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
+class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
 
+    companion object {
+        private val TAG : String = CustomAdapter::class.java.getSimpleName()
+    }
     /**Main */
-    private lateinit var context : Context
-    private lateinit var activity : Activity
     private lateinit var customListeners : CustomListeners
+    private val swipeState : SwipeState
 
-    private lateinit var list : MutableList<CustomViewModel>
-    //private lateinit var list : List<CustomViewModel>
+    private var list : MutableList<CustomViewModel>
 
-    constructor(context : Context, customListeners : CustomListeners) : super(){
-        this.context = context
+    constructor(customListeners : CustomListeners, swipeState : SwipeState) : super() {
         this.customListeners = customListeners
+        this.swipeState = swipeState
     }
 
     init {
-        list = mutableListOf()
-        //list = listOf()
+        list = mutableListOf<CustomViewModel>()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater : LayoutInflater = LayoutInflater.from(context)
-        val view : View = layoutInflater.inflate(R.layout.item_sample, parent, false);
-        return CustomViewHolder(context, view, customListeners)
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : BaseViewHolder {
+        val layoutInflater : LayoutInflater = LayoutInflater.from(parent.getContext())
+        val view : View = layoutInflater.inflate(R.layout.item_cell, parent, false)
+        return CustomViewHolder(parent.getContext(), view, customListeners)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bindDataToViewHolder(list[position], position, activity)
+    override fun onBindViewHolder(holder : BaseViewHolder, position : Int) {
+        holder.bindDataToViewHolder(list[position], position, swipeState)
     }
 
     override fun getItemCount() : Int {
         return list.size
-    }
-
-    public fun setActivity(activity : Activity) {
-        this.activity = activity
     }
 
     public fun setItems(items : MutableList<CustomViewModel>) {
@@ -61,7 +55,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
         notifyItemRangeChanged(position, itemCount)
     }
 
-    fun updateItem(item : CustomViewModel, position: Int) {
+    fun updateItem(item : CustomViewModel, position : Int) {
         list[position] = item
         notifyItemChanged(position)
     }
