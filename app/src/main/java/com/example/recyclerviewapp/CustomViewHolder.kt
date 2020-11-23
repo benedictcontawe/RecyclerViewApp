@@ -1,7 +1,6 @@
 package com.example.recyclerviewapp
 
 import android.content.Context
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
@@ -20,10 +19,6 @@ class CustomViewHolder : BaseViewHolder {
     private val cardView : CardView
 
     constructor(context : Context, itemView : View,customListeners : CustomListeners) : super(context, itemView, customListeners) {
-
-    }
-
-    init {
         imageView = itemView.findViewById(R.id.image_view)
         textView = itemView.findViewById(R.id.text_view)
         cardView = itemView.findViewById(R.id.card_view)
@@ -34,48 +29,44 @@ class CustomViewHolder : BaseViewHolder {
         imageView.setBackgroundResource(item.icon?:0)
         textView.setText(item.name)
         //endregion
-        //region Set Listener
+        //region Set Event Listener
         /* On Click */
         cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view : View?) {
                 //Do not remove this need this click listener to swipe with on touch listener
             }
         })
-        super.bindDataToViewHolder(item, position, swipeState)
-        //endregion
-    }
-
-    override fun bindSwipeToViewHolder(swipeState : SwipeState) {
-        super.bindSwipeToViewHolder(swipeState)
+        /* On Touch Swipe */
         cardView.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(view: View, event: MotionEvent): Boolean {
-                when (event.getAction()) {
+            override fun onTouch(view : View, event : MotionEvent) : Boolean {
+                return when (event.getAction()) {
                     MotionEvent.ACTION_DOWN -> {
-                        dX = view.getX() - event.getRawX()
-                        Log.e("ACTION_DOWN", "${dX}")
-                        return false
+                        dXLead = view.getX() - event.getRawX()
+                        dXTrail = view.getRight() - event.getRawX()
+                        LogDebug(TAG, "MotionEvent.ACTION_DOWN")
+                        false
                     }
                     MotionEvent.ACTION_MOVE -> {
                         view.getParent().requestDisallowInterceptTouchEvent(true)
                         cardView.animate()
-                                //.x(event.getRawX() + dX)
-                                .x(swipeEdgeDetect(event.getRawX() + dX, swipeState))
+                                .x(onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail,swipeState))
                                 .setDuration(0)
                                 .start()
-                        Log.e("ACTION_MOVE", "${event.getRawX()}")
-                        return false
+                        LogDebug(TAG, "MotionEvent.ACTION_MOVE")
+                        false
                     }
                     MotionEvent.ACTION_UP -> {
                         cardView.animate()
-                                .x(cardViewLeading)
+                                .x(onSwipeUp())
                                 .setDuration(250)
                                 .start()
-                        Log.e("ACTION_UP", "${(size.x.toFloat() * 0.05f)} ${(size.x.toFloat() * 0.95f)}")
-                        return false
+                        LogDebug(TAG, "MotionEvent.ACTION_UP")
+                        false
                     }
+                    else -> true
                 }
-                return true
             }
         })
+        //endregion
     }
 }

@@ -9,9 +9,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CustomListeners {
 
-    private lateinit var adapter : CustomAdapter
-    private lateinit var itemList : MutableList<CustomViewModel>
-
     companion object {
         private val TAG : String = MainActivity::class.java.getSimpleName()
         fun newIntent(context : Context) : Intent {
@@ -20,6 +17,9 @@ class MainActivity : AppCompatActivity(), CustomListeners {
             return intent
         }
     }
+
+    private lateinit var adapter : CustomAdapter
+    private lateinit var itemList : MutableList<CustomViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     private fun setRecylerView() {
-        adapter = CustomAdapter(this@MainActivity, SwipeState.SWIPE_LEFT_RIGHT)
+        adapter = CustomAdapter(this@MainActivity, SwipeState.LEFT_RIGHT)
         recycler_view.setLayoutManager(CustomLinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)

@@ -7,8 +7,9 @@
     <dimen name="card_radius_micro">3dp</dimen>
 
     <!-- CardView Elavation -->
-    <dimen name="card_elevation">5dp</dimen>
-    <dimen name="card_elevation_minimum">2dp</dimen>
+    <dimen name="card_elevation_maximum">5dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_elevation_minimum">1dp</dimen>
     <dimen name="card_elevation_none">0dp</dimen>
 
 </resources>

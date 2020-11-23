@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_Main">
 
     <Space
@@ -21,6 +22,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.10"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_vertical_leading_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_vertical_trailing_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/constraint_guideline_vertical_trailing"
@@ -46,14 +61,47 @@
     <!--endregion-->
     <!--endregion-->
     <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardBackgroundColor="@color/orange"
+        app:cardUseCompatPadding="false"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="@dimen/card_elevation_minimum"
+        app:cardMaxElevation="@dimen/card_elevation_minimum"
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/card_elevation"
+        app:srcCompat="@drawable/ic_left_white"
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_leading_edge"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/card_elevation"
+        app:srcCompat="@drawable/ic_right_white"
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_trailing_edge"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardBackgroundColor="@color/card_state_normal"
         app:cardUseCompatPadding="false"
         app:cardCornerRadius="@dimen/card_radius"
-        app:cardElevation="@dimen/card_elevation_minimum"
-        app:cardMaxElevation="@dimen/card_elevation"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardMaxElevation="@dimen/card_elevation_maximum"
         app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
         app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
         app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"

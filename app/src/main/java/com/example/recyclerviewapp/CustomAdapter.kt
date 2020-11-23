@@ -11,7 +11,7 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder>{
         private val TAG : String = CustomAdapter::class.java.getSimpleName()
     }
     /**Main */
-    private lateinit var customListeners : CustomListeners
+    private val customListeners : CustomListeners
     private val swipeState : SwipeState
 
     private var list : MutableList<CustomViewModel>
