@@ -3,10 +3,9 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity(), CustomListeners {
 
@@ -14,6 +13,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     private lateinit var itemList : MutableList<CustomViewModel>
 
     companion object {
+        private val TAG : String = MainActivity::class.java.getSimpleName()
         fun newIntent(context : Context) : Intent {
             val intent : Intent = Intent(context, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     private fun setRecylerView() {
-        adapter = CustomAdapter(this, this, CustomViewModel.SWIPE_LEFT_RIGHT)
-        recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
+        adapter = CustomAdapter(this, SwipeState.SWIPE_LEFT_RIGHT)
+        recycler_view.setLayoutManager(CustomLinearLayoutManager(this, RecyclerView.VERTICAL, false))
         recycler_view.setAdapter(adapter)
         recycler_view.setHasFixedSize(true)
 
@@ -48,6 +48,14 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         itemList.add(CustomViewModel(R.drawable.ic_person_white, "E"))
         itemList.add(CustomViewModel(R.drawable.ic_person_white, "F"))
         itemList.add(CustomViewModel(R.drawable.ic_person_white, "G"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "H"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "I"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "J"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "K"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "L"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "M"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "N"))
+        itemList.add(CustomViewModel(R.drawable.ic_person_white, "O"))
     }
 
     override fun onStart() {
