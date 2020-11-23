@@ -88,6 +88,7 @@
         app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
 
     <ImageView
+        android:id="@+id/button_left"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="@dimen/card_elevation"
@@ -98,6 +99,7 @@
         app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
 
     <ImageView
+        android:id="@+id/button_right"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="@dimen/card_elevation"

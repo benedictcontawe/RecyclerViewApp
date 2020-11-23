@@ -16,12 +16,16 @@ class CustomViewHolder : BaseViewHolder {
     private val imageView : ImageView
     private val textView : TextView
     /**With Events and Others */
+    private val leftImage : ImageView
+    private val rightImage : ImageView
     private val cardView : CardView
 
     constructor(context : Context, itemView : View,customListeners : CustomListeners) : super(context, itemView, customListeners) {
         imageView = itemView.findViewById(R.id.image_view)
         textView = itemView.findViewById(R.id.text_view)
         cardView = itemView.findViewById(R.id.card_view)
+        leftImage = itemView.findViewById(R.id.button_left)
+        rightImage = itemView.findViewById(R.id.button_right)
     }
 
     override fun bindDataToViewHolder(item : CustomViewModel, position : Int, swipeState : SwipeState) {
@@ -31,6 +35,16 @@ class CustomViewHolder : BaseViewHolder {
         //endregion
         //region Set Event Listener
         /* On Click */
+        leftImage.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view : View?) {
+                getListener().onClickLeft(item, position)
+            }
+        })
+        rightImage.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view : View?) {
+                getListener().onClickRight(item, position)
+            }
+        })
         cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view : View?) {
                 //Do not remove this need this click listener to swipe with on touch listener

@@ -49,6 +49,10 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         cardViewTrailing = size.x.toFloat() * 0.90f //trailing
     }
 
+    public fun getListener() : CustomListeners {
+        return customListeners
+    }
+
     public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {
         LogDebug(TAG,"onSwipeMove($currentLead Lead $cardViewLeading $cardViewLeadEdge - $cardViewTrailEdge $cardViewTrailing Trail $currentTrail)")
         return when {

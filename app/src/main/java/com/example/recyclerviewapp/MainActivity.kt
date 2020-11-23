@@ -3,6 +3,7 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -59,5 +60,13 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     override fun onStart() {
         super.onStart()
         adapter.setItems(itemList)
+    }
+
+    override fun onClickLeft(item : CustomViewModel, position : Int) {
+        Toast.makeText(this@MainActivity,"Left Arrow Clicked! $position",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClickRight(item : CustomViewModel, position : Int) {
+        Toast.makeText(this@MainActivity,"Right Arrow Clicked! $position",Toast.LENGTH_SHORT).show()
     }
 }
