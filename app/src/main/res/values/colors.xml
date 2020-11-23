@@ -7,10 +7,17 @@
     <color name="background_material_dark_gray">#DDDDDD</color>
 
     <color name="red">#EE3031</color>
-    <color name="blue">#0000FF</color>
+    <color name="orange">#FF4500</color>
+    <color name="green">#00C300</color>
+    <color name="blue">#0055A5</color>
     <color name="gray">#A0A0A8</color>
+    <color name="grey">#999999</color>
+    <color name="light_grey">#AAE0E1E1</color>
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorOpaqueBlack">#c3000000</color>
 
     <color name="card_state_normal">#FFF</color>
     <color name="card_state_focused">#CCC</color>
