@@ -3,6 +3,7 @@ package com.example.recyclerviewapp
 import android.content.Context
 import android.graphics.Point
 import android.util.Log
+import android.util.TypedValue
 import android.view.Display
 import android.view.View
 import android.view.WindowManager
@@ -42,10 +43,10 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         size = Point()
         display = windowManager.getDefaultDisplay() //activity.getWindowManager().getDefaultDisplay()
         display.getSize(size)
-        cardViewLeading = size.x.toFloat() * 0.10f
-        cardViewLeadEdge = size.x.toFloat() * 0.25f
-        cardViewTrailEdge = size.x.toFloat() * 0.75f
-        cardViewTrailing = size.x.toFloat() * 0.90f
+        cardViewLeading = size.x.toFloat() * 0.10f //leading
+        cardViewLeadEdge = size.x.toFloat() * 0.25f //leading_rubber
+        cardViewTrailEdge = size.x.toFloat() * 0.75f //trailing_rubber
+        cardViewTrailing = size.x.toFloat() * 0.90f //trailing
     }
 
     public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {

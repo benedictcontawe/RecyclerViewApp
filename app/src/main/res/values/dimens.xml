@@ -12,4 +12,11 @@
     <dimen name="card_elevation_minimum">1dp</dimen>
     <dimen name="card_elevation_none">0dp</dimen>
 
+    <item name="leading" format="float" type="dimen">0.10</item>
+    <item name="leading_rubber" format="float" type="dimen">0.25</item>
+    <item name="leading_edge" format="float" type="dimen">0.40</item>
+    <item name="trailing_edge" format="float" type="dimen">0.60</item>
+    <item name="trailing_rubber" format="float" type="dimen">0.75</item>
+    <item name="trailing" format="float" type="dimen">0.90</item>
+
 </resources>
