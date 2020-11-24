@@ -9,8 +9,6 @@ import android.util.DisplayMetrics
 import android.graphics.PointF
 import androidx.recyclerview.widget.LinearSmoothScroller
 
-
-
 class CustomLinearLayoutManager : LinearLayoutManager {
 
     constructor(context : Context) : super(context){
