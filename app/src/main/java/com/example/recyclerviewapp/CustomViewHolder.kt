@@ -32,6 +32,7 @@ class CustomViewHolder : BaseViewHolder {
         //region Input Data
         imageView.setBackgroundResource(item.icon?:0)
         textView.setText(item.name)
+        setSwipe(cardView, item.state)
         //endregion
         //region Set Event Listener
         /* On Click */
@@ -46,8 +47,8 @@ class CustomViewHolder : BaseViewHolder {
             }
         })
         cardView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view : View?) {
-                //Do not remove this need this click listener to swipe with on touch listener
+            override fun onClick(view : View?) { //Do not remove this need this click listener to swipe with on touch listener
+                LogDebug(TAG, "on Click Card")
             }
         })
         /* On Touch Swipe */
@@ -62,19 +63,13 @@ class CustomViewHolder : BaseViewHolder {
                     }
                     MotionEvent.ACTION_MOVE -> {
                         view.getParent().requestDisallowInterceptTouchEvent(true)
-                        view.animate()
-                                .x(onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail,swipeState))
-                                .setDuration(0)
-                                .start()
+                        onAnimate(view, onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail,swipeState),0)
                         item.state = getSwipeState(event.getRawX() + dXLead, event.getRawX() + dXTrail, swipeState)
                         LogDebug(TAG, "MotionEvent.ACTION_MOVE")
                         false
                     }
                     MotionEvent.ACTION_UP -> {
-                        view.animate()
-                                .x(onSwipeUp(item.state))
-                                .setDuration(250)
-                                .start()
+                        onAnimate(view, onSwipeUp(item.state),250)
                         LogDebug(TAG, "MotionEvent.ACTION_UP")
                         false
                     }

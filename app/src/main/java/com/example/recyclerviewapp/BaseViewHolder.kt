@@ -52,6 +52,14 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         return customListeners
     }
 
+    public fun setSwipe(view : View, swipeState : SwipeState) {
+        onAnimate(view, onSwipeUp(swipeState),0)
+    }
+
+    public fun onAnimate(view : View, dx : Float, duration : Long) {
+        view.animate().x(dx).setDuration(duration).start()
+    }
+
     public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {
         LogDebug(TAG,"onSwipeMove($currentLead, $currentTrail, $swipeState)")
         return when {
@@ -66,7 +74,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     }
 
     public fun getSwipeState(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : SwipeState {
-        LogDebug(TAG,"getSwipeState($currentLead Lead $currentTrail, $swipeState)")
+        LogDebug(TAG,"getSwipeState($currentLead, $currentTrail, $swipeState)")
         return when {
             swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
                 LogDebug(TAG,"SwipeState.LEFT")
@@ -93,9 +101,10 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
 
     public fun onSwipeUp(swipeState : SwipeState) : Float {
         LogDebug(TAG,"onSwipeUp($swipeState)")
+        LogDebug(TAG,"$cardViewLeading $cardViewLeadEdge $cardViewTrailEdge $cardViewTrailing - ${size.x.toFloat()}")
         return if (swipeState == SwipeState.NONE) cardViewLeading
-        else if (swipeState == SwipeState.LEFT) cardViewLeading
-        else if (swipeState == SwipeState.RIGHT) cardViewLeadEdge //TODO("FInish Swipe Right Functionality")
+        else if (swipeState == SwipeState.LEFT) (size.x.toFloat() * -0.05f)
+        else if (swipeState == SwipeState.RIGHT) cardViewLeadEdge
         else cardViewLeading
     }
 
