@@ -13,11 +13,11 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private static String TAG = BaseViewHolder.class.getSimpleName();
 
-    public void LogDebug(String TAG, String message) {
+    public static void LogDebug(String TAG, String message) {
         Log.d(TAG,message);
     }
 
-    public void LogError(String TAG, String message) {
+    public static void LogError(String TAG, String message) {
         Log.e(TAG,message);
     }
 

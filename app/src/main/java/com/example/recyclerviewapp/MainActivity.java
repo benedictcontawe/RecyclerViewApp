@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements CustomListeners {
 
     @Override
     public void onClickLeft(CustomViewModel item, int position) {
-        Toast.makeText(this,"Left Arrow Clicked! $position", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Left Arrow Clicked! " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClickRight(CustomViewModel item, int position) {
-        Toast.makeText(this,"Right Arrow Clicked! $position",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Right Arrow Clicked! " + position,Toast.LENGTH_SHORT).show();
     }
 }
