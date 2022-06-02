@@ -23,11 +23,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         expandedArrowLeft.setOnClickListener(this)
         expandedArrowRight.setOnClickListener(this)
         expandedRecyclerView.setOnTouchListener(this)
-        expandedRecyclerView.setOnTouchListener(this)
+        //expandedRecyclerView.setOnTouchListener(this)
         //expandedRecyclerView.setOnKeyListener(this);
 
         setRecylerView()
@@ -82,11 +81,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchList
     }
 
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        return if (view.id == R.id.expandedRecyclerView)
-        {
+        return if (view.id == R.id.expandedRecyclerView) {
             true
-        }
-        else {
+        } else {
             false
         }
     }
