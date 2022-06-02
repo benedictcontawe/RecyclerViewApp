@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import android.text.method.TextKeyListener.clear
-
-
 
 class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
 
@@ -15,7 +12,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
     private lateinit var context : Context
     private lateinit var customListeners : CustomListeners
 
-    private lateinit var list : MutableList<CustomViewModel>
+    private lateinit var list : MutableList<CustomModel>
     //private lateinit var list : List<CustomViewModel>
 
     constructor(context : Context, customListeners : CustomListeners) : super(){
@@ -42,23 +39,22 @@ class CustomAdapter : RecyclerView.Adapter<CustomViewHolder>{
         return list.size
     }
 
-    public fun setItems(items : MutableList<CustomViewModel>) {
+    public fun setItems(items : List<CustomModel>) {
         list.clear()
         list.addAll(items)
-        notifyDataSetChanged()
     }
 
-    fun insertItem(item : CustomViewModel, position : Int) {
+    fun insertItem(item : CustomModel, position : Int) {
         list.add(position, item)
         notifyItemInserted(position)
     }
 
-    fun insertItems(items : List<CustomViewModel>, position : Int) {
+    fun insertItems(items : List<CustomModel>, position : Int) {
         list.addAll(items)
         notifyItemRangeChanged(position, itemCount)
     }
 
-    fun updateItem(item : CustomViewModel, position: Int) {
+    fun updateItem(item : CustomModel, position: Int) {
         list[position] = item
         notifyItemChanged(position)
     }

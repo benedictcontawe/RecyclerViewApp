@@ -7,16 +7,19 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.recyclerviewapp.databinding.MainBinder
 
 class MainActivity : AppCompatActivity(), CustomListeners {
 
+    private lateinit var binder : MainBinder
     private lateinit var adapter : CustomAdapter
-    private lateinit var itemList : MutableList<CustomViewModel>
+    private lateinit var viewModel : MainViewModel
 
     companion object {
-        private var TAG : String = MainActivity::class.java.simpleName
+        private var TAG : String = MainActivity::class.java.getSimpleName()
 
         fun newIntent(context : Context) : Intent {
             val intent : Intent = Intent(context, MainActivity::class.java)
@@ -27,51 +30,41 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        binder = DataBindingUtil.setContentView(this@MainActivity,R.layout.activity_main)
+        viewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
+        binder.setViewModel(viewModel)
+        binder.setLifecycleOwner(this@MainActivity)
         setRecylerView()
-        setItems()
     }
 
     private fun setRecylerView() {
         adapter = CustomAdapter(this, this)
-        recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
-        recycler_view.setAdapter(adapter)
-        recycler_view.setHasFixedSize(true)
-    }
-
-    private fun setItems() {
-        itemList = mutableListOf<CustomViewModel>()
-        itemList.clear()
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "A"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "B"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "C"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "D"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "E"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "F"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "G"))
+        binder.recyclerView.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
+        binder.recyclerView.setAdapter(adapter)
+        binder.recyclerView.setHasFixedSize(true)
     }
 
     override fun onStart() {
         super.onStart()
-        adapter.setItems(itemList)
+        adapter.setItems(viewModel.getItems())
+        adapter.notifyDataSetChanged()
     }
 
     override fun onResume() {
         super.onResume()
-        recycler_view.addOnScrollListener(setScrollListener())
+        binder.recyclerView.addOnScrollListener(setScrollListener())
     }
 
     override fun onPause() {
         super.onPause()
-        recycler_view.removeOnScrollListener(setScrollListener())
+        binder.recyclerView.removeOnScrollListener(setScrollListener())
     }
 
-    override fun onClick(item: CustomViewModel, position: Int) {
+    override fun onClick(item: CustomModel, position: Int) {
         Toast.makeText(this,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(item: CustomViewModel, position: Int) {
+    override fun onLongClick(item: CustomModel, position: Int) {
         Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
     }
 
