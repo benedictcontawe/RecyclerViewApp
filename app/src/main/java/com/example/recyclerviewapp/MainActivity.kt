@@ -7,16 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.databinding.MainBinder
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity(), CustomListeners {
 
     private lateinit var binder : MainBinder
-    private lateinit var adapter : CustomAdapter
-    private lateinit var viewModel : MainViewModel
+    private val adapter : CustomAdapter by lazy { CustomAdapter(this@MainActivity) }
+    private val viewModel : MainViewModel by viewModels()
 
     companion object {
         private var TAG : String = MainActivity::class.java.getSimpleName()
@@ -28,17 +29,23 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this@MainActivity,R.layout.activity_main)
-        viewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
+        //viewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
         binder.setViewModel(viewModel)
         binder.setLifecycleOwner(this@MainActivity)
         setRecylerView()
+        Coroutines.main(this@MainActivity, {
+            viewModel.getFlowItems().collectLatest ( action = { pagingDateList ->
+                Log.d(TAG, "getFlowItems collectLatest ${pagingDateList}")
+                adapter.submitData(lifecycle,pagingDateList)
+            } )
+        })
     }
 
     private fun setRecylerView() {
-        adapter = CustomAdapter(this, this)
+        //adapter = CustomAdapter(this@MainActivity)
         binder.recyclerView.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
         binder.recyclerView.setAdapter(adapter)
         binder.recyclerView.setHasFixedSize(true)
@@ -46,8 +53,8 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     override fun onStart() {
         super.onStart()
-        adapter.setItems(viewModel.getItems())
-        adapter.notifyDataSetChanged()
+        //adapter.setItems(viewModel.getItems())
+        //adapter.notifyDataSetChanged()
     }
 
     override fun onResume() {
@@ -60,12 +67,12 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         binder.recyclerView.removeOnScrollListener(setScrollListener())
     }
 
-    override fun onClick(item: CustomModel, position: Int) {
-        Toast.makeText(this,"onClick " + item.name + " " + position,Toast.LENGTH_SHORT).show()
+    override fun onClick(item : CustomModel?, position : Int) {
+        Toast.makeText(this@MainActivity,"onClick " + item?.name + " " + position,Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(item: CustomModel, position: Int) {
-        Toast.makeText(this,"onLongClick " + item.name + " " + position,Toast.LENGTH_SHORT).show();
+    override fun onLongClick(item : CustomModel?, position : Int) {
+        Toast.makeText(this@MainActivity,"onLongClick " + item?.name + " " + position,Toast.LENGTH_SHORT).show();
     }
 
     private fun setScrollListener() : RecyclerView.OnScrollListener {
@@ -96,5 +103,9 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

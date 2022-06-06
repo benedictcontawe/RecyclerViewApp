@@ -18,7 +18,7 @@ class CustomViewHolder : RecyclerView.ViewHolder {
     /**With Events and Others */
     private lateinit var cardView: CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView){
+    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(itemView) {
         this.context = context
         this.customListeners = customListeners
     }
@@ -29,21 +29,21 @@ class CustomViewHolder : RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.card_view)
     }
 
-    public fun bindDataToViewHolder(item : CustomModel, position : Int) {
+    public fun bindDataToViewHolder(item : CustomModel?, position : Int) {
         //region Input Data
-        imageView.setBackgroundResource(item.icon?:0)
-        textView.setText(item.name)
+        imageView.setBackgroundResource(item?.icon?:0)
+        textView.setText(item?.name)
         //endregion
         //region Set Listener
         /* On Click */
         cardView.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(view: View) {
+            override fun onClick(view : View) {
                 customListeners.onClick(item, position)
             }
         })
         /* On Long Click */
         cardView.setOnLongClickListener(object : View.OnLongClickListener{
-            override fun onLongClick(view: View): Boolean {
+            override fun onLongClick(view : View): Boolean {
                 customListeners.onLongClick(item, position)
                 return false
             }
