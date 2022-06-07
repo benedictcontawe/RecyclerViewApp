@@ -5,10 +5,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
-class CustomPagingSource : PagingSource<Int ,CustomModel>{
+class CustomPagingSource : PagingSource<Int ,CustomModel> {
 
     companion object {
-        private var TAG : String = CustomPagingSource::class.java.getSimpleName()
+        private val TAG : String = CustomPagingSource::class.java.getSimpleName()
     }
 
     private val model : List<CustomModel>
@@ -21,10 +21,14 @@ class CustomPagingSource : PagingSource<Int ,CustomModel>{
         Log.d(TAG, "load key ${params.key} ${params.loadSize}")
         val pageIndex : Int = params.key ?: CustomRepository.DEFAULT_PAGE_INDEX
         return try {
+            Log.d(TAG, "getData($pageIndex) : ${getData(pageIndex).size}")
+            getData(pageIndex).map {
+                Log.d(TAG, "getData($pageIndex) : ${it}")
+            }
             LoadResult.Page (
-                data = model.orEmpty<CustomModel>(),
+                data = getData(pageIndex),
                 prevKey = if (pageIndex == CustomRepository.DEFAULT_PAGE_INDEX) null else pageIndex - 1,
-                nextKey = if (pageIndex == CustomRepository.DEFAULT_PAGE_INDEX || model.isNullOrEmpty()) null else pageIndex + 1
+                nextKey = if (getData(pageIndex).isNullOrEmpty()) null else pageIndex + 1
             )
         } catch (exception : Exception) {
             //LoadResult.Invalid()
@@ -39,5 +43,10 @@ class CustomPagingSource : PagingSource<Int ,CustomModel>{
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+    }
+
+    private fun getData(index : Int) : List<CustomModel> {
+        return if (model.filter { it.getPage() == index }.isNullOrEmpty()) emptyList<CustomModel>()
+        else model.filter { it.getPage() == index }
     }
 }

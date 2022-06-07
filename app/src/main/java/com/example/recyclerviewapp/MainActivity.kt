@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     private lateinit var binder : MainBinder
     private val adapter : CustomAdapter by lazy { CustomAdapter(this@MainActivity) }
-    private val viewModel : MainViewModel by viewModels()
+    private val viewModel : MainViewModel by viewModels<MainViewModel>()
 
     companion object {
-        private var TAG : String = MainActivity::class.java.getSimpleName()
+        private val TAG : String = MainActivity::class.java.getSimpleName()
 
         fun newIntent(context : Context) : Intent {
             val intent : Intent = Intent(context, MainActivity::class.java)
@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onClick(item : CustomModel?, position : Int) {
+        Log.d(TAG, "adapter getItemCount ${adapter.getItemCount()}")
         Toast.makeText(this@MainActivity,"onClick " + item?.name + " " + position,Toast.LENGTH_SHORT).show()
     }
 

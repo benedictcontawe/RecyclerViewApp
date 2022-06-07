@@ -15,7 +15,6 @@ class CustomRepository {
         }
 
         public const val DEFAULT_PAGE_INDEX = 0
-        public const val DEFAULT_PAGE_SIZE = 30
     }
 
     public fun getItems() : List<CustomModel> {
@@ -49,9 +48,29 @@ class CustomRepository {
         itemList.add(CustomModel(24, R.drawable.ic_person_white, "Y"))
         itemList.add(CustomModel(25, R.drawable.ic_person_white, "Z"))
         */
-        for (index in 0 until 500) {
+        for (index in 0 until 200) {
             itemList.add(CustomModel(index, R.drawable.ic_person_white, "$index"))
         }
+        itemList.filter { it.id < 11 }.map { it.setPage(0) }
+        itemList.filter { it.id > 10 && it.id < 21 }.map { it.setPage(1) }
+        itemList.filter { it.id > 20 && it.id < 31 }.map { it.setPage(2) }
+        itemList.filter { it.id > 30 && it.id < 41 }.map { it.setPage(3) }
+        itemList.filter { it.id > 40 && it.id < 51 }.map { it.setPage(4) }
+        itemList.filter { it.id > 50 && it.id < 61 }.map { it.setPage(5) }
+        itemList.filter { it.id > 60 && it.id < 71 }.map { it.setPage(6) }
+        itemList.filter { it.id > 70 && it.id < 81 }.map { it.setPage(7) }
+        itemList.filter { it.id > 80 && it.id < 91 }.map { it.setPage(8) }
+        itemList.filter { it.id > 90 && it.id < 101 }.map { it.setPage(9) }
+        itemList.filter { it.id > 100 && it.id < 111 }.map { it.setPage(10) }
+        itemList.filter { it.id > 110 && it.id < 121 }.map { it.setPage(11) }
+        itemList.filter { it.id > 120 && it.id < 131 }.map { it.setPage(12) }
+        itemList.filter { it.id > 130 && it.id < 141 }.map { it.setPage(13) }
+        itemList.filter { it.id > 140 && it.id < 151 }.map { it.setPage(14) }
+        itemList.filter { it.id > 150 && it.id < 161 }.map { it.setPage(15) }
+        itemList.filter { it.id > 160 && it.id < 171 }.map { it.setPage(16) }
+        itemList.filter { it.id > 170 && it.id < 181 }.map { it.setPage(17) }
+        itemList.filter { it.id > 180 && it.id < 191 }.map { it.setPage(18) }
+        itemList.filter { it.id > 190 && it.id < 201 }.map { it.setPage(19) }
         return itemList
     }
 
@@ -66,9 +85,10 @@ class CustomRepository {
         return PagingConfig(
             enablePlaceholders = false,
             initialLoadSize = 10,
-            maxSize = 499,
+            maxSize = Int.MAX_VALUE ?: PagingConfig.MAX_SIZE_UNBOUNDED,
             prefetchDistance = 1,
-            pageSize = 10
+            pageSize = 10,
+            jumpThreshold = Int.MIN_VALUE
         )
     }
 }
