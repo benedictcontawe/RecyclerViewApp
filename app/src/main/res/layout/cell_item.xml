@@ -86,7 +86,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:cardBackgroundColor="@color/orange"
@@ -121,7 +121,7 @@
             app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
             app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -171,7 +171,7 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
