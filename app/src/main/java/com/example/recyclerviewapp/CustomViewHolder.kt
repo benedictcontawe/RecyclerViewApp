@@ -50,12 +50,14 @@ class CustomViewHolder : BaseViewHolder, View.OnClickListener, View.OnTouchListe
         return if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_DOWN) {
             dXLead = view.getX() - event.getRawX()
             dXTrail = view.getRight() - event.getRawX()
+            logDebug(TAG, "isActionDown dXLead $dXLead dXTrail $dXTrail view.getX() ${view.getX()} getRawX ${event.getRawX()} view.getRight() ${view.getRight()}")
             logDebug(TAG, "MotionEvent.ACTION_DOWN")
             false
         } else if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_MOVE) {
             view.getParent().requestDisallowInterceptTouchEvent(true)
             onAnimate(view, onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail, binder.getState()),0)
             binder.getHolder()?.state = getSwipeState(event.getRawX() + dXLead, event.getRawX() + dXTrail, binder.getState())
+            logDebug(TAG, "isActionMove dXLead $dXLead dXTrail $dXTrail view.getX() ${view.getX()} getRawX ${event.getRawX()} view.getRight() ${view.getRight()}")
             logDebug(TAG, "MotionEvent.ACTION_MOVE")
             false
         } else if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_UP) {
