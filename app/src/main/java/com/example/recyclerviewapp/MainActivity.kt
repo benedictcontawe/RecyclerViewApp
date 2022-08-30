@@ -5,8 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.recyclerviewapp.databinding.MainBinder
 
 class MainActivity : AppCompatActivity(), CustomListeners {
 
@@ -19,12 +20,13 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         }
     }
 
+    private var binder : MainBinder? = null
     private lateinit var adapter : CustomAdapter
-    private lateinit var itemList : MutableList<CustomViewModel>
+    private lateinit var itemList : MutableList<CustomHolderModel>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binder = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
 
         setRecylerView()
         setItems()
@@ -32,29 +34,29 @@ class MainActivity : AppCompatActivity(), CustomListeners {
 
     private fun setRecylerView() {
         adapter = CustomAdapter(this@MainActivity, SwipeState.LEFT_RIGHT)
-        recycler_view.setLayoutManager(CustomLinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false))
-        recycler_view.setAdapter(adapter)
-        recycler_view.setHasFixedSize(true)
+        binder?.recyclerView?.setLayoutManager(CustomLinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false))
+        binder?.recyclerView?.setAdapter(adapter)
+        binder?.recyclerView?.setHasFixedSize(true)
     }
 
     private fun setItems() {
-        itemList = mutableListOf<CustomViewModel>()
+        itemList = mutableListOf<CustomHolderModel>()
         itemList.clear()
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "A"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "B"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "C"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "D"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "E"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "F"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "G"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "H"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "I"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "J"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "K"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "L"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "M"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "N"))
-        itemList.add(CustomViewModel(R.drawable.ic_person_white, "O"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "A"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "B"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "C"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "D"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "E"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "F"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "G"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "H"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "I"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "J"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "K"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "L"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "M"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "N"))
+        itemList.add(CustomHolderModel(R.drawable.ic_person_white, "O"))
     }
 
     override fun onStart() {
@@ -62,11 +64,11 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         adapter.setItems(itemList)
     }
 
-    override fun onClickLeft(item : CustomViewModel, position : Int) {
+    override fun onClickLeft(item : CustomHolderModel?, position : Int) {
         Toast.makeText(this@MainActivity,"Left Arrow Clicked! $position",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onClickRight(item : CustomViewModel, position : Int) {
+    override fun onClickRight(item : CustomHolderModel?, position : Int) {
         Toast.makeText(this@MainActivity,"Right Arrow Clicked! $position",Toast.LENGTH_SHORT).show()
     }
 }

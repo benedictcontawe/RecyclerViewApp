@@ -1,82 +1,67 @@
 package com.example.recyclerviewapp
 
-import android.content.Context
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import com.example.recyclerviewapp.databinding.CellItemBinder
 
-class CustomViewHolder : BaseViewHolder {
+class CustomViewHolder : BaseViewHolder, View.OnClickListener, View.OnTouchListener {
 
     companion object {
         private val TAG : String = CustomViewHolder::class.java.getSimpleName()
     }
-    /**Data */
-    private val imageView : ImageView
-    private val textView : TextView
-    /**With Events and Others */
-    private val leftImage : ImageView
-    private val rightImage : ImageView
-    private val cardView : CardView
 
-    constructor(context : Context, itemView : View,customListeners : CustomListeners) : super(context, itemView, customListeners) {
-        imageView = itemView.findViewById(R.id.image_view)
-        textView = itemView.findViewById(R.id.text_view)
-        cardView = itemView.findViewById(R.id.card_view)
-        leftImage = itemView.findViewById(R.id.button_left)
-        rightImage = itemView.findViewById(R.id.button_right)
+    private val binder : CellItemBinder
+
+    constructor(binder : CellItemBinder, customListeners : CustomListeners) : super(binder.getRoot(), customListeners) {
+        this.binder = binder
     }
 
-    override fun bindDataToViewHolder(item : CustomViewModel, position : Int, swipeState : SwipeState) {
+    override fun bindDataToViewHolder(model : CustomHolderModel, position : Int, swipeState : SwipeState?) {
+        binder.setHolder(model)
+        binder.setPosition(position)
+        binder.setState(swipeState)
+        binder.executePendingBindings()
         //region Input Data
-        imageView.setBackgroundResource(item.icon?:0)
-        textView.setText(item.name)
-        setSwipe(cardView, item.state)
+        binder.imageView.setBackgroundResource(model.icon)
+        binder.textView.setText(model.name)
+        setSwipe(binder.cardView, binder.getHolder()?.state)
         //endregion
         //region Set Event Listener
         /* On Click */
-        leftImage.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view : View?) {
-                getListener().onClickLeft(item, position)
-            }
-        })
-        rightImage.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view : View?) {
-                getListener().onClickRight(item, position)
-            }
-        })
-        cardView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view : View?) { //Do not remove this need this click listener to swipe with on touch listener
-                LogDebug(TAG, "on Click Card")
-            }
-        })
+        binder.buttonLeft.setOnClickListener(this@CustomViewHolder)
+        binder.buttonRight.setOnClickListener(this@CustomViewHolder)
+        binder.cardView.setOnClickListener(this@CustomViewHolder)
         /* On Touch Swipe */
-        cardView.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(view : View, event : MotionEvent) : Boolean {
-                return when (event.getAction()) {
-                    MotionEvent.ACTION_DOWN -> {
-                        dXLead = view.getX() - event.getRawX()
-                        dXTrail = view.getRight() - event.getRawX()
-                        LogDebug(TAG, "MotionEvent.ACTION_DOWN")
-                        false
-                    }
-                    MotionEvent.ACTION_MOVE -> {
-                        view.getParent().requestDisallowInterceptTouchEvent(true)
-                        onAnimate(view, onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail,swipeState),0)
-                        item.state = getSwipeState(event.getRawX() + dXLead, event.getRawX() + dXTrail, swipeState)
-                        LogDebug(TAG, "MotionEvent.ACTION_MOVE")
-                        false
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        onAnimate(view, onSwipeUp(item.state),250)
-                        LogDebug(TAG, "MotionEvent.ACTION_UP")
-                        false
-                    }
-                    else -> true
-                }
-            }
-        })
+        binder.cardView.setOnTouchListener(this@CustomViewHolder)
         //endregion
+    }
+
+    override fun onClick(view : View) {
+        if (view == binder.buttonLeft) {
+            getListener().onClickLeft(binder.getHolder(), binder.getPosition())
+        } else if (view == binder.buttonRight) {
+            getListener().onClickRight(binder.getHolder(), binder.getPosition())
+        } else if (view == binder.cardView) {
+            logDebug(TAG,"Card View ${binder.getHolder()} ${binder.getPosition()}")
+        }
+    }
+
+    override fun onTouch(view : View, event : MotionEvent) : Boolean {
+        return if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_DOWN) {
+            dXLead = view.getX() - event.getRawX()
+            dXTrail = view.getRight() - event.getRawX()
+            logDebug(TAG, "MotionEvent.ACTION_DOWN")
+            false
+        } else if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_MOVE) {
+            view.getParent().requestDisallowInterceptTouchEvent(true)
+            onAnimate(view, onSwipeMove(event.getRawX() + dXLead, event.getRawX() + dXTrail, binder.getState()),0)
+            binder.getHolder()?.state = getSwipeState(event.getRawX() + dXLead, event.getRawX() + dXTrail, binder.getState())
+            logDebug(TAG, "MotionEvent.ACTION_MOVE")
+            false
+        } else if (view == binder.cardView && event.getAction() == MotionEvent.ACTION_UP) {
+            onAnimate(view, onSwipeUp(binder.getHolder()?.state),250)
+            logDebug(TAG, "MotionEvent.ACTION_UP")
+            false
+        } else true
     }
 }

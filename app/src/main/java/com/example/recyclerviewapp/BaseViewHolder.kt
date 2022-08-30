@@ -2,9 +2,11 @@ package com.example.recyclerviewapp
 
 import android.content.Context
 import android.graphics.Point
+import android.os.Build
 import android.util.Log
 import android.view.Display
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -12,47 +14,61 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
 
     companion object {
         private val TAG : String = BaseViewHolder::class.java.getSimpleName()
-
-        public fun LogDebug(TAG : String, message : String) {
-            Log.d(TAG,message)
-        }
-
-        public fun LogError(TAG : String, message : String) {
-            Log.e(TAG,message)
-        }
     }
     /** Main */
-    private val context : Context
     private val customListeners : CustomListeners
     /** On Swipe */
-    private val size : Point
-    private val display : Display
     private val windowManager : WindowManager
     private val cardViewLeading : Float
     private val cardViewLeadEdge : Float
     private val cardViewTrailEdge : Float
     private val cardViewTrailing : Float
-    public var dXLead : Float = 0.toFloat()
-    public var dXTrail : Float = 0.toFloat()
+    private val width : Int
+    protected var dXLead : Float = 0.toFloat()
+    protected var dXTrail : Float = 0.toFloat()
 
-    constructor(context : Context, itemView : View, customListeners : CustomListeners) : super(itemView) {
-        this.context = context
+    constructor(itemView : View, customListeners : CustomListeners) : super(itemView) {
         this.customListeners = customListeners
-        windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        size = Point()
-        display = windowManager.getDefaultDisplay() //activity.getWindowManager().getDefaultDisplay()
-        display.getSize(size)
-        cardViewLeading = size.x.toFloat() * 0.10f //leading
-        cardViewLeadEdge = size.x.toFloat() * 0.25f //leading_rubber
-        cardViewTrailEdge = size.x.toFloat() * 0.75f //trailing_rubber
-        cardViewTrailing = size.x.toFloat() * 0.90f //trailing
+        windowManager = itemView.getContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        width = getWidth()
+        cardViewLeading = width.toFloat() * 0.10f //leading
+        cardViewLeadEdge = width.toFloat() * 0.25f //leading_rubber
+        cardViewTrailEdge = width.toFloat() * 0.75f //trailing_rubber
+        cardViewTrailing = width.toFloat() * 0.90f //trailing
     }
 
-    public fun getListener() : CustomListeners {
+    protected fun logDebug(TAG : String, message : String) {
+        Log.d(TAG,message)
+    }
+
+    protected fun logError(TAG : String, message : String) {
+        Log.e(TAG,message)
+    }
+
+    protected fun getListener() : CustomListeners {
         return customListeners
     }
 
-    public fun setSwipe(view : View, swipeState : SwipeState) {
+    private fun getWidth() : Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = windowManager.getCurrentWindowMetrics()
+            val windowInsets: WindowInsets = windowMetrics.getWindowInsets()
+            val insets = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars() or WindowInsets.Type.displayCutout())
+            val insetsWidth = insets.right + insets.left
+            //val insetsHeight = insets.top + insets.bottom
+            val bounds = windowMetrics.getBounds()
+            //val height  : Int = bounds.height() - insetsHeight
+            bounds.width() - insetsWidth //val width : Int = bounds.width() - insetsWidth
+        } else {
+            val size : Point = Point()
+            val display : Display = windowManager.getDefaultDisplay() // deprecated in API 30
+            display.getSize(size) // deprecated in API 30
+            //val height  : Int = size.y
+            size.x //val width : Int = size.x
+        }
+    }
+
+    public fun setSwipe(view : View, swipeState : SwipeState?) { logDebug(TAG, "setSwipe($view ,$swipeState)")
         onAnimate(view, onSwipeUp(swipeState),0)
     }
 
@@ -60,53 +76,53 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         view.animate().x(dx).setDuration(duration).start()
     }
 
-    public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {
-        LogDebug(TAG,"onSwipeMove($currentLead, $currentTrail, $swipeState)")
+    public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState?) : Float {
+        logDebug(TAG,"onSwipeMove($currentLead, $currentTrail, $swipeState)")
         return when {
             swipeState == SwipeState.LEFT || swipeState == SwipeState.RIGHT || swipeState == SwipeState.LEFT_RIGHT -> {
                 currentLead
             }
             else -> { /**swipeState == SwipeState.NONE*/
-                LogDebug(TAG,"Else Swipe ${swipeState}")
+                logDebug(TAG,"Else Swipe ${swipeState}")
                 cardViewLeading
             }
         }
     }
 
-    public fun getSwipeState(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : SwipeState {
-        LogDebug(TAG,"getSwipeState($currentLead, $currentTrail, $swipeState)")
+    public fun getSwipeState(currentLead : Float, currentTrail : Float, swipeState : SwipeState?) : SwipeState {
+        logDebug(TAG,"getSwipeState($currentLead, $currentTrail, $swipeState)")
         return when {
             swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
-                LogDebug(TAG,"SwipeState.LEFT")
+                logDebug(TAG,"SwipeState.LEFT")
                 SwipeState.LEFT
             }
             swipeState == SwipeState.RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"SwipeState.RIGHT")
+                logDebug(TAG,"SwipeState.RIGHT")
                 SwipeState.RIGHT
             }
             swipeState == SwipeState.LEFT_RIGHT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge -> {
-                LogDebug(TAG,"SwipeState.LEFT")
+                logDebug(TAG,"SwipeState.LEFT")
                 SwipeState.LEFT
             }
             swipeState == SwipeState.LEFT_RIGHT && currentLead > cardViewLeadEdge && currentTrail > cardViewTrailing -> {
-                LogDebug(TAG,"SwipeState.RIGHT")
+                logDebug(TAG,"SwipeState.RIGHT")
                 SwipeState.RIGHT
             }
             else -> {
-                LogDebug(TAG,"SwipeState.NONE")
+                logDebug(TAG,"SwipeState.NONE")
                 SwipeState.NONE
             }
         }
     }
 
-    public fun onSwipeUp(swipeState : SwipeState) : Float {
-        LogDebug(TAG,"onSwipeUp($swipeState)")
-        LogDebug(TAG,"$cardViewLeading $cardViewLeadEdge $cardViewTrailEdge $cardViewTrailing - ${size.x.toFloat()}")
+    public fun onSwipeUp(swipeState : SwipeState?) : Float {
+        logDebug(TAG,"onSwipeUp($swipeState)")
+        logDebug(TAG,"$cardViewLeading $cardViewLeadEdge $cardViewTrailEdge $cardViewTrailing - ${width.toFloat()}")
         return if (swipeState == SwipeState.NONE) cardViewLeading
-        else if (swipeState == SwipeState.LEFT) (size.x.toFloat() * -0.05f)
+        else if (swipeState == SwipeState.LEFT) (width.toFloat() * -0.05f)
         else if (swipeState == SwipeState.RIGHT) cardViewLeadEdge
         else cardViewLeading
     }
 
-    abstract fun bindDataToViewHolder(item : CustomViewModel, position : Int, swipeState : SwipeState)
+    abstract fun bindDataToViewHolder(model : CustomHolderModel, position : Int, swipeState : SwipeState?)
 }

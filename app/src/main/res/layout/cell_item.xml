@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data class="CellItemBinder">
+        <variable
+            name="holder"
+            type="com.example.recyclerviewapp.CustomHolderModel" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="state"
+            type="com.example.recyclerviewapp.SwipeState" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/constraint_layout">
+        <!--region Guide lines-->
+        <!--region Vertical Guide lines-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_leading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/leading"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_leading_rubber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/leading_rubber"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_leading_edge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/leading_edge"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_trailing_edge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/trailing_edge"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_trailing_rubber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/trailing_rubber"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_vertical_trailing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="@dimen/trailing"/>
+        <!--endregion-->
+        <!--region Horizontal Guidlines-->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_horizontal_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.10"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/constraint_guideline_horizontal_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.90"/>
+        <!--endregion-->
+        <!--endregion-->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:0.25"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/orange"
+            app:cardUseCompatPadding="false"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation_minimum"
+            app:cardMaxElevation="@dimen/card_elevation_minimum"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+            app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+            app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+        <ImageView
+            android:id="@+id/button_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="@dimen/card_elevation"
+            app:srcCompat="@drawable/ic_left_white"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+            app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_leading_rubber"
+            app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+        <ImageView
+            android:id="@+id/button_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="@dimen/card_elevation"
+            app:srcCompat="@drawable/ic_right_white"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+            app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_trailing_rubber"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+            app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cardBackgroundColor="@color/card_state_normal"
+            app:cardUseCompatPadding="false"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:cardMaxElevation="@dimen/card_elevation_maximum"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_top"
+            app:layout_constraintStart_toStartOf="@id/constraint_guideline_vertical_leading"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+            app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/image_view"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        tools:srcCompat="@drawable/ic_launcher_foreground"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:id="@+id/text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="[Name]"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
