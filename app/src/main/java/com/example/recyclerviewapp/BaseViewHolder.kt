@@ -22,7 +22,6 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         }
     }
     /** Main */
-    private val context : Context
     private val customListeners : CustomListeners
     /** On Swipe */
     private val size : Point
@@ -32,13 +31,12 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
     private val cardViewLeadEdge : Float
     private val cardViewTrailEdge : Float
     private val cardViewTrailing : Float
-    public var dXLead : Float = 0.toFloat()
-    public var dXTrail : Float = 0.toFloat()
+    protected var dXLead : Float = 0.toFloat()
+    protected var dXTrail : Float = 0.toFloat()
 
-    constructor(context : Context, itemView : View, customListeners : CustomListeners) : super(itemView) {
-        this.context = context
+    constructor(itemView : View, customListeners : CustomListeners) : super(itemView) {
         this.customListeners = customListeners
-        windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager = itemView.getContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         size = Point()
         display = windowManager.getDefaultDisplay() //activity.getWindowManager().getDefaultDisplay()
         display.getSize(size)
@@ -52,7 +50,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         return customListeners
     }
 
-    public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState) : Float {
+    public fun onSwipeMove(currentLead : Float, currentTrail : Float, swipeState : SwipeState?) : Float {
         LogDebug(TAG,"onSwipeMove($currentLead Lead $cardViewLeading $cardViewLeadEdge - $cardViewTrailEdge $cardViewTrailing Trail $currentTrail)")
         return when {
             swipeState == SwipeState.NONE -> { /**For Swipe None Only */
@@ -103,5 +101,5 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         return cardViewLeading
     }
 
-    abstract fun bindDataToViewHolder(item : CustomViewModel, position : Int, swipeState : SwipeState)
+    abstract fun bindDataToViewHolder(model : CustomHolderModel, position : Int, swipeState : SwipeState)
 }

@@ -5,18 +5,19 @@
     <dimen name="card_radius">8dp</dimen>
     <dimen name="card_radius_minimum">5dp</dimen>
     <dimen name="card_radius_micro">3dp</dimen>
-
+    <!-- endregion -->
     <!-- CardView Elavation -->
     <dimen name="card_elevation_maximum">5dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_elevation_minimum">1dp</dimen>
     <dimen name="card_elevation_none">0dp</dimen>
-
+    <!-- endregion -->
+    <!-- Swipe -->
     <item name="leading" format="float" type="dimen">0.10</item>
     <item name="leading_rubber" format="float" type="dimen">0.25</item>
     <item name="leading_edge" format="float" type="dimen">0.40</item>
     <item name="trailing_edge" format="float" type="dimen">0.60</item>
     <item name="trailing_rubber" format="float" type="dimen">0.75</item>
     <item name="trailing" format="float" type="dimen">0.90</item>
-
+    <!-- endregion -->
 </resources>
