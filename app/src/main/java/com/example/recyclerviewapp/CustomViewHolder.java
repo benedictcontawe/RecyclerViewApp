@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp;
 
-import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,8 +19,8 @@ public class CustomViewHolder extends BaseViewHolder {
     private ImageView rightImage;
     private CardView cardView;
 
-    public CustomViewHolder(Context context, View itemView, CustomListeners customListeners) {
-        super(context, itemView, customListeners);
+    public CustomViewHolder(View itemView, CustomListeners customListeners) {
+        super(itemView, customListeners);
         imageView = itemView.findViewById(R.id.image_view);
         textView = itemView.findViewById(R.id.text_view);
         cardView = itemView.findViewById(R.id.card_view);
