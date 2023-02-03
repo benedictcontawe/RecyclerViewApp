@@ -49,8 +49,9 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
         return customListeners
     }
 
-    private fun getWidth() : Int {
+    private fun getWidth() : Int { logDebug(TAG,"getWidth ${Build.VERSION.SDK_INT}")
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            logDebug(TAG,"getWidth >= R")
             val windowMetrics = windowManager.getCurrentWindowMetrics()
             val windowInsets: WindowInsets = windowMetrics.getWindowInsets()
             val insets = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars() or WindowInsets.Type.displayCutout())
@@ -60,6 +61,7 @@ abstract class BaseViewHolder : RecyclerView.ViewHolder {
             //val height  : Int = bounds.height() - insetsHeight
             bounds.width() - insetsWidth //val width : Int = bounds.width() - insetsWidth
         } else {
+            logDebug(TAG,"getWidth < R")
             val size : Point = Point()
             val display : Display = windowManager.getDefaultDisplay() // deprecated in API 30
             display.getSize(size) // deprecated in API 30
