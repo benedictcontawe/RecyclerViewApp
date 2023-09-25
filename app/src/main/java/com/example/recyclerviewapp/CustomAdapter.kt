@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,18 +14,15 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder> {
     }
 
     /**Main */
-    private lateinit var customListeners : CustomListeners
-
-    private lateinit var list : MutableList<CustomViewModel>
-    //private lateinit var list : List<CustomViewModel>
+    private val customListeners : CustomListeners
+    private val list : MutableList<CustomViewModel>
 
     constructor(customListeners : CustomListeners) : super() {
         this.customListeners = customListeners
     }
 
     init {
-        list = mutableListOf()
-        //list = listOf()
+        list = mutableListOf<CustomViewModel>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : BaseViewHolder {
@@ -34,20 +30,20 @@ class CustomAdapter : RecyclerView.Adapter<BaseViewHolder> {
         val view : View
         when(viewType){
             DefaultView -> {
-                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
-                return CustomViewHolder(parent.getContext(), view, customListeners)
+                view = layoutInflater.inflate(R.layout.cell_sample, parent, false)
+                return CustomViewHolder(view, customListeners)
             }
             IconView -> {
-                view = layoutInflater.inflate(R.layout.item_icon_sample, parent, false)
-                return CustomIconViewHolder(parent.getContext(), view, customListeners)
+                view = layoutInflater.inflate(R.layout.cell_icon_sample, parent, false)
+                return CustomIconViewHolder(view, customListeners)
             }
             NameView -> {
-                view = layoutInflater.inflate(R.layout.item_name_sample, parent, false)
-                return CustomNameViewHolder(parent.getContext(), view, customListeners)
+                view = layoutInflater.inflate(R.layout.cell_name_sample, parent, false)
+                return CustomNameViewHolder(view, customListeners)
             }
             else -> {
-                view = layoutInflater.inflate(R.layout.item_sample, parent, false)
-                return CustomViewHolder(parent.getContext(), view, customListeners)
+                view = layoutInflater.inflate(R.layout.cell_sample, parent, false)
+                return CustomViewHolder(view, customListeners)
             }
         }
     }

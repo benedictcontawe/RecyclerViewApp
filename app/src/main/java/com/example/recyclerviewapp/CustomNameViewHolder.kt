@@ -9,12 +9,11 @@ import androidx.cardview.widget.CardView
 class CustomNameViewHolder : BaseViewHolder {
 
     /**Data */
-    private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
+    private val textView : TextView
     /**With Events and Others */
-    private lateinit var cardView: CardView
+    private val cardView: CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(context, itemView, customListeners)
+    constructor(itemView : View, customListeners : CustomListeners) : super(itemView, customListeners)
 
     init {
         textView = itemView.findViewById(R.id.text_view)
@@ -29,7 +28,7 @@ class CustomNameViewHolder : BaseViewHolder {
         //region Set Listener
         /* On Click */
         cardView.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(view: View) {
+            override fun onClick(view : View) {
                 getListener().onClick(item, position)
             }
         })

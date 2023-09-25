@@ -1,8 +1,8 @@
 package com.example.recyclerviewapp
 
-interface CustomListeners {
+public interface CustomListeners {
 
-    fun onClick(item : CustomViewModel, position: Int)
+    fun onClick(item : CustomViewModel, position : Int)
 
-    fun onLongClick(item : CustomViewModel, position: Int)
+    fun onLongClick(item : CustomViewModel, position : Int)
 }

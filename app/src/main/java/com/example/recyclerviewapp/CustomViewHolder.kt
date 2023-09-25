@@ -1,6 +1,5 @@
 package com.example.recyclerviewapp
 
-import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,12 +8,12 @@ import androidx.cardview.widget.CardView
 class CustomViewHolder : BaseViewHolder {
 
     /**Data */
-    private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
+    private val imageView: ImageView
+    private val textView: TextView
     /**With Events and Others */
-    private lateinit var cardView: CardView
+    private val cardView: CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(context, itemView, customListeners)
+    constructor(itemView : View, customListeners : CustomListeners) : super(itemView, customListeners)
 
     init {
         imageView = itemView.findViewById(R.id.image_view)
@@ -31,13 +30,13 @@ class CustomViewHolder : BaseViewHolder {
         //region Set Listener
         /* On Click */
         cardView.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(view: View) {
+            override fun onClick(view : View) {
                 getListener().onClick(item, position)
             }
         })
         /* On Long Click */
         cardView.setOnLongClickListener(object : View.OnLongClickListener{
-            override fun onLongClick(view: View): Boolean {
+            override fun onLongClick(view : View) : Boolean {
                 getListener().onLongClick(item, position)
                 return false
             }

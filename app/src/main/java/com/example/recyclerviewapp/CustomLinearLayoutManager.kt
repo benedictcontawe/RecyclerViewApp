@@ -1,13 +1,13 @@
 package com.example.recyclerviewapp
 
 import android.content.Context
+import android.graphics.PointF
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.util.DisplayMetrics
-import android.graphics.PointF
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 
 class CustomLinearLayoutManager : LinearLayoutManager {
 
@@ -37,7 +37,7 @@ class CustomLinearLayoutManager : LinearLayoutManager {
 
             override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
                 return this@CustomLinearLayoutManager
-                        .computeScrollVectorForPosition(targetPosition)
+                    .computeScrollVectorForPosition(targetPosition)
             }
 
             override fun calculateTimeForScrolling(dx: Int): Int {

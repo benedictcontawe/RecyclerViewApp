@@ -9,12 +9,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.databinding.DataBindingUtil
+import com.example.recyclerviewapp.databinding.MainBinder
 
 class MainActivity : AppCompatActivity(), CustomListeners {
-
-    private lateinit var adapter : CustomAdapter
-    private lateinit var itemList : MutableList<CustomViewModel>
 
     companion object {
         fun newIntent(context : Context) : Intent {
@@ -24,22 +22,26 @@ class MainActivity : AppCompatActivity(), CustomListeners {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    private var binder : MainBinder? = null
+    private lateinit var adapter : CustomAdapter
+    private lateinit var itemList : MutableList<CustomViewModel>
 
+    override fun onCreate(savedInstanceState : Bundle?) {
+        binder = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+        binder?.setLifecycleOwner(this@MainActivity)
+        super.onCreate(savedInstanceState)
         setRecylerView()
         setItems()
     }
 
     private fun setRecylerView() {
         adapter = CustomAdapter(this)
-        recycler_view.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
-        recycler_view.setAdapter(adapter)
-        recycler_view.setHasFixedSize(true)
+        binder?.recyclerView?.setLayoutManager(CustomLinearLayoutManager(this, LinearLayout.VERTICAL, false))
+        binder?.recyclerView?.setAdapter(adapter)
+        binder?.recyclerView?.setHasFixedSize(true)
 
-        recycler_view.setOnTouchListener(object : View.OnTouchListener{
-            override fun onTouch(v: View?, event: MotionEvent): Boolean {
+        binder?.recyclerView?.setOnTouchListener(object : View.OnTouchListener{
+            override fun onTouch(view : View?, event : MotionEvent) : Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         Log.d("MainActivity","ACTION_DOWN")
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                     MotionEvent.ACTION_UP -> {
                         Log.d("MainActivity","ACTION_UP")
                         adapter.resetViews()
-                        Toast.makeText(baseContext,"on Release Touch",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext,"on Release Touch", Toast.LENGTH_SHORT).show()
                         return false
                     }
                 }
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
     }
 
     override fun onClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"on Click",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"on Click", Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
                 adapter.changeView(CustomViewModel.IconViewType, position)
@@ -96,13 +98,13 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                 adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             else -> {
-                Toast.makeText(this,"View Type Cannot be determined",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"View Type Cannot be determined", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun onLongClick(item: CustomViewModel, position: Int) {
-        Toast.makeText(this,"on Long Click",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"on Long Click", Toast.LENGTH_SHORT).show()
         when(item.viewType) {
             CustomViewModel.DefaultViewType -> {
                 adapter.changeView(CustomViewModel.NameViewType, position)
@@ -114,7 +116,7 @@ class MainActivity : AppCompatActivity(), CustomListeners {
                 adapter.changeView(CustomViewModel.DefaultViewType, position)
             }
             else -> {
-                Toast.makeText(this,"View Type Cannot be determined",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"View Type Cannot be determined", Toast.LENGTH_SHORT).show()
             }
         }
     }

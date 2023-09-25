@@ -9,12 +9,11 @@ import androidx.cardview.widget.CardView
 class CustomIconViewHolder : BaseViewHolder {
 
     /**Data */
-    private lateinit var imageView: ImageView
-    private lateinit var textView: TextView
+    private val imageView : ImageView
     /**With Events and Others */
-    private lateinit var cardView: CardView
+    private val cardView : CardView
 
-    constructor(context : Context, itemView : View, customListeners: CustomListeners) : super(context, itemView, customListeners)
+    constructor(itemView : View, customListeners : CustomListeners) : super(itemView, customListeners)
 
     init {
         imageView = itemView.findViewById(R.id.image_view)
