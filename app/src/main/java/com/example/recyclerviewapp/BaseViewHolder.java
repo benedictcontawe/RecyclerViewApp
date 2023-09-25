@@ -35,8 +35,8 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
     private final Float cardViewTrailEdge;
     private final Float cardViewTrailing;
     private final int width;
-    public Float dXLead = Float.valueOf(0);
-    public Float dXTrail = Float.valueOf(0);
+    protected Float dXLead = Float.valueOf(0);
+    protected Float dXTrail = Float.valueOf(0);
 
     public BaseViewHolder(View itemView, CustomListeners customListeners) {
         super(itemView);
@@ -49,7 +49,7 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
         cardViewTrailing = Float.valueOf(width) * 0.90f; //trailing
     }
 
-    public CustomListeners getListener() {
+    protected CustomListeners getListener() {
         return customListeners;
     }
 
@@ -75,15 +75,15 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setSwipe(View view, SwipeState swipeState) {
+    protected void setSwipe(View view, SwipeState swipeState) {
         onAnimate(view, onSwipeUp(swipeState),Long.valueOf(0));
     }
 
-    public void onAnimate(View view, Float dx, Long duration) {
+    protected void onAnimate(View view, Float dx, Long duration) {
         view.animate().x(dx).setDuration(duration).start();
     }
 
-    public Float onSwipeMove(Float currentLead, Float currentTrail, SwipeState swipeState) {
+    protected Float onSwipeMove(Float currentLead, Float currentTrail, SwipeState swipeState) {
         LogDebug(TAG,"onSwipeMove($currentLead, $currentTrail, $swipeState)");
         if (swipeState == SwipeState.LEFT || swipeState == SwipeState.RIGHT || swipeState == SwipeState.LEFT_RIGHT) {
             return currentLead;
@@ -92,7 +92,7 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public SwipeState getSwipeState(Float currentLead, Float currentTrail, SwipeState swipeState) {
+    protected SwipeState getSwipeState(Float currentLead, Float currentTrail, SwipeState swipeState) {
         LogDebug(TAG,"getSwipeState($currentLead, $currentTrail, $swipeState)");
         if (swipeState == SwipeState.LEFT && currentLead < cardViewLeading && currentTrail < cardViewTrailEdge) {
             LogDebug(TAG,"SwipeState.LEFT");
@@ -112,7 +112,7 @@ abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public Float onSwipeUp(SwipeState swipeState) {
+    protected Float onSwipeUp(SwipeState swipeState) {
         LogDebug(TAG,"onSwipeUp($swipeState)");
         LogDebug(TAG,"$cardViewLeading $cardViewLeadEdge $cardViewTrailEdge $cardViewTrailing - ${size.x.toFloat()}");
         if (swipeState == SwipeState.NONE) return cardViewLeading;
