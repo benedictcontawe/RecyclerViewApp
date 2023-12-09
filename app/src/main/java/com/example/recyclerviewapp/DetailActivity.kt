@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,9 +19,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.recyclerviewapp.ui.theme.RecyclerViewAppTheme
 
 class DetailActivity : ComponentActivity() {
 
@@ -50,12 +54,19 @@ class DetailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val scrollState = rememberScrollState()
-            BoxWithConstraints {
-                Column (
-                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+            RecyclerViewAppTheme {
+                Surface (
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    HeaderComposable(this@BoxWithConstraints.maxHeight)
-                    ContentComposable()
+                    BoxWithConstraints() {
+                        Column (
+                            modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+                        ) {
+                            HeaderComposable(this@BoxWithConstraints.maxHeight)
+                            ContentComposable()
+                        }
+                    }
                 }
             }
         }
@@ -63,12 +74,14 @@ class DetailActivity : ComponentActivity() {
 
     @Composable
     private fun HeaderComposable (containerHeight : Dp) {
-        val androidDrawable = painterResource(id = R.drawable.ic_launcher_foreground)
+        val androidDrawable = painterResource (
+            id = (model as? IconModel)?.icon ?: R.drawable.ic_launcher_foreground
+        )
         Image (
-            modifier = Modifier.heightIn(max = containerHeight / 2).fillMaxWidth(),
-            painter  = androidDrawable,
+            contentDescription = null,
             contentScale = ContentScale.Crop,
-            contentDescription = null
+            modifier = Modifier.heightIn(max = containerHeight / 2).fillMaxWidth().background(Color.Gray),
+            painter  = androidDrawable,
         )
     }
 
@@ -77,7 +90,7 @@ class DetailActivity : ComponentActivity() {
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) {
             Text (
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.height(13.dp),
+                modifier = Modifier.height(20.dp),
                 style = MaterialTheme.typography.labelSmall,
                 text = stringResource(id = R.string.name),
             )
@@ -86,12 +99,12 @@ class DetailActivity : ComponentActivity() {
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.height(24.dp),
                 style = MaterialTheme.typography.labelLarge,
-                text = model.name,
+                text = model.getName(),
             )
             Divider(modifier = Modifier.padding(bottom = 4.dp))
             Text (
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.height(13.dp),
+                modifier = Modifier.height(20.dp),
                 style = MaterialTheme.typography.bodySmall,
                 text = stringResource(id = R.string.details),
             )
@@ -100,7 +113,7 @@ class DetailActivity : ComponentActivity() {
                 modifier = Modifier.height(24.dp),
                 overflow = TextOverflow.Visible,
                 style = MaterialTheme.typography.bodyLarge,
-                text = model.detail,
+                text = model.getDetail(),
                 textAlign = TextAlign.Center
             )
         }

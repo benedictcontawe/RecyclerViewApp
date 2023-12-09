@@ -1,11 +1,15 @@
 package com.example.recyclerviewapp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -38,6 +42,8 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private val TAG : String = MainActivity::class.java.getSimpleName()
+        public fun newIntent(context : Context) : Intent = Intent(context.applicationContext, MainActivity::class.java)
+
     }
 
     override fun onCreate(savedInstanceState : Bundle?) {
@@ -55,9 +61,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         items (
                             items = list,
-                            itemContent = { model ->
-                                CellComposable(model)
-                            }
+                            itemContent = { model -> when (model) {
+                                is IconModel -> IconCellComposable(model)
+                                is NameModel -> NameCellComposable(model)
+                            } }
                         )
                     }
                 }
@@ -66,26 +73,27 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun ImageComposable() {
-        val androidDrawable = painterResource(id = R.drawable.ic_launcher_foreground)
+    private fun ImageComposable(id : Int) {
+        val androidDrawable = painterResource(id = id)
         Icon (
-            painter  = androidDrawable,
-            contentDescription = null
+            contentDescription = null,
+            painter  = androidDrawable
         )
     }
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun CellComposable(model : CustomModel) {
+    private fun IconCellComposable(model : IconModel) {
         Card (
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth().combinedClickable (
-                enabled = true,
-                onClick = {
-
-                }, onLongClick = {
-                    startActivity( DetailActivity.newIntent(getBaseContext(), model = model) )
-                }
-            ),
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .fillMaxWidth()
+                .combinedClickable(
+                    enabled = true,
+                    onClick = { onClick(model.getName()) }, onLongClick = {
+                        startActivity(DetailActivity.newIntent(getBaseContext(), model = model))
+                    }
+                ),
             elevation = CardDefaults.cardElevation (
                 defaultElevation = 3.dp,
                 pressedElevation = 0.dp,
@@ -95,21 +103,89 @@ class MainActivity : ComponentActivity() {
             ),
             shape = RoundedCornerShape(corner = CornerSize(16.dp))
         ) {
-            Row {
-                ImageComposable()
-                Column (
-                    modifier = Modifier.padding(16.dp).fillMaxWidth().align(Alignment.CenterVertically)
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Box (
+                    modifier = Modifier.weight(0.20f),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text (
-                        text = model.name,
-                        style = typography.labelLarge
-                    )
-                    Text (
-                        text = stringResource(id = R.string.hold_tap_to_view_detail),
-                        style = typography.bodySmall
-                    )
+                    ImageComposable(id= model.icon)
+                }
+                Box (
+                    modifier = Modifier.weight(0.80f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column ( modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth() ) {
+                        Text (
+                            text = model.getName(),
+                            style = typography.labelLarge
+                        )
+                        Text (
+                            text = stringResource(id = R.string.hold_tap_to_view_detail),
+                            style = typography.bodySmall
+                        )
+                    }
                 }
             }
         }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun NameCellComposable(model : NameModel) {
+        Card (
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .fillMaxWidth()
+                .combinedClickable(
+                    enabled = true,
+                    onClick = { onClick(model.getName()) }, onLongClick = {
+                        startActivity(DetailActivity.newIntent(getBaseContext(), model = model))
+                    }
+                ),
+            elevation = CardDefaults.cardElevation (
+                defaultElevation = 3.dp,
+                pressedElevation = 0.dp,
+                focusedElevation = 1.dp,
+                disabledElevation = 0.dp,
+                hoveredElevation = 0.dp
+            ),
+            shape = RoundedCornerShape(corner = CornerSize(16.dp))
+        ) {
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Box ( modifier = Modifier.weight(0.20f), )
+                Box (
+                    modifier = Modifier.weight(0.80f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column ( modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth() ) {
+                        Text (
+                            text = model.getName(),
+                            style = typography.labelLarge
+                        )
+                        Text (
+                            text = stringResource(id = R.string.hold_tap_to_view_detail),
+                            style = typography.bodySmall
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onClick(name : String) {
+        Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show()
+        //TODO: Snackbar
     }
 }
