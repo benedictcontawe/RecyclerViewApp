@@ -1,52 +1,60 @@
 package com.example.recyclerviewapp
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.recyclerviewapp.model.CustomModel
-import com.example.recyclerviewapp.view.adapter.CustomAdapter
 
-class MainViewModel : ViewModel {
+class MainViewModel : AndroidViewModel {
 
-    private lateinit var context: Context
-    private lateinit var adapter : CustomAdapter
-    private lateinit var liveAdapter : MutableLiveData<CustomAdapter>
-
-    constructor(context: Context, customListeners : CustomListeners) {
-        adapter = CustomAdapter(context, customListeners)
-        this.context = context
+    companion object {
+        private val TAG : String = MainViewModel::class.java.getSimpleName()
     }
 
-    init {
-        liveAdapter = MutableLiveData()
+    constructor(application : Application) : super(application) {
+        setItems()
     }
 
-    fun setItems() {
-        lateinit var itemList : MutableList<CustomModel>
-        itemList = mutableListOf<CustomModel>()
-        itemList.clear()
-        itemList.add(CustomModel(1, "Parasite", "Joon-ho Bong", listOf("Kang-Ho Song","Yeo-Jeong Jo"), "Tragikomödie, Drama", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_1)))
-        itemList.add(CustomModel(2, "Joker", "Todd Phillips", listOf("Joaouin Phoenix","Robert de niro"), "Kriminalfilm, Superhelden-Film", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_2)))
-        itemList.add(CustomModel(3, "Once upon a time ... in Hollywood", "Quentin Tarantino", listOf("Leonardo Dicaprio","Brad Pitt"), "Komödie", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_3)))
-        itemList.add(CustomModel(4, "Midsommar", "Ari Aster", listOf("Florence Pugh","Jack Reynor"), "Horrorfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_4)))
-        itemList.add(CustomModel(5, "Systemsprenger", "Nora Fingscheidt", listOf("Helena Zengel","Gabriela Maria Schmeide"), "Drama", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_5)))
-        itemList.add(CustomModel(6, "Avengers 4: Endgame", "Anthony Russo", listOf("Robert Downey Jr.","Chris Evans"), "Science Fiction", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_6)))
-        itemList.add(CustomModel(7, "Wir", "Jordan Peele", listOf("Lupita Nyong´o","Winston Duke"), "Thriller", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_7)))
-        itemList.add(CustomModel(8, "The Irishman", "Martin Scorsese", listOf("Robert De Niro","Al Pacino"), "Gangsterfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_8)))
-        itemList.add(CustomModel(9, "Ad Astra - zu den Sternen", "James Gray", listOf("Brad Pitt","Tommy Lee Jones"), "Science Fiction", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_9)))
-        itemList.add(CustomModel(10, "John Wick: Kapitel 3", "Chad Stahelski", listOf("Keanu Reeves","Halle Berry"), "Actionfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_10)))
-        itemList.add(CustomModel(11, "Der Leuchtturm", "Robert Eggers", listOf("Robert Eggers","Robert Pattinson"), "Drama", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_11)))
-        itemList.add(CustomModel(12, "Der goldene Handschuh", "Fatih Akin", listOf("Jonas Dassler","Marc Hosemann"), "Thriller", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_12)))
-        itemList.add(CustomModel(13, "Spider-Man: Far from home", "Jon Watts", listOf("Tom Holland","Zendaya"), "Komödie", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_13)))
-        itemList.add(CustomModel(14, "Rocketman", "Dexter Fletcher", listOf("Taron Egerton","Jamie Bell"), "Musikfilm", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_14)))
-        itemList.add(CustomModel(15, "Shazam!", "David F. Sandberg", listOf("Zachary Levi","Mark Strong"), "Komödie", context.resources.getString(R.string.year_2019), context.resources.getString(R.string.plot_15)))
-        adapter.setItems(itemList)
+    private val liveList : MutableLiveData<List<CustomModel>> = MutableLiveData<List<CustomModel>>()
 
-        liveAdapter.value = adapter
+    public fun setItems() {
+        val list = mutableListOf<CustomModel>()
+        list.clear()
+        list.add( CustomModel(name = "A", detail = getApplication<Application>().resources.getString(R.string.a_details)) )
+        list.add( CustomModel(name = "B", detail = getApplication<Application>().resources.getString(R.string.b_details)) )
+        list.add( CustomModel(name = "C", detail = getApplication<Application>().resources.getString(R.string.c_details)) )
+        list.add( CustomModel(name = "D", detail = getApplication<Application>().resources.getString(R.string.d_details)) )
+        list.add( CustomModel(name = "E", detail = getApplication<Application>().resources.getString(R.string.e_details)) )
+        list.add( CustomModel(name = "F", detail = getApplication<Application>().resources.getString(R.string.f_details)) )
+        list.add( CustomModel(name = "G", detail = getApplication<Application>().resources.getString(R.string.g_details)) )
+        list.add( CustomModel(name = "H", detail = getApplication<Application>().resources.getString(R.string.h_details)) )
+        list.add( CustomModel(name = "I", detail = getApplication<Application>().resources.getString(R.string.i_details)) )
+        list.add( CustomModel(name = "J", detail = getApplication<Application>().resources.getString(R.string.j_details)) )
+        list.add( CustomModel(name = "K", detail = getApplication<Application>().resources.getString(R.string.k_details)) )
+        list.add( CustomModel(name = "L", detail = getApplication<Application>().resources.getString(R.string.l_details)) )
+        list.add( CustomModel(name = "M", detail = getApplication<Application>().resources.getString(R.string.m_details)) )
+        list.add( CustomModel(name = "N", detail = getApplication<Application>().resources.getString(R.string.n_details)) )
+        list.add( CustomModel(name = "O", detail = getApplication<Application>().resources.getString(R.string.o_details)) )
+        list.add( CustomModel(name = "P", detail = getApplication<Application>().resources.getString(R.string.p_details)) )
+        list.add( CustomModel(name = "Q", detail = getApplication<Application>().resources.getString(R.string.q_details)) )
+        list.add( CustomModel(name = "R", detail = getApplication<Application>().resources.getString(R.string.r_details)) )
+        list.add( CustomModel(name = "S", detail = getApplication<Application>().resources.getString(R.string.s_details)) )
+        list.add( CustomModel(name = "T", detail = getApplication<Application>().resources.getString(R.string.t_details)) )
+        list.add( CustomModel(name = "U", detail = getApplication<Application>().resources.getString(R.string.u_details)) )
+        list.add( CustomModel(name = "V", detail = getApplication<Application>().resources.getString(R.string.v_details)) )
+        list.add( CustomModel(name = "W", detail = getApplication<Application>().resources.getString(R.string.w_details)) )
+        list.add( CustomModel(name = "X", detail = getApplication<Application>().resources.getString(R.string.x_details)) )
+        list.add( CustomModel(name = "Y", detail = getApplication<Application>().resources.getString(R.string.y_details)) )
+        list.add( CustomModel(name = "Z", detail = getApplication<Application>().resources.getString(R.string.z_details)) )
+        liveList.setValue(list)
     }
 
-    fun getAdapter() : LiveData<CustomAdapter>{
-        return liveAdapter
+    public fun getLiveList() : LiveData<List<CustomModel>> {
+        return liveList
     }
+
+    override fun onCleared() {
+        super.onCleared()
+    }
+
 }

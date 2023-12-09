@@ -1,22 +1,32 @@
 <resources>
     <string name="app_name">RecyclerViewApp</string>
-
-    <string name="year_2019">2019</string>
-    <string name="plot_1">Tragikomödie von Joon-ho Bong mit Kang-ho Song und Sun-kyun Lee.Im südkoreanischen Cannes-Gewinner 2019, Parasite von Joon-ho Bong, wird eine arbeitslose Familie erst in das Leben und dann in einen Zwischenfall der wohlhabenden Glamour-Familie der Parks verwickelt.</string>
-    <string name="plot_2">Kriminalfilm von Todd Phillips mit Joaquin Phoenix und Zazie Beetz. Im eigenständigen, vom DCEU losgelösten Film über den Joker schlüpft Joaquin Phoenix in die Titelrolle. Erzählt wird die Geschichte, wie er zu dem unberechenbaren Bösewicht wurde, den alle kennen.</string>
-    <string name="plot_3">Tragikomödie von Quentin Tarantino mit Leonardo DiCaprio und Brad Pitt.
-
-        In Once Upon a Time ... in Hollywood von Quentin Tarantino versuchen ein Schauspieler und sein Stunt-Double im Los Angeles 1969 ihr Glück - also zu jener Zeit, als Charles Manson dort mit seinen Morden für Aufsehen sorgt.</string>
-    <string name="plot_4">Horrorfilm von Ari Aster mit Florence Pugh und Jack Reynor. Im Horrorfilm Midsommar von Hereditary-Regisseur Ari Aster wird der Urlaub in einem schwedischen Dorf für Florence Pugh zum Höllentrip, als sich das Mittsommerfest als heidnisches Ritual entpuppt.</string>
-    <string name="plot_5">Drama von Nora Fingscheidt mit Helena Zengel und Gabriela Maria Schmeide. Helena Zengel spielt in dem auf der Berlinale 2019 prämierten Drama Systemsprenger die neunjährige Benni, die aus jeder Pflegefamilie und aus jeder Einrichtung fliegt.</string>
-    <string name="plot_6">Superhelden-Film von Anthony Russo und Joe Russo mit Robert Downey Jr. und Chris Evans. In Avengers 4: Endgame kommen die Marvel-Helden rund um Iron Man, Captain America, Thor, Black Widow, Hulk und Hawkeye zum vierten Mal zusammen, um die Welt zu retten.</string>
-    <string name="plot_7">Horrorfilm von Jordan Peele mit Lupita Nyong\'o und Winston Duke. Wir ist ein Horrorthriller von Jordan Peele (Get Out), in dem eine Familie in einem Strandhaus abschalten will. Doch als ungebetene Gäste eintreffen, wird der Ausflug zum absoluten Albtraum.</string>
-    <string name="plot_8">Gangsterfilm von Martin Scorsese mit Robert De Niro und Al Pacino. Für Netflix\' The Irishman bringt Martin Scorsese wieder Robert DeNiro, Al Pacino und Joe Pesci zusammen, um die Geschichte des Mafia-Killers Frank Sheeran zu erzählen.</string>
-    <string name="plot_9">Abenteuerfilm von James Gray mit Brad Pitt und Tommy Lee Jones. Im Sci-Fi-Thriller Ad Astra reist Brad Pitt zum Neptun, um auf dem Planeten hoffentlich seinen Vater Tommy Lee Jones und vielleicht sogar die Lösung für eine globale Bedrohung zu finden.</string>
-    <string name="plot_10">Kriminalfilm von Chad Stahelski mit Keanu Reeves und Halle Berry. Für John Wick: Kapitel 3 greift Keanu Reeves ein drittes Mal zur Waffe, um seinem Ruf als gefürchteter Profikiller gerecht zu werden. Diesmal eröffnet seine ganze Zunft die Jagd auf ihn.</string>
-    <string name="plot_11">Drama von Robert Eggers mit Willem Dafoe und Robert Pattinson. In Robert Eggers Der Leuchtturm spielen Willem Dafoe und Robert Pattinson zwei Leuchtturmwärter, die auf einer mysteriösen Insel in den 1890er Jahren langsam dem Wahnsinn verfallen.</string>
-    <string name="plot_12">Serienkiller-Film von Fatih Akin mit Jonas Dassler und Marc Hosemann. In Fatih Akins Der goldene Handschuh treibt der Serienmörder Fritz Honka im Hamburg der 1970er Jahre nach einer wahren Geschichte sein Unwesen.</string>
-    <string name="plot_13">Superhelden-Film von Jon Watts mit Tom Holland und Zendaya. Spider-Man: Far From Home führt Tom Holland für einen Schulausflug nach Europa, wo er sich mit Jake Gyllenhaal einem Kampf gegen die Elemente stellen muss.</string>
-    <string name="plot_14">Musikfilm von Dexter Fletcher mit Taron Egerton und Jamie Bell. Rocketman ist ein musikalisches Biopic, das den Weg des Künstlers Elton John vom elfjährigen, aufstrebenden Pianisten zum Weltstar nachzeichnet.</string>
-    <string name="plot_15">Superhelden-Film von David F. Sandberg mit Zachary Levi und Mark Strong. Mit Shazam! wird ein weiterer DC-Comic zu Leinwandleben erweckt: der erste Captain Marvel. Der Junge Billy Batson wird darin Kraft des Zauberwortes Shazam! zum erwachsenen Superhelden.</string>
+    <string name="name">Name</string>
+    <string name="details">Details</string>
+    <string name="hold_tap_to_view_detail">Hold Tap to View Detail</string>
+    <string name="a_details">A Details</string>
+    <string name="b_details">B Details</string>
+    <string name="c_details">C Details</string>
+    <string name="d_details">D Details</string>
+    <string name="e_details">E Details</string>
+    <string name="f_details">F Details</string>
+    <string name="g_details">G Details</string>
+    <string name="h_details">H Details</string>
+    <string name="i_details">I Details</string>
+    <string name="j_details">J Details</string>
+    <string name="k_details">K Details</string>
+    <string name="l_details">L Details</string>
+    <string name="m_details">M Details</string>
+    <string name="n_details">N Details</string>
+    <string name="o_details">O Details</string>
+    <string name="p_details">P Details</string>
+    <string name="q_details">Q Details</string>
+    <string name="r_details">R Details</string>
+    <string name="s_details">S Details</string>
+    <string name="t_details">T Details</string>
+    <string name="u_details">U Details</string>
+    <string name="v_details">V Details</string>
+    <string name="w_details">W Details</string>
+    <string name="x_details">X Details</string>
+    <string name="y_details">Y Details</string>
+    <string name="z_details">Z Details</string>
 </resources>
