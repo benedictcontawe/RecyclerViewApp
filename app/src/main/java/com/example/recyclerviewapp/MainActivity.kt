@@ -90,7 +90,8 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .combinedClickable(
                     enabled = true,
-                    onClick = { onClick(model.getName()) }, onLongClick = {
+                    onClick = { onClick(model.getName()) },
+                    onLongClick = {
                         startActivity(DetailActivity.newIntent(getBaseContext(), model = model))
                     }
                 ),
@@ -118,9 +119,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.weight(0.80f),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column ( modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth() ) {
+                    Column ( modifier = Modifier.padding(16.dp).fillMaxWidth() ) {
                         Text (
                             text = model.getName(),
                             style = typography.labelLarge
@@ -144,7 +143,8 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .combinedClickable(
                     enabled = true,
-                    onClick = { onClick(model.getName()) }, onLongClick = {
+                    onClick = { onClick(model.getName()) },
+                    onLongClick = {
                         startActivity(DetailActivity.newIntent(getBaseContext(), model = model))
                     }
                 ),
@@ -167,9 +167,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.weight(0.80f),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column ( modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth() ) {
+                    Column ( modifier = Modifier.padding(16.dp).fillMaxWidth() ) {
                         Text (
                             text = model.getName(),
                             style = typography.labelLarge
@@ -186,6 +184,6 @@ class MainActivity : ComponentActivity() {
 
     private fun onClick(name : String) {
         Toast.makeText(getBaseContext(), name, Toast.LENGTH_SHORT).show()
-        //TODO: Snackbar
+        //TODO: Snackbar on going
     }
 }
