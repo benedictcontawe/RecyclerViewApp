@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.recyclerviewapp.ui.theme.RecyclerViewAppTheme
 
@@ -43,10 +44,10 @@ class MainActivity : ComponentActivity() {
     companion object {
         private val TAG : String = MainActivity::class.java.getSimpleName()
         public fun newIntent(context : Context) : Intent = Intent(context.applicationContext, MainActivity::class.java)
-
     }
 
     override fun onCreate(savedInstanceState : Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel : MainViewModel = viewModel { MainViewModel(getApplication()) }
