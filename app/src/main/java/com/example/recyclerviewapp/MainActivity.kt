@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-            val list by viewModel.getLiveList().observeAsState(listOf<CustomModel>())
+            val list : List<CustomModel> by viewModel.getLiveList().observeAsState(listOf<CustomModel>())
             RecyclerViewAppTheme {
                 Surface (
                     modifier = Modifier.fillMaxSize(),
