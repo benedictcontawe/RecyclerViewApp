@@ -55,19 +55,21 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.multidex:multidex:2.0.1")
+    //implementation("androidx.appcompat:appcompat:1.6.1")
+    //implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //endregion
     //region Android X Jetpack Compose
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    //endregion
+    //region Google Library
     implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //endregion
     //region Android Unit Test and U.I. Test Library
     testImplementation("junit:junit:4.13.2")

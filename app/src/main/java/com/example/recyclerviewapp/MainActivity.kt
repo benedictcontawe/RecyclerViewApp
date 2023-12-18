@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +37,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.recyclerviewapp.ui.theme.RecyclerViewAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,11 +46,12 @@ class MainActivity : ComponentActivity() {
         public fun newIntent(context : Context) : Intent = Intent(context.applicationContext, MainActivity::class.java)
     }
 
+    private val viewModel : MainViewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState : Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel : MainViewModel = viewModel { MainViewModel(getApplication()) }
             val list by viewModel.getLiveList().observeAsState(listOf<CustomModel>())
             RecyclerViewAppTheme {
                 Surface (
