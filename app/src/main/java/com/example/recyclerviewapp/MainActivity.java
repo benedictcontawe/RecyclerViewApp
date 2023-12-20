@@ -1,19 +1,19 @@
 package com.example.recyclerviewapp;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CustomListeners {
 
-    private static String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity implements CustomListeners {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        setRecylerView();
+        setRecyclerView();
         setItems();
     }
 
-    private void setRecylerView() {
+    private void setRecyclerView() {
         adapter = new CustomAdapter(this, SwipeState.LEFT_RIGHT);
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -77,12 +77,17 @@ public class MainActivity extends AppCompatActivity implements CustomListeners {
     }
 
     @Override
-    public void onClickLeft(CustomViewModel item, int position) {
+    public void onClickLeft(CustomViewModel model, int position) {
         Toast.makeText(this,"Left Arrow Clicked! " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onClickRight(CustomViewModel item, int position) {
+    public void onClickRight(CustomViewModel model, int position) {
         Toast.makeText(this,"Right Arrow Clicked! " + position,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRetainSwipe(CustomViewModel model, int position) {
+        adapter.retainSwipe(model, position);
     }
 }

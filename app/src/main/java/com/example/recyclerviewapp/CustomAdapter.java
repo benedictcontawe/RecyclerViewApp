@@ -12,12 +12,12 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private static String TAG = CustomAdapter.class.getSimpleName();
+    private static final String TAG = CustomAdapter.class.getSimpleName();
     /**Main */
-    private CustomListeners customListeners;
-    private SwipeState swipeState;
+    private final CustomListeners customListeners;
+    private final SwipeState swipeState;
 
-    private ArrayList<CustomViewModel> list;
+    private final ArrayList<CustomViewModel> list;
 
     public CustomAdapter(CustomListeners customListeners, SwipeState swipeState) {
         super();
@@ -42,6 +42,29 @@ public class CustomAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    /**
+     * Retains the swipe state of the cell and updates the UI accordingly. This method ensures that other cells
+     * that have been swiped left or right are returned to the middle, while retaining the state of the currently
+     * touched cell.
+     *
+     * @param model The model associated with the swipe action.
+     * @param position The position of the item in the data set.
+     */
+    public void retainSwipe(CustomViewModel model, int position) {
+        // Check if swipe is enabled in the current state
+        final boolean isEnabled = swipeState == SwipeState.LEFT || swipeState == SwipeState.RIGHT || swipeState == SwipeState.LEFT_RIGHT;
+        // If swipe is enabled, reset the swipe state for other cells
+        if (isEnabled) {
+            for (int index = 0; index < getItemCount(); index++) {
+                final boolean isNotSwiped = list.get(index).state != SwipeState.NONE;
+                if (index != position && isNotSwiped) {
+                    list.get(index).state = SwipeState.NONE;
+                    notifyItemChanged(index);
+                }
+            }
+        }
     }
 
     public void setItems(List<CustomViewModel> items) {

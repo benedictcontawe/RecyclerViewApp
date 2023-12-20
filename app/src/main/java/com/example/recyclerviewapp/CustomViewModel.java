@@ -2,8 +2,8 @@ package com.example.recyclerviewapp;
 
 public class CustomViewModel {
 
-    int icon;
-    String name;
+    final int icon;
+    final String name;
     SwipeState state;
 
     public CustomViewModel(int icon, String name) {

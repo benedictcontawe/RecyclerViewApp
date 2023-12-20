@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 abstract public class BaseViewHolder extends RecyclerView.ViewHolder {
 
-    private static String TAG = BaseViewHolder.class.getSimpleName();
+    private static final String TAG = BaseViewHolder.class.getSimpleName();
 
     public static void LogDebug(String TAG, String message) {
         Log.d(TAG,message);
