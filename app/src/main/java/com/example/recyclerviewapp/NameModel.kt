@@ -4,6 +4,11 @@ data class NameModel (
     private val name : String,
     private val detail : String,
 ) : CustomModel() {
+
+    companion object {
+        private val TAG = NameModel::class.java.getSimpleName()
+    }
+
     override fun getName(): String = name
 
     override fun getDetail() : String = detail
@@ -25,6 +30,6 @@ data class NameModel (
     }
 
     override fun toString() : String {
-        return super.toString()
+        return "${TAG}($name, $detail)" ?: super.toString()
     }
 }

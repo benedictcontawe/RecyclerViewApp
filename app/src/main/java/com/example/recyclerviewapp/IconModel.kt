@@ -5,6 +5,11 @@ data class IconModel (
     private val name : String,
     private val detail : String,
 ) : CustomModel() {
+
+    companion object {
+        private val TAG = IconModel::class.java.getSimpleName()
+    }
+
     override fun getName() : String {
         return name
     }
@@ -30,6 +35,6 @@ data class IconModel (
     }
 
     override fun toString() : String {
-        return super.toString()
+        return "$TAG($icon, $name, $detail)" ?: super.toString()
     }
 }

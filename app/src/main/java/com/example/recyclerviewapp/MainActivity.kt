@@ -76,10 +76,9 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun ImageComposable(id : Int) {
-        val androidDrawable = painterResource(id = id)
         Icon (
             contentDescription = null,
-            painter  = androidDrawable
+            painter  = painterResource(id = id)
         )
     }
 
@@ -90,7 +89,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
                 .fillMaxWidth()
-                .combinedClickable(
+                .combinedClickable (
                     enabled = true,
                     onClick = { onClick(model.getName()) },
                     onLongClick = {
