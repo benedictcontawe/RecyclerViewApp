@@ -1,6 +1,9 @@
 package com.example.recyclerviewapp
 
-data class IconModel (
+import androidx.compose.runtime.Immutable
+
+@Immutable
+public data class IconModel (
     public val icon : Int,
     private val name : String,
     private val detail : String,

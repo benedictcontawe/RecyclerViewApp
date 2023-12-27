@@ -1,6 +1,9 @@
 package com.example.recyclerviewapp
 
-data class NameModel (
+import androidx.compose.runtime.Immutable
+
+@Immutable
+public data class NameModel (
     private val name : String,
     private val detail : String,
 ) : CustomModel() {
