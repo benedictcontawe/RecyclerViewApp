@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 class CustomViewHolder extends RecyclerView.ViewHolder {
-
     /**Main*/
     private Context context;
     private CustomListeners customListeners;
@@ -53,5 +52,4 @@ class CustomViewHolder extends RecyclerView.ViewHolder {
         });
         //endregion
     }
-
 }

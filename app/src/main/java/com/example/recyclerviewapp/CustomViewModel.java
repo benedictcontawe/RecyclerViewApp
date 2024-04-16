@@ -1,7 +1,6 @@
 package com.example.recyclerviewapp;
 
 class CustomViewModel {
-
     int icons;
     String names;
 
