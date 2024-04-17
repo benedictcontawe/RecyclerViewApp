@@ -94,7 +94,7 @@ public class MainViewModel extends AndroidViewModel {
 
             @Override
             public void onFinish() {
-                Log.d(TAG, "onFinish");
+                Log.d(TAG, "onFinish " + models.get(0).duration);
                 models.get(0).duration = String.valueOf(IMMEDIATELY);
                 models.remove(0);
                 liveModels.setValue(models);
