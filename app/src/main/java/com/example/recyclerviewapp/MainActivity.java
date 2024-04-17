@@ -1,86 +1,74 @@
 package com.example.recyclerviewapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
-import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
+
+import com.example.recyclerviewapp.databinding.MainBinder;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements CustomListeners {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SupportFragmentManagerListener {
 
-    private RecyclerView recyclerView;
+    private MainBinder binder;
+    private MainViewModel viewModel;
     private CustomAdapter adapter;
-    private List<CustomViewModel> itemList;
-
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return intent;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        setRecylerView();
-        setItems();
-    }
-
-    private void setRecylerView() {
-        adapter = new CustomAdapter(this,this);
-        recyclerView.setLayoutManager(new CustomLinearLayoutManager(this, LinearLayout.VERTICAL,false));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-    }
-
-    private void setItems() {
-        itemList = new ArrayList<CustomViewModel>();
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "A"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "B"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "C"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "D"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "E"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "F"));
-        itemList.add(new CustomViewModel(R.drawable.ic_launcher_foreground, "G"));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.setItems(itemList);
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        adapter = new CustomAdapter();
+        binder.recyclerView.setAdapter(adapter);
+        final int dividerHeight = 1; // Adjust divider height as needed
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        binder.recyclerView.addItemDecoration(new DividerItemDecoration(dividerHeight, dividerDrawable));
+        binder.floatingActionButtonAdd.setOnClickListener(this::onClick);
+        binder.floatingActionButtonPlayPause.setOnClickListener(this::onClick);
+        viewModel.observeModels().observe(MainActivity.this, new Observer<List<CustomModel>>() {
+            @Override
+            public void onChanged(List<CustomModel> models) {
+                adapter.setModels(models);
+            }
+        });
+        viewModel.observeAnimatedVectorDrawable().observe(MainActivity.this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isPlay) {
+                binder.floatingActionButtonPlayPause.setImageDrawable(viewModel.getAnimatedVectorDrawableCompat(isPlay));
+                final Animatable2Compat animatable = (Animatable2Compat) binder.floatingActionButtonPlayPause.getDrawable();
+                animatable.start();
+            }
+        });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onClick(View view) {
+        if (view.getId() == binder.floatingActionButtonAdd.getId()) {
+            showDialogFragment(AddFragment.newInstance(this), AddFragment.TAG);
+        } else if (view.getId() == binder.floatingActionButtonPlayPause.getId()) {
+            viewModel.toggleAnimatedVectorDrawable();
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void showDialogFragment(DialogFragment fragment, String tag) {
+        fragment.show(getSupportFragmentManager(), tag);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onClick(CustomViewModel item, int position) {
-        Toast.makeText(this,"onClick " + item.names + " " + position,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLongClick(CustomViewModel item, int position) {
-        Toast.makeText(this,"onLongClick " + item.names + " " + position,Toast.LENGTH_SHORT).show();
+    public void removeFragment(String tag) {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (fragment != null) getSupportFragmentManager().beginTransaction().remove(fragment).commit();
     }
 }

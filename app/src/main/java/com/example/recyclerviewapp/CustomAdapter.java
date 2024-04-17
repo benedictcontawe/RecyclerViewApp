@@ -1,75 +1,55 @@
 package com.example.recyclerviewapp;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
 
-    private Context context;
-    private CustomListeners customListeners;
-    private List<CustomViewModel> list;
+    public static String TAG = CustomAdapter.class.getSimpleName();
 
-    public CustomAdapter(Context context, CustomListeners customListeners) {
-        super();
-        this.context = context;
-        this.customListeners = customListeners;
+    private final List<CustomModel> models;
+
+    public CustomAdapter() {
+        this.models = new ArrayList<CustomModel>();
+        setHasStableIds(true);
+    }
+
+    public CustomAdapter(List<CustomModel> models) {
+        this.models = models;
     }
 
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_sample, parent, false);
-
-        return new CustomViewHolder(context,view, customListeners);
+        return new CustomViewHolder(
+            LayoutInflater.from(parent.getContext()).inflate(R.layout.cell, parent, false)
+        );
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        holder.bindDataToViewHolder(list.get(position),position);
+        holder.bindDataToViewHolder(models.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return models.size();
     }
 
-    public void setItems(List<CustomViewModel> items) {
-        list = items;
-        //list.clear();
-        //list.addAll(items);
+    @Override
+    public long getItemId(int position) {
+        return models.get(position).id;
+    }
+
+    public void setModels(List<CustomModel> models) {
+        this.models.clear();
+        this.models.addAll(models);
         notifyDataSetChanged();
-    }
-
-    public void insertItem(CustomViewModel item, int position) {
-        list.add(position,item);
-        notifyItemInserted(position);
-    }
-
-    public void insertItems(List<CustomViewModel> items, int position) {
-        list.addAll(items);
-        notifyItemRangeChanged(position,getItemCount());
-    }
-
-    public void updateItem(CustomViewModel item, int position) {
-        list.set(position,item);
-        notifyItemChanged(position);
-    }
-
-    public void deleteItem(int position) {
-        list.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void deleteAllItems() {
-        list.clear();
-        notifyItemRangeRemoved(0,getItemCount());
     }
 }
