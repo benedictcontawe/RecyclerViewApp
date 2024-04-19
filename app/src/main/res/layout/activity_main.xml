@@ -41,6 +41,15 @@
             app:layout_constraintGuide_percent="0.95"/>
         <!--endregion-->
         <!--endregion-->
+        <View
+            android:id="@+id/horizontalDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?attr/dividerHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="0dp"
