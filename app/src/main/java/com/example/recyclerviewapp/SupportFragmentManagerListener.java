@@ -1,9 +1,6 @@
 package com.example.recyclerviewapp;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public interface SupportFragmentManagerListener {
     //public void addFragment(int containerViewId, Fragment fragment, String tag);

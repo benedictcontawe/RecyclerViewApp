@@ -4,7 +4,6 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
     <style name="Theme.RecyclerViewApp" parent="Base.Theme.RecyclerViewApp" />
     <style name="DialogFragment" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@color/design_default_color_background</item>
@@ -21,6 +20,5 @@
         <item name="android:scaleType">fitXY</item>
         <item name="backgroundTint">#0055A5</item>
         <item name="fabSize">mini</item>
-
     </style>
 </resources>
