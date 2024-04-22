@@ -74,7 +74,7 @@ class MainViewModel : AndroidViewModel {
             val timer : Array<String> = input.split(":".toRegex(), limit = 2).toTypedArray()
             val minutes : Long = if (timer.isNotEmpty()) timer[0].toLong() * 60 else 0
             val seconds : Long = if (timer.size > 1) timer[1].toLong() else 0
-            Log.d(TAG,"convertToLong $input, minutes $minutes, seconds $seconds")
+            Log.d(TAG,"convertDurationToLong $input, minutes $minutes, seconds $seconds")
             (minutes + seconds) * COUNTDOWN_INTERVAL
         } catch (exception: NumberFormatException) {
             Log.e(TAG," NumberFormatException $exception")
@@ -86,11 +86,11 @@ class MainViewModel : AndroidViewModel {
         Log.d(TAG, "startTimer")
         CoroutinesUtils.default(this@MainViewModel, work = {
             while (livePlay.getValue() == false) {
-                delay(COUNTDOWN_INTERVAL);
+                delay(COUNTDOWN_INTERVAL)
                 updateSerialTimer()
                 //updateParallelTimers()
             }
-        });
+        })
     }
 
     private suspend fun updateSerialTimer() {
@@ -99,9 +99,9 @@ class MainViewModel : AndroidViewModel {
             Log.d(TAG, "updateSerialTimer onFinish " + models.get(0).duration)
             models.get(0).duration = IMMEDIATELY.toString()
             models.removeAt(0)
-            livePlay.postValue(true);
+            livePlay.postValue(true)
         } else if (livePlay.getValue() == false) {
-            models.get(0).duration = observeTimerCountDown(left / COUNTDOWN_INTERVAL);
+            models.get(0).duration = observeTimerCountDown(left / COUNTDOWN_INTERVAL)
             Log.d(TAG, "updateSerialTimer onTick " + models.get(0).duration)
         }
         liveModels.postValue(models)
@@ -119,7 +119,7 @@ class MainViewModel : AndroidViewModel {
                 Log.d(TAG, "updateParallelTimers onFinish " + model.duration)
                 model.duration = observeTimerCountDown(IMMEDIATELY)
             } else if (livePlay.getValue() == false) {
-                model.duration = observeTimerCountDown(left / COUNTDOWN_INTERVAL);
+                model.duration = observeTimerCountDown(left / COUNTDOWN_INTERVAL)
                 Log.d(TAG, "updateParallelTimers onTick " + model.duration)
             }
         }
@@ -149,8 +149,8 @@ class MainViewModel : AndroidViewModel {
             startTimer()
         } else {
             Log.d(TAG, "toggleAnimatedVectorDrawable false")
-            //livePlay.setValue(true);
-            //countDownTimer.cancel();
+            //livePlay.setValue(true)
+            //countDownTimer.cancel()
         }
     }
 
